@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  #script-target
+
+  script(type='text/javascript').
+    var width = window.innerWidth, 
+        height = window.innerHeight;
+    
+    var svg = d3.select('#script-target').append('svg')
+                .attr('width', width)
+                .attr('height', height);
+                
+    svg.append('circle')
+      .attr('cx', 100)
+      .attr('cy', 100)
+      .attr('r', 20)
+      .attr('fill', 'yellow')
+      .on('click', (d, i, n) => {
+        console.log(this);
+        console.log(n[0]);
+        //console.log(n[0]);
+        //var thisElement = d3.select(n[0]);
+        //thisElement.attr('fill', 'orange')
+        //console.log(this);
+        //var thisElement = d3.select(this);
+        //console.log(element)        
+      });
+    
+    console.log('test');

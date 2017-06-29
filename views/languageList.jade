@@ -1,0 +1,470 @@
+extends layout
+
+block content
+    #map-container
+      #map-target
+      #globe
+
+      //#content-container
+      //  #content-header
+      //h1= title
+      //div.search
+      //span.fa.fa-search
+      //input(type='text', name='search' id="filtertext" autofocus="true")
+      //select(name='collections' id="filterselect")
+      //  option(value='langname' selected='selected') Language Name
+      //  option(value='continent') Continent         
+      //  option(value='endangerment') Endangerment Level 
+      //#content-list
+    
+    script(type='text/javascript').
+        var input = {
+            'filterstring': '',
+            'filtertype': 'langname'
+            }
+            
+        var searchOptions = {
+            extract: function(el) { return el.language; }
+        };
+        
+        var data = {
+          languages: [],
+          countries: [],
+          neighborhoods: [],
+          selected: {}
+        };
+        
+        /* mapbox underlay for neighborhood scale */
+        
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2Fyc3RvaWQiLCJhIjoiY2ozMzJ3aHVpMDA3YzJ3cTZ3ZTdlYzlvYyJ9.eNIdLcbC98a6fBMc8mJ1fQ'
+        
+        //Setup mapbox-gl map
+        var map = new mapboxgl.Map({
+            container: 'map-target', // container id
+            style: 'mapbox://styles/carstoid/cj4hk51ds272q2rqvzqw6brhw',
+            center: [ -73.8903, 40.7373　],
+            zoom: 10,
+        })        
+        //map.addControl(new mapboxgl.Navigation());
+        //var container = map.getCanvasContainer()
+        /* initial draw function call */
+        updateData( input.filtertype, input.filterstring, () => {
+          draw()
+        }); // get initial data 
+        /* form event listeners */
+        d3.select('#filtertext')
+            .on('input', function () {
+              input.filterstring = d3.select(this).property('value');
+              var q = d3.queue();
+              //q.defer(delayedHello);
+              q.defer( updateData, input.filtertype, input.filterstring );
+              q.await(function(error) {
+                if (error) throw error;
+                draw();
+                
+              });              
+            });
+            
+        function draw() {
+          updateList();
+          updateMap();
+          updateGlobe();
+        }
+        
+        function updateList() {
+          
+          
+          d3.select('#content-list').selectAll('*').remove();
+          var contentListDiv = d3.select('#content-list');          
+          data.languages.forEach( (item, index ) => {
+            let remapper = remapNumbers( 0, data.languages.length, 0, 360 )
+            let colormap = remapper(index);
+            //console.log(colormap);
+            //let color = ;
+            //console.log( color );
+            //let color = color.rgb();
+            let listItemContainer = contentListDiv
+              .append('div')
+              .attr('class', 'content-list-item')
+              .style( "background", d3.color( `hsla(${colormap}, 80%, 50%, 0.5)` ).rgb() )
+              .on('click', () => {
+                let q = d3.queue();
+                q.defer( handleListItemClick, item._id );
+                q.await(function(error) {
+                  if (error) throw error;
+                  updateGlobe();
+                  updateMap();
+                });
+              });
+            listItemContainer.append('h2')
+              .text(item.language)
+              .style( "color", d3.color( `hsl(${colormap}, 80%, 50%)` ).rgb() );
+            //listItemContainer.append('p').text(`Endangerment: ${item.endagerment}`);
+            //listItemContainer.append('p').text(item.description);
+          });
+          
+          
+          
+        }
+        
+        function handleListItemClick(id, callback) {
+          setTimeout( function() {
+            //console.log(item._id)
+            updateSelectionData(id);
+            callback()
+          }, 250);
+        }
+        
+        function updateMap() {
+          
+            var neighborhoodsAll = {
+                type: 'FeatureCollection',
+                features: data.neighborhoods
+            };
+          
+            var targetParent = map.getCanvasContainer()               
+            d3.select(targetParent).selectAll("svg").remove();        
+            var svg = d3.select(targetParent).append("svg");
+
+            var transform = d3.geoTransform({point: projectPoint});
+          	var path = d3.geoPath().projection(transform);
+
+            var width = window.innerWidth, 
+                height = window.innerHeight;
+
+            var remapper = remapNumbers( 0, data.languages.length, 0, 360 ); // map list length to 360 degree range for color calculation
+            
+            svg.append("g") // draw color bands for each language
+                .attr("class", "language-list")
+              .selectAll("rect")
+                .data(data.languages)
+              .enter().append("rect")
+                .attr("class", "language-listitem")
+                .attr("width", 100)
+                .attr("height", function() {
+                  let calcHeight = (height / data.languages.length) * 0.8;
+                  return calcHeight;               
+                })
+                .attr("transform", function(d, i) {
+                  let calcHeight = height / data.languages.length;  
+                  let calcTransformX = calcHeight * i;
+                  let calcTransformY = width - 100;
+                  return "translate(" + `${calcTransformY},${calcTransformX}` + ")"; })
+                .attr("fill", function(d, i) {
+                  let colormap = remapper(i);
+                  let colorRGB = d3.color( `hsl(${colormap}, 80%, 50%)` ).rgb();                  
+                  return colorRGB; })
+                .attr("fill-opacity", 0.6)
+                .on('mouseover', (d, i, n) => {
+                  
+                  var source = d3.select( n[i] );
+
+                  d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
+                  
+                  d.neighborhoods.forEach( (item, index) => {
+                    connectTwoElements( d3.select(n[i]), d3.select(`#ID${item}`) ) // draw line between two elements on mouseover
+                  });
+                  
+                  d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
+                  source.attr("fill-opacity", 1); // set opacity to full on selected 
+                  
+                });
+                            
+            /*
+            var projection = d3.geoOrthographic()
+            //var projection = d3.geo.albers()
+            //var projection = d3.geo.mercator()
+              .scale(170)
+              .rotate([100,0,0])
+              //.translate([width/2, height/2])
+              .clipAngle(90);
+            var lonlat = [-100, 37.7833];
+            var xy = projection(lonlat)                      
+            svg.append("circle")
+              .attr("cx", 100)
+              .attr("cy", 100)
+              .attr("r", 25)
+              .style("fill", "purple");
+              */
+            
+            /*var neighborhoodPolys = svg.append("g")
+                .attr("class", "neighborhood-polys")
+              .selectAll("path")
+          		  .data(neighborhoodsAll.features)
+          		.enter().append("path")
+                .attr("d", d3.geoPath().projection(transform))
+                .attr("fill", "rgba(255,255,255,0.8)")
+                .attr("stroke", "none");*/
+                
+
+                /*
+                bar.append("rect")
+                    .attr("width", x)
+                    .attr("height", barHeight - 1);
+
+                bar.append("text")
+                    .attr("x", function(d) { return x(d) - 3; })
+                    .attr("y", barHeight / 2)
+                    .attr("dy", ".35em")
+                    .text(function(d) { return d; });*/
+                    
+                                    
+            var neighborhoodCenters = svg.append("g")
+                .attr("class", "neighborhood-centers")
+              .selectAll("g")
+                .data(neighborhoodsAll.features)
+              .enter().append("g")
+                .attr("id", (d) => { return 'ID' + d._id } )
+                .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });
+                  
+            // update the path using the current transform
+            function update() {
+              neighborhoodCenters.attr("transform", function(d) {return "translate(" + path.centroid(d) + ")"; });
+              //neighborhoodPolys.attr("d", path);
+              //console.log('update')
+            }
+            map.on("viewreset", update)
+            map.on("movestart", function(){
+            svg.classed("hidden", true);
+            });	
+            map.on("rotate", function(){
+            svg.classed("hidden", true);
+            });	
+            map.on("moveend", function(){
+            update()
+            svg.classed("hidden", false);
+            })
+            update()                                    
+        }
+        
+        function projectPoint(lon, lat) {
+            var point2 = map.project(new mapboxgl.LngLat(lon, lat));
+            this.stream.point(point2.x, point2.y);
+        }
+        
+        function connectTwoElements( from, to ) { // draws line between two elements
+            //var source = d3.select( n[i] );
+            //console.log( source.attr('transform') );
+            //var target = ;
+            //console.log(target.attr('transform'))
+            //var parsed = parseTransform(target.attr('transform'));
+            //console.log(parsed);
+            
+            var fromX = parseTransform(from.attr('transform')).translate[0],
+              fromY = parseTransform(from.attr('transform')).translate[1],
+              toX = parseTransform(to.attr('transform')).translate[0],
+              toY = parseTransform(to.attr('transform')).translate[1];
+              
+            var color = from.attr('fill');
+            //console.log(color)
+            
+            //console.log(`from ${fromX}, ${fromY} to ${toX}, ${toY}`);
+            //console.log(svg);
+            
+
+            
+            to.append('line')
+              .attr("x1", fromX - toX )
+              .attr("y1", fromY - toY )
+              .attr("x2", 0)
+              .attr("y2", 0)
+              //.attr("stroke", color)
+              .attr("stroke", "white")
+              .attr("stroke-opacity", 0.5);
+
+            to.append("text")
+              //.attr("cx", function(d) { return path.centroid(d)[0]} )
+              //.attr("cy", function(d) { return path.centroid(d)[1]} )
+              .attr("dy", "1.5em")
+              .attr("text-anchor", "middle")
+              .style("fill", "white")
+              .text(function(d) { return d.properties.NTAName });
+              
+            to.append("circle")
+                //.attr("d", d3.geoPath().projection(transform))
+                //.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+                //.attr("fill", color)
+                .attr("fill", "white")
+                .attr("r", 2);
+            }
+        
+        function updateGlobe() {
+            
+            var angle = data.selected.longitude * -1; // map centroid longitude to 0-360
+            
+            var geoSelected = {
+                type: 'FeatureCollection',        
+                features: data.selected.countries
+            };
+            
+            var geoUnderlay = {
+                type: 'FeatureCollection',        
+                features: data.countries
+            };            
+            
+            //var svg = d3.select(container).append("svg")
+                    
+            var diameter = 250,
+                radius = diameter / 2,
+                velocity = 0.01;
+                center = [radius, radius];
+
+            var projection = d3.geoOrthographic()
+                .scale(radius - 2)
+                .translate([radius, radius])
+                .clipAngle(90)
+                .precision(0);
+                
+            d3.select('#globe').selectAll('*').remove();
+
+            var canvas = d3.select("#globe").append("canvas")
+                .datum(function() { return this.getContext("2d"); })
+                .attr("width", diameter)
+                .attr("height", diameter);
+
+            var path = d3.geoPath()
+              .projection(projection);
+
+            var land = geoUnderlay,
+                countries = geoSelected,
+                globe = {type: "Sphere"};
+
+            canvas.each(function(context, i) {
+              var rotate = [0, 0, 0];
+              rotate[i] = angle, 
+              projection.rotate(rotate);
+              context.clearRect(0, 0, diameter, diameter);
+              context.beginPath(), 
+              path.context(context)(geoUnderlay), 
+              context.strokeStyle = "rgba(100,100,100,1)",
+              context.fillStyle = "rgba(0,0,0, 0.9)",
+              context.fill(); 
+              context.stroke();
+              context.beginPath(), 
+              path.context(context)(geoSelected), 
+              //context.strokeStyle = "#000",
+              context.fillStyle = "rgba(255,255,255,1)",
+              context.fill();
+              //context.stroke();              
+            });
+        }
+        
+        function updateSelectionData(id, callback) {
+          getDataSingle( 'languages', id, (result) => {
+              var resultObj = result;
+              
+              
+              if (resultObj.countries) {
+                getData( 'countries', resultObj.countries, (resultCountries) => {
+                  resultObj.countries = resultCountries;
+                  data.selected = resultObj;
+                  
+                  
+                })
+              }
+              if (resultObj.neighborhoods) {
+                getData( 'neighborhoods', resultObj.neighborhoods, (resultNeighborhoods) => {
+                  resultObj.neighborhoods = resultNeighborhoods;
+                  data.selected = resultObj;
+                })
+              }
+              //console.log(resultObj);
+              data.selected = resultObj;
+              if (callback) callback()
+          });
+        }
+        
+        function updateData(mode, input, callback) {
+          //console.log('update data called')
+          setTimeout(function() {
+            if (mode == 'langname' ) {
+              getData( 'languages', [], (response) => {  // get main language data
+                filterData( input, response, (filterresponse) => {
+                  data.languages = filterresponse;
+                  getData( 'countries', [], (response) => {
+                    data.countries = response;
+                    getData( 'neighborhoods', [], (response) => {
+                      data.neighborhoods = response;
+                      if (callback) {callback()};
+                    })
+                  })
+                })
+              })
+            }                 
+          }, 250);
+        }
+        
+        function filterData(string, data, callback) {
+          let results = fuzzy.filter(string, data, searchOptions);
+          let matches = results.map(function(el) { return el.original; });          
+          callback(matches)
+        }
+             
+        function getData( collection, ids, callback ) { // id is optional
+          let url = `../${collection}`;
+          d3.json(url, function(json){
+            if (ids.length > 0) {
+              //console.log(ids);
+              let filteredJson = []
+              
+              async.each(
+                json,
+                
+                (item, callback) => {
+                  //console.log(ids)
+                  //console.log(item._id)
+                  //console.log( ids.indexOf(item._id)
+                  if ( ids.indexOf(item._id) > -1 ) {
+                    filteredJson.push(item);
+                  }
+                  callback();
+        
+                }, 
+                
+                (err, transformed) => {
+                  //console.log(filteredJson)
+                  callback(filteredJson);
+                }
+                
+              );
+
+            } else {
+              //console.log(json);
+              callback(json);        
+            }
+          })
+        }
+        
+        function getDataSingle( collection, id, callback ) {
+          let url = `../${collection}/${id}`;
+          d3.json(url, function(json){
+              callback(json)
+          });
+        }
+        
+        // helpers and utilities
+         
+        function logResult(input) {
+          console.log(input);
+        }
+        
+        function shiftMapCenter(newcoords, newzoom) {
+          map.flyTo({center: newcoords, zoom: newzoom})
+        }
+        
+        function remapNumbers(inMin, inMax, outMin, outMax) {
+            return function remaper(x) {
+                return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+            };
+        }
+        
+        function parseTransform (a) // convert svg transform string into object
+        {
+            var b={};
+            for (var i in a = a.match(/(\w+\((\-?\d+\.?\d*e?\-?\d*,?)+\))+/g))
+            {
+                var c = a[i].match(/[\w\.\-]+/g);
+                b[c.shift()] = c;
+            }
+            return b;
+        }      
