@@ -5,8 +5,59 @@ body {
   margin: 0;
 }
 
+#text-container {
+  float: right;
+}
+
+#text-target ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#text-target li {
+  background: rgba(255,255,255,0.8);
+  width: 20vw;
+}
+
+.listitem-colorblock {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.listitem-label {
+  display: inline-block;
+}
+
+.listitem-label p {
+  margin: 0;
+}
+
+
+
+#header {
+  background: black;
+  color: white;
+  margin: 0;
+  height: 5em;
+}
+
+#filters {
+  float: right;
+}
+
+h1 {
+  margin: 0;
+}
+
 h2 {
   margin: 0;
+}
+
+.category-color {
+  height: 10px;
+  width: 10px;
 }
 
 svg {
@@ -43,11 +94,12 @@ svg {
   padding: 1em;
 }
 
+
+
 #content-header input, select {
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
-  width: 100%;
 }
 
 #content-header input {

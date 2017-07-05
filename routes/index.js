@@ -14,24 +14,41 @@ mongoose.connect('mongodb://localhost/ELAdata', function (error) { // was leafle
 // routes/index.js
 // Mongoose Schema definition
 var Schema = mongoose.Schema;
+
 var NeighborhoodSchema = new Schema({
   _id: Schema.Types.ObjectId
 });
-var CountrySchema = new Schema({
-  _id: Schema.Types.ObjectId
+
+var CountrySchema = new Schema({  //properties.languages
+  _id: Schema.Types.ObjectId,
+  properties: {
+    languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+  }
 });
+
+var ContinentSchema = new Schema({
+  _id: Schema.Types.ObjectId,
+  properties: {
+    languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+  }
+});
+
 var LanguageSchema = new Schema({
-  _id: Schema.Types.ObjectId
+  _id: Schema.Types.ObjectId,
+  countries: [{type: Schema.Types.ObjectId, ref: 'Country'}],
+  continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}]
 });
+
 var InstitutionSchema = new Schema({
   _id: Schema.Types.ObjectId
 });
 
 // Mongoose Model definition
-var Neighborhoods = mongoose.model('Neighborhood', NeighborhoodSchema, 'neighborhoods');
-var Countries = mongoose.model('Country', CountrySchema, 'countries');
-var Languages = mongoose.model('Language', LanguageSchema, 'languages');
-var Institutions = mongoose.model('Institution', InstitutionSchema, 'institutions');
+var Neighborhood = mongoose.model('Neighborhood', NeighborhoodSchema);
+var Country = mongoose.model('Country', CountrySchema);
+var Continent = mongoose.model('Continent', ContinentSchema);
+var Language = mongoose.model('Language', LanguageSchema);
+var Institution = mongoose.model('Institution', InstitutionSchema);
 
 /* ~~~~~~~~~~~~  PAGES ~~~~~~~~~~~~~~ */
 /* GET home page. */
@@ -41,7 +58,7 @@ router.get('/', function(req, res, next) {
 
 /* GET Map page. */
 router.get('/map', function(req,res) {
-    Neighborhoods.find({},{}, function(e,docs){
+    Neighborhood.find({},{}, function(e,docs){
         res.render('map', {
             "jmap" : docs,
             lat : 40.717,
@@ -57,13 +74,13 @@ router.get('/sandbox', function(req,res) {
 
 /* GET languages */
 router.get('/list/languages', function(req,res) {
-  Languages.find({}).lean().exec( function (err, docs) {
+  Language.find({}).lean().exec( function (err, docs) {
       var langs = docs;
-      Countries.find({}).lean().exec( function (err, docs) {
+      Country.find({}).lean().exec( function (err, docs) {
           var counts = docs;
-          Neighborhoods.find({}).lean().exec( function (err, docs) {
+          Neighborhood.find({}).lean().exec( function (err, docs) {
               var neighs = docs;
-              Institutions.find({}).lean().exec( function (err, docs) {
+              Institution.find({}).lean().exec( function (err, docs) {
                   var insts = docs;
                     res.render('languageList', {
                       title: 'Languages',
@@ -85,56 +102,62 @@ router.get('/list/languages', function(req,res) {
 /* GET country by ID */
 router.get('/countries/:id', function (req, res) {
     if (req.params.id) {
-        Countries.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
+        Country.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
             res.json(docs);
         });
     }
 });
 /* GET all countries */
 router.get('/countries', function (req, res) {
-    Countries.find({}, function (err, docs) {
+    Country.find({}).populate('properties.languages').exec( function (err, docs) {
+        res.json(docs);
+    });
+});
+/* GET all continents */
+router.get('/continents', function (req, res) {
+    Continent.find({}, function (err, docs) {
         res.json(docs);
     });
 });
 /* GET neighborhood by ID */
 router.get('/neighborhoods/:id', function (req, res) {
     if (req.params.id) {
-        Neighborhoods.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
+        Neighborhood.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
             res.json(docs);
         });
     }
 });
 /* GET all neighborhood */
 router.get('/neighborhoods', function (req, res) {
-    Neighborhoods.find({}, function (err, docs) {
+    Neighborhood.find({}, function (err, docs) {
         res.json(docs);
     });
 });
 /* GET language by ID */
 router.get('/languages/:id', function (req, res) {
     if (req.params.id) {
-        Languages.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
+        Language.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
             res.json(docs);
         });
     }
 });
 /* GET all languages */
 router.get('/languages', function (req, res) {
-    Languages.find({}, function (err, docs) {
+    Language.find({}).populate({ path: 'countries', select: 'properties' }).populate({ path: 'continents', select: 'properties' }).exec( function (err, docs) {
         res.json(docs);
     });
 });
 /* GET institution by ID */
 router.get('/institutions/:id', function (req, res) {
     if (req.params.id) {
-        Institutions.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
+        Institution.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
             res.json(docs);
         });
     }
 });
 /* GET all institutions */
 router.get('/institutions', function (req, res) {
-    Institutions.find({}, function (err, docs) {
+    Institution.find({}, function (err, docs) {
         res.json(docs);
     });
 });
