@@ -68,11 +68,10 @@ block content
         }
         
         function updateList() { // show text details for highlighted language
+          
+          // setup
           var textTarget = d3.select('#text-target');
           var languageList = data.languages;
-          var uniqueContinents = d3.set(languageList, (item) => {
-            return item.continents[0].properties.CONTINENT
-          }).values();
           
           var languageNest = d3.nest()
             .key(function(d) {return d.continents[0].properties.CONTINENT;})
@@ -80,21 +79,107 @@ block content
             .key(function(d) {return d.endangermentNum;})
             .sortKeys(d3.ascending)
             .entries(data.languages);
-            
-            console.log(languageNest);
 
-          var ordinalConverter = d3.scaleOrdinal();
-          ordinalConverter.domain(uniqueContinents);
-          ordinalConverter.range([0, 60, 120, 180, 240 ]); // to hue range, could be 300 if this looks like 2 reds
-                      
+          var uniqueContinents = d3.set(languageList, (item) => {
+              return item.continents[0].properties.CONTINENT
+            }).values();
+                    
+          // begin DOM manipulation   
           textTarget.selectAll('*').remove(); // clear container on refresh
 
-          var textTargetItem = textTarget.append('ul')
-            .selectAll('li')
-              .data(languageList)
-            .enter().append('li')
+          var continentItem = textTarget.selectAll('div')
+              .data(languageNest)
+            .enter().append('div')
+              .attr('class', 'continent-item') // makes a list item for every group in the first level of the nest (continent)
+              
+          continentItem.datum( (d, i, n) => { // calculate color per continent and insert into child elements
+            var dModified = d;
+            var numContinents = n.length
+            var hMap = d3.scaleLinear()
+                .domain([0, numContinents])
+                .range([0, 300]);
+            dModified.color = d3.color( `hsl(${hMap(i)}, 80%, 50%)` );
             
-          textTargetItem.on('mouseover', (d, i, n) => {
+            dModified.values.map( (item) => {
+              var itemModified = item;
+              itemModified.values.map( (subItem => {
+                var subItemModified = subItem;
+                subItemModified.continentColor = dModified.color;
+                return subItemModified;
+              }));
+              return itemModified;
+            })
+            return dModified;
+          })
+                  
+          continentItem.append("div") // label each continent item
+              .attr('class', 'continent-item-label')
+              .style('background', (d, i, n) => {
+                return d.color.rgb();
+              })
+              .style('color', 'black')                    
+              .append('p')
+              .text((d) => { return d.key });
+              
+          var languageList = continentItem.append("div") // make container for language list
+              .attr('class', 'language-list')
+              
+          var endangermentItem = languageList.selectAll("div")
+              .data( (d) => { return d.values} )
+              .enter();
+              
+          var languageItem = endangermentItem.selectAll("span")
+              .data( (d) => { return d.values } )
+              .enter().append("span")
+              .attr('class', 'language-item')
+              .text((d) => {return d.language})
+              .style('background', (d, i, n) => {
+                var lMap = d3.scaleLinear()
+                    .domain([0, 9])
+                    .range([0.5, 1]);
+                var colorAdjusted = d.continentColor
+                colorAdjusted.l = lMap(d.endangermentNum)
+                return colorAdjusted;
+              })
+              .style('color', (d, i, n) => {
+                var lMap = d3.scaleLinear()
+                    .domain([0, 9])
+                    .range([0.5, 1]);
+                var colorAdjusted = d.continentColor
+                colorAdjusted.l = 0.2
+
+                return colorAdjusted;
+              })              
+              .on('mouseover', (d, i, n) => {
+                      updateGlobe(d);
+                                        
+                      d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
+
+                      var listItemPoint = [],
+                          mapPoint = [];
+
+                      var listItemBounds = d3.select( n[i] )._groups[0][0].getBoundingClientRect();
+                      //console.log(listItemBounds);
+                      listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
+                  
+                      d.neighborhoods.forEach( (item, index) => {
+                        let itemElement = d3.select(`#ID${item}`);
+                        mapPoint[0] = parseTransform(itemElement.attr('transform')).translate[0];
+                        mapPoint[1] = parseTransform(itemElement.attr('transform')).translate[1];
+                        connectTwoElements( item, listItemPoint , mapPoint ) // draw line between two elements on mouseover
+                      });
+                    })
+
+            
+        /*  
+        
+            var ordinalConverter = d3.scaleOrdinal();
+            ordinalConverter.domain(uniqueContinents);
+            ordinalConverter.range([0, 60, 120, 180, 240 ]); // to hue range, could be 300 if this looks like 2 reds
+            
+
+                
+            .on('mouseover', (d, i, n) => {
                 updateGlobe(d);
                                   
                 d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
@@ -120,8 +205,10 @@ block content
                 
                 //d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
                 //source.attr("fill-opacity", 1); // set opacity to full on selected 
-              })            
-              .append('span')
+              }) */     
+              
+                     
+            /*textTargetItem.append('span') 
               .attr('class', 'listitem-colorblock')
               .style('background', (d) => {
                 let endangerment = d.endangermentNum;
@@ -136,12 +223,11 @@ block content
                 let endangermentMap = remapperE(endangerment);
                 let contMap = ordinalConverter(d.continents[0].properties.CONTINENT);
                 return d3.color( `hsl(${contMap}, 80%, ${endangermentMap}%)` ).rgb();  
-              })
+              })*/
               
-            textTargetItem.append("span")
-                .attr('class', 'listitem-label')
-                .append('p')
-                .text((d) => { return d.language });          
+
+              
+            
         }
         
         function updateMap() {
@@ -161,7 +247,7 @@ block content
             var width = window.innerWidth, 
                 height = window.innerHeight;
 
-            var remapper = remapNumbers( 0, data.languages.length, 0, 360 ); // map list length to 360 degree range for color calculation
+            //var remapper = remapNumbers( 0, data.languages.length, 0, 360 ); // map list length to 360 degree range for color calculation
                                                             
             var neighborhoodCenters = svg.append("g")
                 .attr("class", "neighborhood-centers")
@@ -198,7 +284,7 @@ block content
         }// draws base map, colored bands, sets hover behavior, calls connectTwoElements
         
         function updateGlobe( item ) {
-          console.log(item);
+          //console.log(item);
           d3.selectAll('.globe-container').remove(); // clear globe
           var rotation = [ -item.longitude, -item.latitude ];
           var width = window.innerWidth,
@@ -225,7 +311,7 @@ block content
                   .attr("class", "globe-container")
                   .attr("transform", "translate(100, 100)")
                   .on("mouseover", (d, i, n) => {
-                    console.log('globe mouseover')
+                    //console.log('globe mouseover')
                     //growGlobe();                                                            
                   });
 
@@ -421,9 +507,9 @@ block content
         function getDataSingle( collection, id, callback ) {
           let url = `../${collection}/${id}`;
           d3.json(url, function(json){
-              console.log('getdatasingle request')
-              console.log(url)
-              console.log(json)
+              //console.log('getdatasingle request')
+              //console.log(url)
+              //console.log(json)
               callback(json)
           });
         }
@@ -431,7 +517,7 @@ block content
         /*********************** UTILITY FUNCTIONS *****************************/
          
         function logResult(input) {
-          console.log(input);
+          //console.log(input);
         }
         
         function remapNumbers(inMin, inMax, outMin, outMax) {

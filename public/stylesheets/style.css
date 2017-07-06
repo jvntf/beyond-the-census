@@ -5,47 +5,43 @@ body {
   margin: 0;
 }
 
+/* ------  LANGUAGE LIST STYLING ----- */
+
 #text-container {
   float: right;
 }
 
-#text-target ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#text-target li {
-  background: rgba(255,255,255,0.8);
+#text-target {
   width: 30vw;
 }
 
-.listitem-colorblock {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
+.continent-item {
+  margin: 10px;
+  background: rgba(255,255,255,0.5);
 }
 
-.listitem-label {
-  display: inline-block;
-}
-
-.listitem-label p {
-  margin: 0;
-}
-
-
-
-#header {
+.continent-item-label {
   background: black;
   color: white;
-  margin: 0;
-  height: 5em;
+  padding: 5px;
 }
 
-#filters {
-  float: right;
+.continent-item-label p {
+  margin: 0;
 }
+
+.language-list {
+  padding: 5px;
+}
+
+.language-item {
+  display: inline-block;
+  padding: 2px;
+  margin: 3px;
+  background: inherit;
+}
+
+/* ------  MISC  ----- */
 
 h1 {
   margin: 0;
