@@ -73,18 +73,20 @@ block content
           var uniqueContinents = d3.set(languageList, (item) => {
             return item.continents[0].properties.CONTINENT
           }).values();
-          console.log(uniqueContinents);
+          
+          var languageNest = d3.nest()
+            .key(function(d) {return d.continents[0].properties.CONTINENT;})
+            .sortKeys(d3.ascending)
+            .key(function(d) {return d.endangermentNum;})
+            .sortKeys(d3.ascending)
+            .entries(data.languages);
+            
+            console.log(languageNest);
 
           var ordinalConverter = d3.scaleOrdinal();
           ordinalConverter.domain(uniqueContinents);
           ordinalConverter.range([0, 60, 120, 180, 240 ]); // to hue range, could be 300 if this looks like 2 reds
-          
-          
-          //console.log(languageList[0].continents[0].properties.CONTINENT);
-          //console.log(ordinalConverter(languageList[0].continents[0].properties.CONTINENT));
-
-
-                    
+                      
           textTarget.selectAll('*').remove(); // clear container on refresh
 
           var textTargetItem = textTarget.append('ul')
@@ -94,40 +96,27 @@ block content
             
           textTargetItem.on('mouseover', (d, i, n) => {
                 updateGlobe(d);
-                //updateList(d);
                                   
                 d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
-
 
                 var listItemPoint = [],
                     mapPoint = [];
 
                 var listItemBounds = d3.select( n[i] )._groups[0][0].getBoundingClientRect();
-                listItemPoint = [listItemBounds.left, listItemBounds.top];
-                //console.log(listItemPoint);
-
-                                  
+                console.log(listItemBounds);
+                listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
+            
                 d.neighborhoods.forEach( (item, index) => {
                   let itemElement = d3.select(`#ID${item}`);
-                  //console.log(itemElement);
                   mapPoint[0] = parseTransform(itemElement.attr('transform')).translate[0];
                   mapPoint[1] = parseTransform(itemElement.attr('transform')).translate[1];
-                  //console.log(mapPoint);
                   connectTwoElements( item, listItemPoint , mapPoint ) // draw line between two elements on mouseover
                 });
                 
-                d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
-                source.attr("fill-opacity", 1); // set opacity to full on selected 
-                
+                //d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
+                //source.attr("fill-opacity", 1); // set opacity to full on selected 
 
-                //var sourceBox = d3.select(n[i]).node().getBoundingClientRect();
-                //console.log(sourceBox);
-
-                d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
-                
-                d.neighborhoods.forEach( (item, index) => {
-                  connectTwoElements( d3.select(n[i]), d3.select(`#ID${item}`) ) // draw line between two elements on mouseover
-                });
+                //d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
                 
                 //d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
                 //source.attr("fill-opacity", 1); // set opacity to full on selected 
@@ -173,47 +162,6 @@ block content
                 height = window.innerHeight;
 
             var remapper = remapNumbers( 0, data.languages.length, 0, 360 ); // map list length to 360 degree range for color calculation
-            
-            svg.append("g") // draw color bands for each language
-                .attr("class", "language-list")
-              .selectAll("rect")
-                .data(data.languages)
-              .enter().append("rect")
-                .attr("class", "language-listitem")
-                .attr("width", 30)
-                .attr("height", function() {
-                  let calcHeight = (height / data.languages.length) * 0.8;
-                  return calcHeight;
-                })
-                .attr("transform", function(d, i) {
-                  let calcHeight = height / data.languages.length;  
-                  let calcTransformX = calcHeight * i;
-                  let calcTransformY = width - 300;
-                  return "translate(" + `${calcTransformY},${calcTransformX}` + ")"; })
-                .attr("fill", function(d, i) {
-                  let colormap = remapper(i);
-                  let colorRGB = d3.color( `hsl(${colormap}, 80%, 50%)` ).rgb();                  
-                  return colorRGB; })
-                .attr("fill-opacity", 0.6)
-                .on('mouseover', (d, i, n) => {
-
-                  updateList(d);
-                  updateGlobe(d);
-                  
-                  
-                  var source = d3.select( n[i] );
-                  
-                  
-                  d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
-                  
-                  d.neighborhoods.forEach( (item, index) => {
-                    connectTwoElements( d3.select(n[i]), d3.select(`#ID${item}`) ) // draw line between two elements on mouseover
-                  });
-                  
-                  d3.selectAll(n).attr("fill-opacity", 0.6); // reset opacity on all 
-                  source.attr("fill-opacity", 1); // set opacity to full on selected 
-                  
-                });
                                                             
             var neighborhoodCenters = svg.append("g")
                 .attr("class", "neighborhood-centers")
@@ -250,6 +198,7 @@ block content
         }// draws base map, colored bands, sets hover behavior, calls connectTwoElements
         
         function updateGlobe( item ) {
+          console.log(item);
           d3.selectAll('.globe-container').remove(); // clear globe
           var rotation = [ -item.longitude, -item.latitude ];
           var width = window.innerWidth,
@@ -309,7 +258,30 @@ block content
                   .attr("fill", "white")
                   .attr("fill-opacity", "1")
                   .text("+")
+
+              var countryList = [];
+              item.countries.map( (country) => {
+                countryList.push( country.properties.ADMIN );
+              });
+
+              //Add list of countries under globe
+              var countryList = globeTarget.append("text")
+                .attr('x', 0)
+                .attr('y', 60)
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .attr("fill", "white")
+                .selectAll('tspan')
+                .data(countryList)
+                .enter()
+                .append('tspan')
+                .attr('x', 0)
+                .attr('dy', 15)
+                .text(function(d) { return d });
+
               }
+              
+
               
            
         }// draws/redraws globe widget for highlighted language
@@ -321,14 +293,22 @@ block content
             
             //console.log(`from ${fromX}, ${fromY} to ${toX}, ${toY}`);
             var target = d3.select(`#ID${id}`);
-            target.append('line')
+            
+            /*target.append('line')
               .attr("x1", from[0] - to[0] )
               .attr("y1", from[1] - to[1] )
               .attr("x2", 0)
               .attr("y2", 0)
               //.attr("stroke", color)
               .attr("stroke", "white")
-              .attr("stroke-opacity", 0.5);
+              .attr("stroke-opacity", 0.5);*/
+              
+            target.append("path")
+              .attr("d", d3.linkHorizontal()
+                .source(function () { return [from[0] - to[0], from[1] - to[1]]  })
+                .target(function () { return [0, 0] }))
+                .attr("stroke", "white")
+                .attr("fill", "none");
 
             target.append("text")
               //.attr("cx", function(d) { return path.centroid(d)[0]} )
