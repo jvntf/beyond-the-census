@@ -1,18 +1,16 @@
 // colors (mapzen?)
 // dot density
-// 
-//
-
 
 extends layout
 
 block content
     #map-container
-      #map-target
+      #map-panzoom
+      #map-fixed
     
     #text-container
-      #filter
       #text-target
+
     
     script(type='text/javascript').
   
@@ -29,21 +27,27 @@ block content
             countries: [],
             neighborhoods: [],
             selected: {}
-          };
+          }, map;
         
+        //var map = new L.Map("map-panzoom", {center: [40.67, -73.78], zoom: 11.8});
+        // todos
+        // fix location sync between leaflet and d3 layers
+        // add key to yaml: mapzen-3Sh1qQr
+        // customize yaml  
+                                     
         // setup basemap
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY2Fyc3RvaWQiLCJhIjoiY2ozMzJ3aHVpMDA3YzJ3cTZ3ZTdlYzlvYyJ9.eNIdLcbC98a6fBMc8mJ1fQ'
-        var map = new mapboxgl.Map({
-            container: 'map-target', // container id
+        //mapboxgl.accessToken = 'pk.eyJ1IjoiY2Fyc3RvaWQiLCJhIjoiY2ozMzJ3aHVpMDA3YzJ3cTZ3ZTdlYzlvYyJ9.eNIdLcbC98a6fBMc8mJ1fQ'
+        /*var map = new mapboxgl.Map({
+            container: 'map-panzoom', // container id
             style: 'mapbox://styles/carstoid/cj4hk51ds272q2rqvzqw6brhw',
-            center: [ -73.8903, 40.7373　],
-            zoom: 10,
-        });
+            center: [ -73.78, 40.67　],
+            zoom: 10.7,
+        });*/
         
         // fetch data and draw
         updateData( input.filtertype, input.filterstring, () => {
-          draw();
           updateList();
+          draw();
         });
         
         /***************************** EVENT LISTENERS *************************/
@@ -64,6 +68,7 @@ block content
         /***************************** DRAW FUNCTIONS **************************/
                   
         function draw() { // calls group of draw functions, now just updateMap
+          addLeafletMap();
           updateMap();
         }
         
@@ -114,10 +119,8 @@ block content
                   
           continentItem.append("div") // label each continent item
               .attr('class', 'continent-item-label')
-              .style('background', (d, i, n) => {
-                return d.color.rgb();
-              })
-              .style('color', 'black')                    
+              .style('background', 'black')
+              .style('color', 'white')                    
               .append('p')
               .text((d) => { return d.key });
               
@@ -156,17 +159,31 @@ block content
                       d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
 
                       var listItemPoint = [],
-                          mapPoint = [];
+                          mapPoint = [],
+                          globePoint = [];
 
                       var listItemBounds = d3.select( n[i] )._groups[0][0].getBoundingClientRect();
                       //console.log(listItemBounds);
                       listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
-                  
+                      
+                      globePoint = parseTransform(d3.select('.globe-container').attr('transform')).translate;
+                      
+                      //console.log(n[i])
+                                            
                       d.neighborhoods.forEach( (item, index) => {
                         let itemElement = d3.select(`#ID${item}`);
                         mapPoint[0] = parseTransform(itemElement.attr('transform')).translate[0];
                         mapPoint[1] = parseTransform(itemElement.attr('transform')).translate[1];
-                        connectTwoElements( item, listItemPoint , mapPoint ) // draw line between two elements on mouseover
+                        
+                        var lMap = d3.scaleLinear()
+                            .domain([0, 9])
+                            .range([0.5, 1]);
+                        var colorAdjusted = d.continentColor
+                        colorAdjusted.l = lMap(d.endangermentNum)
+                                                
+                        connectTwoElements( item, listItemPoint , mapPoint, colorAdjusted.rgb() ) // draw line between two elements on mouseover
+                        connectTwoElements( item, globePoint, mapPoint, colorAdjusted.rgb() ) // draw line between two elements on mouseover
+                        
                       });
                     })
 
@@ -230,24 +247,42 @@ block content
             
         }
         
+        function addLeafletMap() {
+            map = new L.Map('map-panzoom', {zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11);
+            
+            /*L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1IjoiY2Fyc3RvaWQiLCJhIjoiY2ozMzJ3aHVpMDA3YzJ3cTZ3ZTdlYzlvYyJ9.eNIdLcbC98a6fBMc8mJ1fQ'
+            }).addTo(map);*/
+            
+            Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
+            
+            L.svg().addTo(map);
+        }
+        
         function updateMap() {
           
             var neighborhoodsAll = {
                 type: 'FeatureCollection',
-                features: data.neighborhoods
+                features: data.neighborhoods.filter( (neighborhood) => {
+                  return neighborhood.properties.BoroCode == 4;
+                })
             };
           
-            var targetParent = map.getCanvasContainer()               
-            d3.select(targetParent).selectAll("svg").remove();        
-            var svg = d3.select(targetParent).append("svg");
-
+            var svg = d3.select('#map-panzoom').select('svg'); 
+            
+            svg.attr("width", window.innerWidth)
+              .attr("height", window.innerHeight);
+            //targetParent.selectAll("svg").remove();
+            //var svg = targetParent.append("svg");
+            
             var transform = d3.geoTransform({point: projectPoint});
           	var path = d3.geoPath().projection(transform);
 
             var width = window.innerWidth, 
                 height = window.innerHeight;
-
-            //var remapper = remapNumbers( 0, data.languages.length, 0, 360 ); // map list length to 360 degree range for color calculation
                                                             
             var neighborhoodCenters = svg.append("g")
                 .attr("class", "neighborhood-centers")
@@ -256,17 +291,40 @@ block content
               .enter().append("g")
                 .attr("id", (d) => { return 'ID' + d._id } )
                 .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });
-                  
+            
+            var neighborhoodPolys = svg.append("g")
+              .attr("class", "neighborhood-polys")
+              .selectAll("path")
+              .data(neighborhoodsAll.features)
+              .enter().append("path")
+              .attr("d", path)
+              .style("stroke", "black")
+              .style("stroke-opacity", "0.2")
+              .style("fill", "black")
+              .style("fill-opacity", (d) => {
+                var nMap = d3.scaleLinear()
+                    .domain([0, 15])
+                    .range([0.2, 1.0]);
+                if (d.properties.languages) {
+                  //console.log(d.properties.languages)
+                    return nMap(d.properties.languages.length)
+                } else {
+                  return 0.1;
+                }
+              });
+            
             // update the path using the current transform
             function update() {
               neighborhoodCenters.attr("transform", function(d) {return "translate(" + path.centroid(d) + ")"; });
-              //neighborhoodPolys.attr("d", path);
+              neighborhoodPolys.attr("d", path);
               //console.log('update')
             }
             
-            function projectPoint(lon, lat) {
-                var point2 = map.project(new mapboxgl.LngLat(lon, lat));
-                this.stream.point(point2.x, point2.y);
+            function projectPoint(x, y) {
+                var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+              
+                //var point2 = map.project(new mapboxgl.LngLat(lon, lat));
+                this.stream.point(point.x, point.y);
             }   
                         
             map.on("viewreset", update)
@@ -372,47 +430,30 @@ block content
            
         }// draws/redraws globe widget for highlighted language
         
-        function connectTwoElements( id, from, to ) { // draws line between two elements, expects two 2d coordinate pair arrays
-            // future: change to use d3.link 
-                
-            //var color = from.attr('fill');
-            
-            //console.log(`from ${fromX}, ${fromY} to ${toX}, ${toY}`);
+        function connectTwoElements( id, from, to, color ) { // draws line between two elements, expects two 2d coordinate pair arrays
+
             var target = d3.select(`#ID${id}`);
-            
-            /*target.append('line')
-              .attr("x1", from[0] - to[0] )
-              .attr("y1", from[1] - to[1] )
-              .attr("x2", 0)
-              .attr("y2", 0)
-              //.attr("stroke", color)
-              .attr("stroke", "white")
-              .attr("stroke-opacity", 0.5);*/
               
             target.append("path")
               .attr("d", d3.linkHorizontal()
                 .source(function () { return [from[0] - to[0], from[1] - to[1]]  })
                 .target(function () { return [0, 0] }))
-                .attr("stroke", "white")
+                .attr("stroke", color)
+                .attr("stroke-width", '1')
                 .attr("fill", "none");
 
             target.append("text")
-              //.attr("cx", function(d) { return path.centroid(d)[0]} )
-              //.attr("cy", function(d) { return path.centroid(d)[1]} )
               .attr("dy", "1.5em")
               .attr("text-anchor", "middle")
               .style("fill", "white")
               .text(function(d) { return d.properties.NTAName });
               
             target.append("circle")
-                //.attr("d", d3.geoPath().projection(transform))
-                //.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
-                //.attr("fill", color)
                 .attr("fill", "white")
-                .attr("r", 2);
+                .attr("r", 3);
             }
             
-        /***************************** DATA FUNCTIONS **************************/  
+        /***************************** DATA LOADING **************************/  
               
         function updateSelectionData(id, callback) {
           getDataSingle( 'languages', id, (result) => {
@@ -514,19 +555,14 @@ block content
           });
         }
         
-        /*********************** UTILITY FUNCTIONS *****************************/
+        /*********************** UTILITY *************************************/
          
         function logResult(input) {
           //console.log(input);
         }
         
-        function remapNumbers(inMin, inMax, outMin, outMax) {
-            return function remaper(x) {
-                return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-            };
-        }
-        
-        function parseTransform (a) { // convert svg transform string into object
+        function parseTransform (input) { // convert svg transform string into object
+            var a= input.replace(/\s/g,'')
             var b={};
             for (var i in a = a.match(/(\w+\((\-?\d+\.?\d*e?\-?\d*,?)+\))+/g))
             {
