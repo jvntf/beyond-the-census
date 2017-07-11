@@ -12,11 +12,11 @@ layers:
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: '#ffffff'
+                color: '#e0e0e0'
 
     water:
         data: { source: mapzen }
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: '#ededed'
+                color: 'white'

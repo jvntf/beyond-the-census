@@ -8,8 +8,20 @@ block content
       #globe-target
       #map-target
     
+    #choropleth-selector
+    
+    #
+    
     #text-container
-      #text-target
+      div.continent-item.filter
+        div.continent-item-label
+          h2 Languages 
+          p (by Continent)
+        //div.filter-inputs
+          //input(id="filter-string" type='text')
+          //p Endangerment:
+          //input(id="filter-endangerment" type='range' step=1 min=1 max=10)
+      #text-target.list-block
 
     
     script(type='text/javascript').
@@ -17,7 +29,9 @@ block content
         // data containers (searchoptions is for fuzzy text search...)
         var input = {
             'filterstring': '',
-            'filtertype': 'langname'
+            'filtertype': 'langname',
+            'endangerment': 5,
+            'string': ''
           }, searchOptions = {
               extract: function(el) { return el.language; }
           }, data = {
@@ -26,31 +40,47 @@ block content
             neighborhoods: [],
             selected: {}
           }, map;
-        /***************************** MAIN FUNCTION ***************************/
+        /***************************** INITIALIZE VIEW *************************/
         // fetch data and draw
-        updateData( input.filtertype, input.filterstring, () => {
-          updateList();
-          draw();
-        });
-        /***************************** EVENT LISTENERS *************************/
-        d3.select('#filtertext') 
-            .on('input', function () {
-              input.filterstring = d3.select(this).property('value');
-              var q = d3.queue();
-              //q.defer(delayedHello);
-              q.defer( updateData, input.filtertype, input.filterstring );
-              q.await(function(error) {
-                if (error) throw error;
-                draw();
-                
-              });              
-            });
-        /***************************** DRAW FUNCTIONS **************************/    
-        function draw() { // calls group of draw functions, now just updateMap
-          addLeafletMap();
-          updateMap();
-        }
         
+        updateData( input.filtertype, input.filterstring, () => {
+          addLeafletMap();
+          updateList();          
+          updateMap();
+        });
+        
+        /***************************** EVENT LISTENERS *************************/
+        d3.select('#filter-string')
+          .on('input', function () {
+            input.string = d3.select(this).property('value');
+            console.log(input.string);
+          });
+          
+        d3.select('#filter-endangerment')
+          .on('input', function() {
+            input.endangerment = d3.select(this).property('value');
+            console.log(input.endangerment);
+          })
+            
+        function updateInput() {
+          /*var q = d3.queue();
+          //q.defer(delayedHello);
+          q.defer( updateData, input.filtertype, input.filterstring );
+          q.await(function(error) {
+            if (error) throw error;
+            draw();      
+          });*/            
+          updateData( input.filterstring )
+        }    
+            
+        /***************************** DRAW FUNCTIONS **************************/    
+      
+        function addLeafletMap() {
+            map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11.5);
+            Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
+            L.svg({ padding: 0 }).addTo(map);
+        }
+                
         function updateList() { // show text details for highlighted language
           // setup
           var textTarget = d3.select('#text-target');
@@ -80,8 +110,8 @@ block content
             var numContinents = n.length
             var hMap = d3.scaleLinear()
                 .domain([0, numContinents])
-                .range([0, 300]);
-            dModified.color = d3.color( `hsl(${hMap(i)}, 80%, 50%)` );
+                .range([0,360]);
+            dModified.color = d3.hcl( hMap(i) , 50, 75, 1 ); 
             
             dModified.values.map( (item) => {
               var itemModified = item;
@@ -117,20 +147,12 @@ block content
               .style('background', (d, i, n) => {
                 var lMap = d3.scaleLinear()
                     .domain([0, 9])
-                    .range([0.5, 1]);
+                    .range([75, 110]);
                 var colorAdjusted = d.continentColor
-                colorAdjusted.l = lMap(d.endangermentNum)
+                colorAdjusted.l = parseInt(lMap(d.endangermentNum));
                 return colorAdjusted;
               })
-              .style('color', (d, i, n) => {
-                var lMap = d3.scaleLinear()
-                    .domain([0, 9])
-                    .range([0.5, 1]);
-                var colorAdjusted = d.continentColor
-                colorAdjusted.l = 0.2
-
-                return colorAdjusted;
-              })              
+              .style('color', 'black')
               .on('mouseover', (d, i, n) => {
                       updateGlobe(d);
                                         
@@ -148,36 +170,47 @@ block content
                       
                       //console.log(n[i])
                                             
-                      d.neighborhoods.forEach( (item, index) => {
+                      /*d.neighborhoods.forEach( (item, index) => {
                         let itemElement = d3.select(`#ID${item}`);
                         mapPoint[0] = parseTransform(itemElement.attr('transform')).translate[0];
                         mapPoint[1] = parseTransform(itemElement.attr('transform')).translate[1];
                         
                         var lMap = d3.scaleLinear()
                             .domain([0, 9])
-                            .range([0.5, 1]);
+                            .range([0, 150]);
                         var colorAdjusted = d.continentColor
                         colorAdjusted.l = lMap(d.endangermentNum)
                                                 
                         connectTwoElements( item, listItemPoint , mapPoint, colorAdjusted.rgb() ) // draw line between two elements on mouseover
                         connectTwoElements( item, globePoint, mapPoint, colorAdjusted.rgb() ) // draw line between two elements on mouseover
                         
-                      });
+                      });*/
+                                                                
+                      d3.select('#globe-marker').attr('fill', function() {
+                        var colorAdjusted = d.continentColor
+                        colorAdjusted.l = 85;
+                        colorAdjusted.c = 80;
+                        return colorAdjusted
+                      })
+                      
+                      d3.select('#globe-marker').attr('stroke', function() {
+                        var colorAdjusted = d.continentColor
+                        colorAdjusted.l = 85;
+                        colorAdjusted.c = 80;
+                        return colorAdjusted.darker()
+                      })
                     })
-
-            
-
-              
-            
         }
         
-        function addLeafletMap() {
-            map = new L.Map('map-target', {zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11);
-            Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
-            L.svg().addTo(map);
+        function drawPointOnMap() {
+          var overlayTarget = d3.select('#map-target').select('svg');
+          
         }
         
+      
         function updateMap() {
+          
+
                     
             var neighborhoodsAll = {
                 type: 'FeatureCollection',
@@ -193,83 +226,97 @@ block content
               
             var transform = d3.geoTransform({point: projectPoint});
           	var path = d3.geoPath().projection(transform);
-            var pointPath = d3.geoPath().projection(transform).pointRadius('1');
+            var pointPath = d3.geoPath().projection(transform).pointRadius('4');
 
             var width = window.innerWidth, 
                 height = window.innerHeight;
-                                                            
-            /*var neighborhoodCenters = svg.append("g")
-                .attr("class", "neighborhood-centers")
-              .selectAll("g")
-                .data(neighborhoodsAll.features)
-              .enter().append("g")
-                .attr("id", (d) => { return 'ID' + d._id } )
-                .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });*/
-            
-            
-            neighborhoodPolyGroups = svg.selectAll("g")
-              .data(neighborhoodsAll.features)
-              .enter()
-              .append("g")
-              //.attr("g", path)
-              //.style("fill", "blue")
-              //.style("fill-opacity", (d) => {
-              //  return 0.2
-              //})
+                
+                
 
-            var neighborhoodDotDensity = neighborhoodPolyGroups.append("path")
-              .datum( (d) => {
+            drawChoropleth();
+            drawDotDensity();      
+
+
+            function drawChoropleth() {
+              neighborhoodPolyGroups = svg.selectAll("g")
+                .data(neighborhoodsAll.features)
+                .enter()
+                .append("g")
+                .attr("id", (d) => {
+                  return `nbdGroup-${d._id}`
+                })
+                
+              var neighborhoodChoropleth = neighborhoodPolyGroups.append("path")
+              .attr("d", path)
+              .attr("fill", 'white')
+              .attr("fill-opacity", (d, i, n) => {
+                var oMap = d3.scaleLinear()
+                    .domain([0, 20])
+                    .range([0.5,1]);
+                if (d.properties.languages) {
+                  return oMap(d.properties.languages.length);
+                }
+                else return 0
+                console.log(n[i]);
                 console.log(d);
-                var numLangs = 0;
-                if (d.properties.languages) { numLangs = d.properties.languages.length };
-                var multiPoint = 
-                                  {
-                                  "type": "Feature",
-                                    "geometry": {
-                                      "type": "MultiPoint",
-                                      "coordinates": []
-                                    },
-                                    "properties": {
-                                      "num": "0"
-                                    }
-                                  }
-                multiPoint.geometry.coordinates = dotDensityPoints( numLangs * 6, d.geometry );
-                console.log(multiPoint);
-                return multiPoint;
               })
-              .attr("d", pointPath)
-              .attr("fill", "red");
+              .attr("z-index", "-1");              
+            }
               
-            
+            function drawDotDensity() {
+              var languagesAll = data.languages;
+              
+              languagesAll.forEach( (language, i) => {
+                var neighborhoods = language.neighborhoods;
+                var thisLang = language;
+                neighborhoods.forEach( (neighborhood, j) => {
+                  d3.select(`#nbdGroup-${neighborhood._id}`)
+                    .append("path")
+                    .datum( () => {
+                      var point = 
+                          {
+                          "type": "Feature",
+                            "geometry": {
+                              "type": "Point",
+                              "coordinates": []
+                            },
+                            "properties": {}
+                          };
+                      point.properties.color = thisLang.continentColor;
+                      point.properties.color.c = 80;
+                      point.properties.color.l = 85;
+                      point.geometry.coordinates = dotDensityPoints( 1, neighborhood.geometry )[0]
+                      return point;
+                    })
+                    .attr("class", "dbd-dd-dot")
+                    .attr("d", pointPath)
+                    .attr("fill", (d) => {
+                      return d.properties.color
+                    })
+                    .attr("stroke", (d) => {
+                      return d.properties.color.darker()
+                    })
+                    .attr("stroke-width", '1.5')
+                })
+              })              
+            }
+
+              
             // update the path using the current transform
             function update() {
-              console.log('called update')
-              neighborhoodDotDensity.attr("d", pointPath);
-              //neighborhoodCenters.attr("transform", function(d) {return "translate(" + path.centroid(d) + ")"; });
-              //neighborhoodPolys.attr("d", path);
-              //console.log('update')
+              neighborhoodChoropleth.attr("d", pointPath);
+              neighborhoodDotDensity.attr("d", pointPath)
             }
             
             function projectPoint(x, y) {
                 var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-              
-                //var point2 = map.project(new mapboxgl.LngLat(lon, lat));
                 this.stream.point(point.x, point.y);
-            }   
+            }
                         
             map.on("viewreset", update)
-            map.on("movestart", function(){
-            svg.classed("hidden", true);
-            });	
-            map.on("rotate", function(){
-            svg.classed("hidden", true);
-            });	
-            map.on("moveend", function(){
-            update()
-            svg.classed("hidden", false);
-            })
+            
             update();                                    
-        }// draws base map, colored bands, sets hover behavior, calls connectTwoElements
+        }
         
         function updateGlobe( item ) {
           //console.log(item);
@@ -311,8 +358,7 @@ block content
                   .attr('cy', 0)
                   .attr('r', projection.scale())
                   .attr('class', 'globe')
-                  .attr("fill", "black")
-                  .attr("fill-opacity", "0.5");
+                  .attr("fill", "#98bde2");
 
               //Add all of the countries to the globe
               var continentPaths = globeTarget.selectAll("path")
@@ -320,20 +366,22 @@ block content
                   .enter()
                   .append("path")
                   .attr("class", "feature")
-                  .attr("fill", "white")
-                  .attr("fill-opacity", "0.5")
+                  .attr("fill", "#d8f2a4")
                   .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
                   
               //Add marker at the center of the globe 
-              var Circle = globeTarget.append("text")
-                  .attr('x', 0)
-                  .attr('y', 0)
-                  .attr('text-anchor', 'middle')
-                  .attr('dominant-baseline', 'middle')
-                  .attr('font-size', '2em')
-                  .attr("fill", "white")
+              var Circle = globeTarget.append("circle")
+                  .attr('id', 'globe-marker')
+                  .attr('cx', 0)
+                  .attr('cy', 0)
+                  .attr('r', 5)
+                  //.attr('text-anchor', 'middle')
+                  //.attr('dominant-baseline', 'middle')
+                  //.attr('font-size', '2em')
                   .attr("fill-opacity", "1")
-                  .text("+")
+                  .attr("stroke", "black")
+                  .attr("stroke-width", 1.5)
+                  //.text("o0o0o")
 
               var countryList = [];
               item.countries.map( (country) => {
@@ -357,6 +405,14 @@ block content
 
               }
         }// draws/redraws globe widget for highlighted language
+        function connectElements( selected ) {  // takes array of d3 selectors
+          var coords = []
+          selected.forEach( (element) => {
+            console.log(element);
+            console.log(element.node().getBoundingClientRect());
+          })
+        }
+        
         
         function connectTwoElements( id, from, to, color ) { // draws line between two elements, expects two 2d coordinate pair arrays
 
@@ -387,14 +443,10 @@ block content
         function updateSelectionData(id, callback) {
           getDataSingle( 'languages', id, (result) => {
               var resultObj = result;
-              
-              
               if (resultObj.countries) {
                 getData( 'countries', resultObj.countries, (resultCountries) => {
                   resultObj.countries = resultCountries;
                   data.selected = resultObj;
-                  
-                  
                 })
               }
               if (resultObj.neighborhoods) {
@@ -407,6 +459,13 @@ block content
               data.selected = resultObj;
               if (callback) callback()
           });
+        }
+        
+        function getFilteredData(collection, query, callback) {
+            let url = `../${collection}`;
+            d3.json(url, function(json){
+              
+            });
         }
         
         function updateData(mode, input, callback) {

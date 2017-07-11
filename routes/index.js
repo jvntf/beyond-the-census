@@ -16,7 +16,10 @@ mongoose.connect('mongodb://localhost/ELAdata', function (error) { // was leafle
 var Schema = mongoose.Schema;
 
 var NeighborhoodSchema = new Schema({
-  _id: Schema.Types.ObjectId
+  _id: Schema.Types.ObjectId,
+  properties: {
+    languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+  }
 });
 
 var CountrySchema = new Schema({  //properties.languages
@@ -36,7 +39,8 @@ var ContinentSchema = new Schema({
 var LanguageSchema = new Schema({
   _id: Schema.Types.ObjectId,
   countries: [{type: Schema.Types.ObjectId, ref: 'Country'}],
-  continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}]
+  continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}],
+  neighborhoods: [{type: Schema.Types.ObjectId, ref: 'Neighborhood'}]
 });
 
 var InstitutionSchema = new Schema({
@@ -143,10 +147,30 @@ router.get('/languages/:id', function (req, res) {
 });
 /* GET all languages */
 router.get('/languages', function (req, res) {
-    Language.find({}).populate({ path: 'countries', select: 'properties' }).populate({ path: 'continents', select: 'properties' }).exec( function (err, docs) {
+    Language.find({})
+    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'continents', select: 'properties' })
+    .populate({ path: 'neighborhoods'})
+    .exec( function (err, docs) {
         res.json(docs);
     });
 });
+
+// GET filtered languages based on language name and endangerment level
+// with populated countries, continents and neighborhoods (with geometry)
+router.get('/languages/filtered/:endangerment', function (req, res) {
+    Language.find({
+      //language: req.params.string,
+      endangermentNum: { $gt: req.params.endangerment }
+    })
+    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'continents', select: 'properties' })
+    .populate({ path: 'neighborhoods'})
+    .exec( function (err, docs) {
+        res.json(docs);
+    });
+})
+
 /* GET institution by ID */
 router.get('/institutions/:id', function (req, res) {
     if (req.params.id) {
