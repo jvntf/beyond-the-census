@@ -1,4 +1,15 @@
 /***************************** DATA LOADING **************************/
+/*
+
+functions to load and stage datasets from the database
+general pattern is:
+- declare URL for query ( urls and corresponding queries are defined under routes/index )
+- fetch JSON
+- process response
+- return modified response or store it in a variable
+
+*/
+
 
 function updateSelectionData(id, callback) {
   getDataSingle( 'languages', id, (result) => {
@@ -103,7 +114,16 @@ function getDataSingle( collection, id, callback ) {
   });
 }
 
-function projectPoint(x, y) {
-    var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-    this.stream.point(point.x, point.y);
+function getUnderlayData( dataset, callback ) {
+  let url = `../underlay/${dataset}`;
+  d3.json(url, (json) => {
+    callback(json)
+  })
+}
+
+function getLanguageData( query, callback ) {
+  let url = `../languages/${query.min}.${query.max}.${query.string}`;
+  d3.json(url, (json) => {
+    callback(json)
+  })
 }

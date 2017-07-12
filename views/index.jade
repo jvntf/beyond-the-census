@@ -60,6 +60,9 @@ block content
           updateMap();
         });
         
+        d3.select('#loading')
+          .classed('hidden', true);
+        
         // event listeners
         d3.select('#filter-string')
           .on('input', function () {
@@ -70,6 +73,9 @@ block content
         d3.select('#filter-endangerment')
           .on('input', function() {
             input.endangerment = d3.select(this).property('value');
+            getLanguageData( {min: 0, max: input.endangerment, string: input.string}, (json) => {
+              console.log(json)
+            });
             console.log(input.endangerment);
           })
         

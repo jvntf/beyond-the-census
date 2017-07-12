@@ -345,3 +345,10 @@ function getCoords( id, options ) {
   }
   return [latLng.lat, latLng.lng];
 }
+
+
+
+function projectPoint(x, y) {
+    var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+    this.stream.point(point.x, point.y);
+}

@@ -42,6 +42,7 @@ var LanguageSchema = new Schema({
   continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}],
   neighborhoods: [{type: Schema.Types.ObjectId, ref: 'Neighborhood'}]
 });
+LanguageSchema.index({'$**': 'text'}, {background: false}); // adds an index of all text fields
 
 var InstitutionSchema = new Schema({
   _id: Schema.Types.ObjectId
@@ -69,11 +70,6 @@ router.get('/map', function(req,res) {
             lng : -73.815
         });
     });
-});
-
-/* GET Sandbox page. */
-router.get('/sandbox', function(req,res) {
-  res.render('sandbox', { title: 'Sandbox' });
 });
 
 /* GET languages */
@@ -137,14 +133,14 @@ router.get('/neighborhoods', function (req, res) {
         res.json(docs);
     });
 });
-/* GET language by ID */
+/* GET language by ID
 router.get('/languages/:id', function (req, res) {
     if (req.params.id) {
         Language.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
             res.json(docs);
         });
     }
-});
+});*/
 /* GET all languages */
 router.get('/languages', function (req, res) {
     Language.find({})
@@ -186,5 +182,37 @@ router.get('/institutions', function (req, res) {
     });
 });
 
+/* GET underlay dataset based on its label */
+router.get('/underlay/:dataset', function (req, res) {
+    res.json({data: 'nothing here yet, ' + req.params.dataset})
+    /*Institution.find({}, function (err, docs) {
+        res.json(docs);
+    });*/
+});
+
+/* GET language list for the map and key based on a filter query */
+router.get('/languages/:endMin.:endMax.:searchstring', function (req, res) {
+    //res.json({min: req.params.endMin,
+    //          max: req.params.endMax,
+    //          string: req.params.searchstring})
+    var query = {
+                  $and: [
+                    {endangermentNum: { $lt: req.params.endMax }},
+                    {endangermentNum: { $gt: req.params.endMin }},
+                    {$text: { $search: req.params.searchstring }}
+                   ]
+                }
+    console.log(query);
+    if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
+    console.log(query);
+    Language.find(query)
+    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'continents', select: 'properties' })
+    .populate({ path: 'neighborhoods'})
+    .exec( function (err, docs) {
+        if (err) throw err;
+        res.json(docs);
+    });
+});
 
 module.exports = router;
