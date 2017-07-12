@@ -1,6 +1,96 @@
 extends layout
-
 block content
-  h1= title
-  p Welcome to #{title}
+    // initial HTML
+    #drawing-container
+      #overlay-target
+      #map-target
+    #html-container
+      #title
+        h1 Queens Language Map
+        input(id="show-about-content" type="button" value="about")
+        #about-content.hidden
+          p This map shows the incredible diversity of languages spoken in Queens, NY, based on a dataset from the Endangered Language Alliance.
+          input(id="hide-about-content" type="button" value="hide")
+      #list-container
+        div.continent-item.filter
+          div.continent-item-label
+            h2 Languages 
+            p (by Continent)
+          div.filter-inputs
+            //input(id="filter-string" type='text')
+            p Endangerment:
+            input(id="filter-endangerment" type='range' step=1 min=1 max=10)
+        #text-target.list-block
+      #underlay-controls
+        h2 Map Underlay
+        p Select data set to show on the map of Queens here:
+        select(id="underlay-dropdown")
+          option( value="nonenglish") Percent Speaking Languages other than English        
+          option( value="medincome") Median Income
+      #loading 
+        p loading...
+    
+    // script starts here
+    script(type='text/javascript').
+        // data containers (searchoptions is for fuzzy text search...)
+        var input = {
+            'filterstring': '',
+            'filtertype': 'langname',
+            'endangerment': 5,
+            'string': '',
+            'underlay': ''
+          }, searchOptions = {
+              extract: function(el) { return el.language; }
+          }, data = {
+            languages: [],
+            countries: [],
+            neighborhoods: [],
+            selected: {}
+          }, 
+          path, 
+          transform;
   
+        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11.5);
+        Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
+        L.svg({ padding: 0 }).addTo(map);  
+          
+        // fetch data. then draw map
+        updateData( input.filtertype, input.filterstring, () => {
+          updateList();
+          updateMap();
+        });
+        
+        // event listeners
+        d3.select('#filter-string')
+          .on('input', function () {
+            input.string = d3.select(this).property('value');
+            console.log(input.string);
+          });
+          
+        d3.select('#filter-endangerment')
+          .on('input', function() {
+            input.endangerment = d3.select(this).property('value');
+            console.log(input.endangerment);
+          })
+        
+        d3.select('#underlay-dropdown')
+          .on('input', function() {
+            input.underlay = d3.select(this).property('value');
+            console.log(input.underlay);
+          })
+          
+        d3.select('#show-about-content')
+          .on('click', function() {
+            d3.select('#about-content')
+              .classed('hidden', false);
+            d3.select('#show-about-content')
+              .classed('hidden', true);            
+          })
+          
+        d3.select('#hide-about-content')
+          .on('click', function() {
+            d3.select('#about-content')
+              .classed('hidden', true);
+            d3.select('#show-about-content')
+              .classed('hidden', false);            
+          })          

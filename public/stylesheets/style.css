@@ -5,24 +5,79 @@ body {
   margin: 0px;
 }
 
+#title {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  max-width: 30vw;
+  padding: 10px;
+  background: black;
+  color: white;
+  z-index: 2;
+}
+
+#loading {
+  display: table;
+  background: rgba(255,255,255,0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  font-style: italic;
+  font-size: 4em;
+  color: grey;
+}
+
+#loading p {
+  display: table-cell;
+  text-align: center;
+  vertical-align:middle;
+}
+
+#underlay-controls {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: 10px;
+  background: black;
+  color: white;
+}
+
+#underlay-controls h2 {
+  margin-bottom: 5px;
+}
+
+#title h1 {
+  margin: 0;
+}
+
 #filter {
   background: black;
   color: white;
 }
 
-#map-target {
+#map-target, #annotation-target {
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
+}
+
+#map-target {
   z-index: -1;
 }
 
-#globe-target {
+#annotation-target {
+  z-index: 1;
+  pointer-events: none;
+}
+
+#overlay-target {
   position: fixed;
-  top: 45vh;
-  left: 5vw;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
   z-index: 0;
@@ -31,7 +86,7 @@ body {
 
 /* ------  LANGUAGE LIST STYLING ----- */
 
-#text-container {
+#list-container {
   float: right;
   width: 30vw;
   margin: 0px;
@@ -93,4 +148,8 @@ body {
 /* ~~~~~ leaflet ~~~~~~~ */
 .leaflet-container {
     background: rgba(255,255,255,0.0) !important;
+}
+
+.hidden {
+  display: none;
 }

@@ -158,7 +158,7 @@ router.get('/languages', function (req, res) {
 
 // GET filtered languages based on language name and endangerment level
 // with populated countries, continents and neighborhoods (with geometry)
-router.get('/languages/filtered/:endangerment', function (req, res) {
+router.get('/languages/BYEND/:endangerment', function (req, res) {
     Language.find({
       //language: req.params.string,
       endangermentNum: { $gt: req.params.endangerment }
