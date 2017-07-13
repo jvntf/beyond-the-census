@@ -1,13 +1,12 @@
-function drawPointOnMap() {
-  var overlayTarget = d3.select('#map-target').select('svg');
-
-}
-
+// declare variables for map layers
+var langDots,
+  underlayDots,
+  queensOtln;
 
 function updateMap() {
 
-    var neighborhoodChoropleth, // empty group containers
-      neighborhoodDotDensity;
+    //var neighborhoodChoropleth, // empty group containers
+    //  neighborhoodDotDensity;
 
     var neighborhoodsAll = {
         type: 'FeatureCollection',
@@ -16,14 +15,13 @@ function updateMap() {
         })
     };
 
-    var svg = d3.select('#map-target').select('svg')
+    var mapLayer = d3.select('#map-target').select('svg')
       .attr("id", "map-svg-main");
 
-    var anno = d3.select('#annotation-target').append('svg')
+    var annoLayer = d3.select('#annotation-target').append('svg')
       .attr("id", "annotation-svg-main");
 
-
-    svg.attr("width", window.innerWidth)
+    mapLayer.attr("width", window.innerWidth)
       .attr("height", window.innerHeight);
 
     transform = d3.geoTransform({point: projectPoint});
@@ -43,19 +41,19 @@ function updateMap() {
 
     function drawQueensOutline(callback) {
       d3.json("/data/queens_re.geojson", function(json) {
-        var queensBoundary = svg.append("path")
+        queensOtln = mapLayer.append("path")
           .attr("class", "queens-outline")
           .datum(json)
           .attr("d", path)
           .attr("fill", "none")
           .attr("stroke", "#dbdbdb")
-          .attr("stroke-width", 3)
+          .attr("stroke-width", 2)
         callback(null);
       });
     }
 
     function drawChoropleth(callback) {
-      neighborhoodPolyGroups = svg.selectAll("g")
+      neighborhoodPolyGroups = mapLayer.selectAll("g")
         .data(neighborhoodsAll.features)
         .enter()
         .append("g")
@@ -63,26 +61,7 @@ function updateMap() {
           return `nbdGroup-${d._id}`
         })
 
-      /*neighborhoodChoropleth = neighborhoodPolyGroups.append("path")
-      .attr("d", path)
-      //.attr("fill", 'black')
-      .attr("fill", (d, i, n) => {
-        var oMap = d3.scaleThreshold() // was scaleLinear()
-            .domain([ 3, 5, 8, 12, 16])
-            .range([ '#f7f7f7','#cccccc','#969696','#636363','#252525']);
-            //.domain([0, 20])
-            //.range([0.1,0.6]);
-            //.range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
-        if (d.properties.languages.length) {
-          return oMap(d.properties.languages.length);
-        }
-        else return '#ffffff';
-        console.log(n[i]);
-        console.log(d);
-      })
-      .attr("z-index", "-1");*/
-
-      neighborhoodPolyGroups.append("path")
+      underlayDots = neighborhoodPolyGroups.append("path")
       .datum( (d) => {
         var feature = d;
         var points =
@@ -99,14 +78,16 @@ function updateMap() {
       })
       .attr("d", pathLittleDots)
       .attr("fill", "gray")
-
-
-
-
       callback(null);
     }
 
     function drawDotDensity(callback) {
+
+
+      var q = d3.queue();
+        q.defer
+
+
       var languagesAll = data.languages;
       languagesAll.forEach( (language, i) => {
         var neighborhoods = language.neighborhoods;
@@ -131,7 +112,7 @@ function updateMap() {
               return point;
             })
             .attr("id", (d) => { return `dot-${language._id}`})
-            .attr("class", "dbd-dd-dot")
+            .attr("class", "lang-dot") // dbd-dd-dot
             .attr("d", path)
             .attr("fill", (d) => {
               return d.properties.color
@@ -142,6 +123,7 @@ function updateMap() {
             .attr("stroke-width", '1')
         })
       })
+      langDots = d3.selectAll('.lang-dot')
       callback(null);
     }
 
@@ -150,8 +132,12 @@ function updateMap() {
     function update() {
       console.log('called update')
       d3.selectAll('.leader-line').remove(); // remove all leader lines
-      //neighborhoodChoropleth.attr("d", path);
-      //neighborhoodDotDensity.attr("d", path)
+      underlayDots.attr("d", pathLittleDots);
+      langDots.attr("d", path);
+      queensOtln.attr("d", path);
+      d3.selectAll('.selected').classed('selected', false);
+      d3.select('#globe-target').remove();
+      d3.select('.globe-container').selectAll('text').remove();
     }
 
 
@@ -351,4 +337,68 @@ function getCoords( id, options ) {
 function projectPoint(x, y) {
     var point = map.latLngToLayerPoint(new L.LatLng(y, x));
     this.stream.point(point.x, point.y);
+}
+
+function modifyMapFromList(d, i, n) {
+  d.neighborhoods.forEach((neighborhood) => {
+
+  })
+
+  d3.selectAll('.selected')
+    .classed('selected', false)
+    .style('stroke', null)
+    .style('border', null)
+    .attr('transform', null)
+
+  d3.select(`#dot-${d._id}`)
+    .classed('selected', true)
+    .style('stroke', 'black')
+    //.append('text')
+    //.text('Hello')
+
+  d3.select(`#li-${d._id}`)
+    .classed('selected', true)
+    .style('border', '1px solid black')
+
+  q = d3.queue(1)
+    .defer(updateGlobe, d)
+    .defer(connectLine,
+      [
+        getCoords("globe-marker"),
+        getCoords(`dot-${d._id}`),
+        getCoords(`li-${d._id}`, {anchor: 'center-left'})
+      ],
+      '#overlay-svg-main',
+      {
+        //stroke: d.continentColor,
+        strokedasharray: '5, 5',
+        strokewidth: 1
+      }
+    )
+    .await( (err) => {
+      if (err) throw err;
+    });
+
+  //updateGlobe(d);
+
+  d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
+
+  var listItemPoint = [],
+      mapPoint = [],
+      globePoint = [];
+
+  var listItemBounds = d3.select( n[i] )._groups[0][0].getBoundingClientRect();
+  //console.log(listItemBounds);
+  listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
+
+  globePoint = parseTransform(d3.select('.globe-container').attr('transform')).translate;
+
+  d3.select('#globe-marker').attr('fill', function() {
+    var colorAdjusted = d.continentColor
+    colorAdjusted.l = 85;
+    colorAdjusted.c = 80;
+    return colorAdjusted
+  })
+
+  d3.select('#globe-marker').attr('stroke', 'black')
 }
