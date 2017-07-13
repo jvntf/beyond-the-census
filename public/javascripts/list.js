@@ -5,8 +5,7 @@ function updateList() {
   var textTarget = d3.select('#text-target'); // get target HTML node to append things to
   var languageList = data.languages;  // get current in-memory list of languages
 
-
-  // make the flat list of language into a nested data structure,
+  // make the flat list of languages into a nested data structure,
   // grouped/sorted by continents and then by endangerment level
   var languageNest = d3.nest()
     .key(function(d) {return d.continents[0].properties.CONTINENT;})
@@ -15,12 +14,13 @@ function updateList() {
     .sortKeys(d3.ascending)
     .entries(data.languages);
 
-  // get list of continents in the dataset (can ignore, used for color calculation)
+  // get list of unique continents in the dataset (can ignore, used for color calculation)
   var uniqueContinents = d3.set(languageList, (item) => {
       return item.continents[0].properties.CONTINENT
     }).values();
 
-  /* from here down, start adding HTML to the DOM
+  /*
+    from here down, start adding HTML to the DOM
 
     the end result will be that something like this...
 
@@ -31,8 +31,8 @@ function updateList() {
             v span#li-[LANGUAGE._ID].language-item
             v span#li-[LANGUAGE._ID].language-item
             v span#li-[LANGUAGE._ID].language-item
-    > div#continent2
-    > div#continent3
+    > div.continent-item
+    > div.continent-item
 
     ... gets appended to div#text-target
   */
