@@ -38,7 +38,7 @@ block content
             'filtertype': 'langname',
             'endangerment': 5,
             'string': '',
-            'underlay': ''
+            'underlay': 'Spanish or Spanish Creole'
           }, searchOptions = {
               extract: function(el) { return el.language; }
           }, data = {
@@ -53,12 +53,17 @@ block content
         var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11.5);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
         L.svg({ padding: 0 }).addTo(map);  
-          
-        // fetch data. then draw map
-        updateData( input.filtertype, input.filterstring, () => {
-          updateList();
-          updateMap();
-        });
+        
+        
+        main();
+        
+        function main() {
+          updateData( input.filtertype, input.filterstring, () => {
+            updateList();
+            updateMap();
+          });          
+        }
+
         
         d3.select('#loading')
           .classed('hidden', true);
@@ -83,6 +88,7 @@ block content
           .on('input', function() {
             input.underlay = d3.select(this).property('value');
             console.log(input.underlay);
+            update();
           })
           
         d3.select('#show-about-content')

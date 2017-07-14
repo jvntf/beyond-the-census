@@ -19,4 +19,4 @@ layers:
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: '#e0e0e0'
+                color: '#e0eaf9'

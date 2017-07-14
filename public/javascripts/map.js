@@ -1,6 +1,7 @@
 // declare variables for map layers
 var langDots,
   underlayDots,
+  underlayTracts,
   queensOtln;
 
 function updateMap() {
@@ -32,11 +33,15 @@ function updateMap() {
         height = window.innerHeight;
 
     var q = d3.queue(1)  // concurrency of 1, sets queue to run in series
-      .defer(drawChoropleth)
+      //.defer(drawChoropleth)
+
+      .defer(drawNeighborhoodGroups)
       .defer(drawQueensOutline)
       .defer(drawDotDensity)
+      .defer(drawTracts)
       .await( (err) => {
         if (err) throw err;
+        update();
       })
 
     function drawQueensOutline(callback) {
@@ -52,8 +57,8 @@ function updateMap() {
       });
     }
 
-    function drawChoropleth(callback) {
-      neighborhoodPolyGroups = mapLayer.selectAll("g")
+    function drawNeighborhoodGroups(callback) {
+      mapLayer.selectAll("g")
         .data(neighborhoodsAll.features)
         .enter()
         .append("g")
@@ -61,7 +66,11 @@ function updateMap() {
           return `nbdGroup-${d._id}`
         })
 
-      underlayDots = neighborhoodPolyGroups.append("path")
+      callback(null);
+    }
+
+    function drawChoropleth(callback) {
+      underlayDots = mapLayer.selectAll('#nbdGroup*').append("path")
       .datum( (d) => {
         var feature = d;
         var points =
@@ -73,20 +82,15 @@ function updateMap() {
               },
               "properties": {}
             };
-        points.geometry.coordinates = dotDensityPoints( 20, feature ) // looks better with something like 500, but too computationally intensive? or needs to be rewritten as non-blocking function
+        points.geometry.coordinates = dotDensityPoints( 5, feature ) // looks better with something like 500, but too computationally intensive? or needs to be rewritten as non-blocking function
         return points;
       })
-      .attr("d", pathLittleDots)
+      .attr("d", path)
       .attr("fill", "gray")
       callback(null);
     }
 
     function drawDotDensity(callback) {
-
-
-      var q = d3.queue();
-        q.defer
-
 
       var languagesAll = data.languages;
       languagesAll.forEach( (language, i) => {
@@ -111,7 +115,7 @@ function updateMap() {
               point.geometry.coordinates = dotDensityPoints( 1, neighborhood.geometry )[0]
               return point;
             })
-            .attr("id", (d) => { return `dot-${language._id}`})
+            .attr("id", (d) => { return `dot-${language._id}-${j}`}) // give dot an id in the format 'dot-' + [language ID] + neighborhood-index
             .attr("class", "lang-dot") // dbd-dd-dot
             .attr("d", path)
             .attr("fill", (d) => {
@@ -128,117 +132,53 @@ function updateMap() {
     }
 
 
-    // update the path using the current transform
-    function update() {
-      console.log('called update')
-      d3.selectAll('.leader-line').remove(); // remove all leader lines
-      underlayDots.attr("d", pathLittleDots);
-      langDots.attr("d", path);
-      queensOtln.attr("d", path);
-      d3.selectAll('.selected').classed('selected', false);
-      d3.select('#globe-target').remove();
-      d3.select('.globe-container').selectAll('text').remove();
-    }
 
 
     map.on("viewreset", update)
 
-    update();
+
 }
 
-function updateGlobe( item, callback ) {
-  //console.log(item);
-  d3.select('#overlay-target').selectAll('*').remove(); // clear globe
-  var rotation = [ -item.longitude, -item.latitude ];
-  var width = window.innerWidth,
-      height = window.innerHeight;
+// update the path using the current transform
+function update() {
+  d3.selectAll('.leader-line').remove(); // remove all leader lines
+  //underlayDots.attr("d", pathLittleDots);
+  langDots.attr("d", path);
+  queensOtln.attr("d", path);
+  underlayTracts.attr("d", path);
 
-  init();
+  d3.selectAll('.selected').classed('selected', false);
+  d3.select('#globe-target').remove();
+  d3.select('.globe-container').selectAll('text').remove();
 
-  function init(){
-      // set projection
-      var projection = d3.geoOrthographic()
-          .scale(60)
-          .rotate( rotation )
-          //.center( center )
-          .translate([0, 0])
-          .clipAngle(90);
+  // update census tract underlay
+  d3.select('#census-tracts').selectAll('path')
+    .attr('fill', 'black')
+    .attr('fill-opacity', (d, i, n, a) => {
 
-      // initialize path generator - this is a function!
-      var path = d3.geoPath()
-          .projection(projection)
-          .pointRadius(3);
+      console.log(d)
+      console.log(i)
+      console.log(n)
+      console.log(a)
+      var tractArea = d.properties.ALAND;
+      var quant = d.properties[input.underlay];
+      var valueRaw = quant / tractArea; // quantity per area
+      console.log(valueRaw)
 
-      /*var pathLittleDots = d3.geoPath()
-          .projection(projection)
-          .pointRadius(1);      */
+      // normalize by area or total?
 
-      var globeTarget = d3.select('#overlay-target').append("svg")
-          .attr('id', 'overlay-svg-main')
-          .attr('width', window.innerWidth)
-          .attr('height', window.innerHeight)
-          .append("g")
-          .attr("class", "globe-container")
-          .attr("transform", "translate(150, 500)") // this shouldn't be absolutely positioned...
-          .on("mouseover", (d, i, n) => {
-            //console.log('globe mouseover')
-            //growGlobe();
-          });
+      var scaler = d3.scaleLinear()
+          .domain([0, 0.001]) // this should be based on the range of all values in the dataset..
+          .range([0, 0.5]);
 
-      //Create the base globe
-      var backgroundCircle = globeTarget.append("circle")
-          .attr('cx', 0)
-          .attr('cy', 0)
-          .attr('r', projection.scale())
-          .attr('class', 'globe')
-          .attr("fill", "#98bde2");
+      //console.log(d.properties[input.underlay])
+      console.log(scaler(valueRaw))
+      return scaler(valueRaw)
+    })
+}
 
-      //Add all of the countries to the globe
-      var continentPaths = globeTarget.selectAll("path")
-          .data(data.continents)
-          .enter()
-          .append("path")
-          .attr("class", "feature")
-          .attr("fill", "#d8f2a4")
-          .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
-      //Add marker at the center of the globe
-      var Circle = globeTarget.append("circle")
-          .attr('id', 'globe-marker')
-          .attr('cx', 0)
-          .attr('cy', 0)
-          .attr('r', 5)
-          //.attr('text-anchor', 'middle')
-          //.attr('dominant-baseline', 'middle')
-          //.attr('font-size', '2em')
-          .attr("fill-opacity", "1")
-          .attr("stroke", "black")
-          .attr("stroke-width", 1.5)
-          //.text("o0o0o")
-
-      var countryList = [];
-      item.countries.map( (country) => {
-        countryList.push( country.properties.ADMIN );
-      });
-
-      //Add list of countries under globe
-      var countryList = globeTarget.append("text")
-        .attr('x', 0)
-        .attr('y', 60)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr("fill", "black")
-        .selectAll('tspan')
-        .data(countryList)
-        .enter()
-        .append('tspan')
-        .attr('x', 0)
-        .attr('dy', 15)
-        .text(function(d) { return d });
-
-      }
-      callback(console.log('update globe'));
-}// draws/redraws globe widget for highlighted language
+// draws/redraws globe widget for highlighted language
 function connectElements( selected ) {  // takes array of d3 selectors
   var coords = []
   selected.forEach( (element) => {
@@ -246,7 +186,6 @@ function connectElements( selected ) {  // takes array of d3 selectors
     console.log(element.node().getBoundingClientRect());
   })
 }
-
 
 function connectTwoElements( id, from, to, color ) { // draws line between two elements, expects two 2d coordinate pair arrays
 
@@ -286,7 +225,6 @@ function connectLine( coordArray, target, options ) {
       let endTanPt = [data[coordArray.length - 1][0], data[coordArray.length - 1][1] - tanLength]
       //data.splice( 1 , 0, beginTanPt );
       data.splice( data.length - 1 , 0, endTanPt );
-      console.log(data)
       return data
     })
     .attr("d", d3.line()
@@ -332,54 +270,53 @@ function getCoords( id, options ) {
   return [latLng.lat, latLng.lng];
 }
 
-
-
 function projectPoint(x, y) {
     var point = map.latLngToLayerPoint(new L.LatLng(y, x));
     this.stream.point(point.x, point.y);
 }
 
 function modifyMapFromList(d, i, n) {
-  d.neighborhoods.forEach((neighborhood) => {
+  d3.select('#overlay-target').selectAll('svg').remove();
+
+  d.neighborhoods.forEach((neighborhood, i) => {
+    console.log(`index ${i}: ${neighborhood.properties.NTAName}`)
+
+    d3.selectAll('.selected')
+      .classed('selected', false)
+      .style('stroke', null)
+      .style('border', null)
+      .attr('transform', null)
+
+    d3.select(`#dot-${d._id}-${i}`)
+      .classed('selected', true)
+      .style('stroke', 'black')
+      //.append('text')
+      //.text('Hello')
+
+    d3.select(`#li-${d._id}`)
+      .classed('selected', true)
+      .style('border', '1px solid black')
+
+    q = d3.queue(1)
+      .defer(updateGlobe, d)
+      .defer(connectLine,
+        [
+          getCoords("globe-marker"),
+          getCoords(`dot-${d._id}-${i}`),
+          getCoords(`li-${d._id}`, {anchor: 'center-left'})
+        ],
+        '#leader-lines',
+        {
+          stroke: d.continentColor,
+          //strokedasharray: '5, 5',
+          strokewidth: 1
+        }
+      )
+      .await( (err) => {
+        if (err) throw err;
+      });
 
   })
-
-  d3.selectAll('.selected')
-    .classed('selected', false)
-    .style('stroke', null)
-    .style('border', null)
-    .attr('transform', null)
-
-  d3.select(`#dot-${d._id}`)
-    .classed('selected', true)
-    .style('stroke', 'black')
-    //.append('text')
-    //.text('Hello')
-
-  d3.select(`#li-${d._id}`)
-    .classed('selected', true)
-    .style('border', '1px solid black')
-
-  q = d3.queue(1)
-    .defer(updateGlobe, d)
-    .defer(connectLine,
-      [
-        getCoords("globe-marker"),
-        getCoords(`dot-${d._id}`),
-        getCoords(`li-${d._id}`, {anchor: 'center-left'})
-      ],
-      '#overlay-svg-main',
-      {
-        //stroke: d.continentColor,
-        strokedasharray: '5, 5',
-        strokewidth: 1
-      }
-    )
-    .await( (err) => {
-      if (err) throw err;
-    });
-
-  //updateGlobe(d);
 
   d3.select('.neighborhood-centers').selectAll('g').selectAll('*').remove(); // clear all other line/label group contents
 
@@ -401,4 +338,40 @@ function modifyMapFromList(d, i, n) {
   })
 
   d3.select('#globe-marker').attr('stroke', 'black')
+}
+
+function drawTracts( callback ) {
+  d3.json('data/queenslanguages_census.geojson', (json) => {
+
+          //console.log(json.features)
+          // returns array of objects (one for each tract/row in the csv)
+
+          // from list of object keys, populate dropdown list
+          var optionList = Object.keys(json.features[0].properties);
+          d3.select('#underlay-dropdown').selectAll('option').remove();
+
+          var menuitems = d3.select('#underlay-dropdown').selectAll('option')
+            .data( optionList )
+            .enter()
+            .append('option')
+            .attr('value', (d) => { return d })
+            .append('text')
+            .text( (d) => { return d })
+
+          // each object, use one property or a combination to determine values for choropleth
+          // based on selector
+
+          underlayTracts = d3.select('#map-svg-main').append('g')
+            .attr('id', 'census-tracts')
+            .selectAll('path')
+            .data(json.features)
+            .enter().append('path')
+            .attr('d', path)
+            .attr('fill', 'none')
+            .attr('stroke', 'grey')
+            .attr('stroke-opacity', 0.2)
+
+    //console.log(json);
+  })
+  callback(null);
 }

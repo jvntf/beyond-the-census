@@ -11,8 +11,11 @@ function updateList() {
     .key(function(d) {return d.continents[0].properties.CONTINENT;})
     .sortKeys(d3.ascending)
     .key(function(d) {return d.endangermentNum;})
-    .sortKeys(d3.ascending)
+    .sortKeys(d3.descending)
     .entries(data.languages);
+
+  languageNest.splice(2, 0, languageNest[0]); // switch africa/asia in list
+  languageNest.splice(0, 1);
 
   // get list of unique continents in the dataset (can ignore, used for color calculation)
   var uniqueContinents = d3.set(languageList, (item) => {
