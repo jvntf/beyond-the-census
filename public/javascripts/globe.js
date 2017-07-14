@@ -1,6 +1,11 @@
 function updateGlobe( item, callback ) {
   //console.log(item);
-  d3.select('#overlay-svg-main').select('#globe-container').remove(); // clear globe
+  var target = d3.select('#overlay-svg-main')
+  target.select('#globe-container').remove(); // clear globe
+  target = target.append('g')
+    .attr("id", "globe-container")
+    .attr("transform", "translate(150, 500)") // this shouldn't be absolutely positioned...
+
   var rotation = [ -item.longitude, -item.latitude ];
   var width = window.innerWidth,
       height = window.innerHeight;
@@ -25,25 +30,16 @@ function updateGlobe( item, callback ) {
           .projection(projection)
           .pointRadius(1);      */
 
-      var overlayTarget = d3.select('#overlay-target')
+      /*var overlayTarget = d3.select('#overlay-target')
           .append("svg")
           .attr('id', 'overlay-svg-main')
-          .attr('width', window.innerWidth)
-          .attr('height', window.innerHeight)
 
-          overlayTarget.append("g")
-          .attr("id", "leader-lines")
 
       var globeTarget = overlayTarget.append("g")
-          .attr("id", "globe-container")
-          .attr("transform", "translate(150, 500)") // this shouldn't be absolutely positioned...
-          .on("mouseover", (d, i, n) => {
-            //console.log('globe mouseover')
-            //growGlobe();
-          });
+          */
 
       //Create the base globe
-      var backgroundCircle = globeTarget.append("circle")
+      var backgroundCircle = target.append("circle")
           .attr('cx', 0)
           .attr('cy', 0)
           .attr('r', projection.scale())
@@ -51,7 +47,7 @@ function updateGlobe( item, callback ) {
           .attr("fill", "#98bde2");
 
       //Add all of the countries to the globe
-      var continentPaths = globeTarget.selectAll("path")
+      var continentPaths = target.selectAll("path")
           .data(data.continents)
           .enter()
           .append("path")
@@ -60,7 +56,7 @@ function updateGlobe( item, callback ) {
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
       //Add marker at the center of the globe
-      var Circle = globeTarget.append("circle")
+      var Circle = target.append("circle")
           .attr('id', 'globe-marker')
           .attr('cx', 0)
           .attr('cy', 0)
@@ -79,7 +75,7 @@ function updateGlobe( item, callback ) {
       });
 
       //Add list of countries under globe
-      var countryList = globeTarget.append("text")
+      var countryList = target.append("text")
         .attr('x', 0)
         .attr('y', 60)
         .attr('text-anchor', 'middle')
@@ -94,5 +90,5 @@ function updateGlobe( item, callback ) {
         .text(function(d) { return d });
 
       }
-      callback(null);
+      if (callback) callback(null);
 }

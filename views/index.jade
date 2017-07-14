@@ -54,7 +54,10 @@ block content
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
         L.svg({ padding: 0 }).addTo(map);  
         
-        
+        var overlaySVG = d3.select('#overlay-target').append('svg').attr('id', 'overlay-svg-main')
+          .attr('width', window.innerWidth)
+          .attr('height', window.innerHeight)        
+          
         main();
         
         function main() {

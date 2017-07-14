@@ -133,7 +133,7 @@ function updateMap() {
 
 
 
-
+    map.on("move", update)
     map.on("viewreset", update)
 
 
@@ -154,16 +154,10 @@ function update() {
   // update census tract underlay
   d3.select('#census-tracts').selectAll('path')
     .attr('fill', 'black')
-    .attr('fill-opacity', (d, i, n, a) => {
-
-      console.log(d)
-      console.log(i)
-      console.log(n)
-      console.log(a)
+    .attr('fill-opacity', (d, i, n) => {
       var tractArea = d.properties.ALAND;
       var quant = d.properties[input.underlay];
       var valueRaw = quant / tractArea; // quantity per area
-      console.log(valueRaw)
 
       // normalize by area or total?
 
@@ -172,7 +166,7 @@ function update() {
           .range([0, 0.5]);
 
       //console.log(d.properties[input.underlay])
-      console.log(scaler(valueRaw))
+      //console.log(scaler(valueRaw))
       return scaler(valueRaw)
     })
 }
@@ -182,8 +176,8 @@ function update() {
 function connectElements( selected ) {  // takes array of d3 selectors
   var coords = []
   selected.forEach( (element) => {
-    console.log(element);
-    console.log(element.node().getBoundingClientRect());
+    //console.log(element);
+    //console.log(element.node().getBoundingClientRect());
   })
 }
 
@@ -276,10 +270,13 @@ function projectPoint(x, y) {
 }
 
 function modifyMapFromList(d, i, n) {
-  d3.select('#overlay-target').selectAll('svg').remove();
+  var overlayTarget = d3.select('#overlay-target').select('svg')
+  overlayTarget.selectAll('g').remove();
+  overlayTarget.append('g').attr('id', 'leader-lines');
 
   d.neighborhoods.forEach((neighborhood, i) => {
-    console.log(`index ${i}: ${neighborhood.properties.NTAName}`)
+    //console.log(`index ${i}: ${neighborhood.properties.NTAName}`)
+    updateGlobe(d);
 
     d3.selectAll('.selected')
       .classed('selected', false)
@@ -297,9 +294,7 @@ function modifyMapFromList(d, i, n) {
       .classed('selected', true)
       .style('border', '1px solid black')
 
-    q = d3.queue(1)
-      .defer(updateGlobe, d)
-      .defer(connectLine,
+    connectLine(
         [
           getCoords("globe-marker"),
           getCoords(`dot-${d._id}-${i}`),
@@ -312,9 +307,6 @@ function modifyMapFromList(d, i, n) {
           strokewidth: 1
         }
       )
-      .await( (err) => {
-        if (err) throw err;
-      });
 
   })
 
