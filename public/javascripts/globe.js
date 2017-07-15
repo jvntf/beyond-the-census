@@ -61,13 +61,10 @@ function updateGlobe( item, callback ) {
           .attr('cx', 0)
           .attr('cy', 0)
           .attr('r', 5)
-          //.attr('text-anchor', 'middle')
-          //.attr('dominant-baseline', 'middle')
-          //.attr('font-size', '2em')
+          .attr("fill", item.color)
           .attr("fill-opacity", "1")
-          .attr("stroke", "black")
+          .attr("stroke", item.color.darker())
           .attr("stroke-width", 1.5)
-          //.text("o0o0o")
 
       var countryList = [];
       item.countries.map( (country) => {

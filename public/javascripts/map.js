@@ -109,9 +109,9 @@ function updateMap() {
                     },
                     "properties": {}
                   };
-              point.properties.color = thisLang.continentColor;
-              point.properties.color.c = 80;
-              point.properties.color.l = 85;
+              point.properties.color = thisLang.color;
+              //point.properties.color.c = 80;
+              //point.properties.color.l = 85;
               point.geometry.coordinates = dotDensityPoints( 1, neighborhood.geometry )[0]
               return point;
             })
@@ -122,9 +122,8 @@ function updateMap() {
               return d.properties.color
             })
             .attr("stroke", (d) => {
-              return d.properties.color.darker()
-            })
-            .attr("stroke-width", '1')
+              return d.properties.color.darker() })
+            .attr("stroke-width", '2')
         })
       })
       langDots = d3.selectAll('.lang-dot')
@@ -145,7 +144,7 @@ function update() {
   //underlayDots.attr("d", pathLittleDots);
   langDots.attr("d", path);
   queensOtln.attr("d", path);
-  underlayTracts.attr("d", path);
+  //underlayTracts.attr("d", path);
 
   d3.selectAll('.selected').classed('selected', false);
   d3.select('#globe-target').remove();
@@ -286,13 +285,13 @@ function modifyMapFromList(d, i, n) {
 
     d3.select(`#dot-${d._id}-${i}`)
       .classed('selected', true)
-      .style('stroke', 'black')
+      .style('stroke', d.color.darker())
       //.append('text')
       //.text('Hello')
 
     d3.select(`#li-${d._id}`)
       .classed('selected', true)
-      .style('border', '1px solid black')
+      .style('border', d.color.darker())
 
     connectLine(
         [
@@ -302,9 +301,9 @@ function modifyMapFromList(d, i, n) {
         ],
         '#leader-lines',
         {
-          stroke: d.continentColor,
+          stroke: d.color,
           //strokedasharray: '5, 5',
-          strokewidth: 1
+          strokewidth: 2
         }
       )
 

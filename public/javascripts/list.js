@@ -3,24 +3,6 @@
 function updateList() {
 
   var textTarget = d3.select('#text-target'); // get target HTML node to append things to
-  var languageList = data.languages;  // get current in-memory list of languages
-
-  // make the flat list of languages into a nested data structure,
-  // grouped/sorted by continents and then by endangerment level
-  var languageNest = d3.nest()
-    .key(function(d) {return d.continents[0].properties.CONTINENT;})
-    .sortKeys(d3.ascending)
-    .key(function(d) {return d.endangermentNum;})
-    .sortKeys(d3.descending)
-    .entries(data.languages);
-
-  languageNest.splice(2, 0, languageNest[0]); // switch africa/asia in list
-  languageNest.splice(0, 1);
-
-  // get list of unique continents in the dataset (can ignore, used for color calculation)
-  var uniqueContinents = d3.set(languageList, (item) => {
-      return item.continents[0].properties.CONTINENT
-    }).values();
 
   /*
     from here down, start adding HTML to the DOM
@@ -45,47 +27,13 @@ function updateList() {
   textTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
 
   var continentItem = textTarget.selectAll('div') // make continent container DIVs
-      .data(languageNest)
+      .data(data.main) // this data comes already nested/sorted from data.main (was languageNest)
     .enter().append('div')
       .attr('class', 'continent-item')
 
-    continentItem.datum( (d, i, n) => { // modify data for continents (calculate fill color)
-      var dModified = d;
-
-      var numContinents = n.length;
-
-      /*
-      this part needs to append a new object to d.colors,
-      with a color value for each break in that continent's
-      list of endangerment levels.
-      this gets passed on to list items and map dots
-      so they can be drawn with the appropriate color
-      also gets passed to the color scale in each continent's header
-
-      var lMap = d3.scaleLinear()
-          .domain([0, 9])
-          .range([75, 110]);
-      var colorAdjusted = d.continentColor
-      colorAdjusted.l = parseInt(lMap(d.endangermentNum));
-      return colorAdjusted;
-      */
-
-      var hMap = d3.scaleLinear()
-          .domain([0, numContinents])
-          .range([0,360]);
-      dModified.color = d3.hcl( hMap(i) , 50, 75, 1 );
-      dModified.values.map( (item) => {
-        var itemModified = item;
-        itemModified.values.map( (subItem => {
-          var subItemModified = subItem;
-          subItemModified.continentColor = dModified.color;
-          return subItemModified;
-        }));
-        return itemModified;
-      })
-
-      return dModified;
-    })
+    //continentItem.datum(   <-- this was for the data modification part, now happening in updateData function
+    //
+    //)
 
   var continentLabel = continentItem.append("div") // label header for continent
       .attr('class', 'continent-item-label')
@@ -93,7 +41,9 @@ function updateList() {
       .style('color', 'white')
 
       continentLabel.append('p')
-      .text((d) => { return d.key });
+      .text((d) => {
+        //console.log(d)
+        return d.key });
 
 //  var endangermentScale = continentLabel.append('span')
 //      .attr('class', 'endangerment-scale')
@@ -142,22 +92,21 @@ function updateList() {
       .attr('class', 'language-list')
 
   var endangermentItem = languageList.selectAll("div") // ignore this. doesn't do anything (in case we want separate divs for endangerment status)
-      .data( (d) => { return d.values} )
-      .enter();
+      .data( (d) => {
+        console.log(d)
+        return d.values } )
+     .enter();
 
   var languageItem = endangermentItem.selectAll("span") // make each language tag
-      .data( (d) => { return d.values } )
+      .data( (d) => {
+        console.log(d)
+        return d.values } )  // shift data (next level down nest?)
       .enter().append("span")
       .attr('id', (d) => { return `li-${d._id}` })
       .attr('class', 'language-item')
       .text((d) => {return d.language})
-      .style('background', (d, i, n) => {
-        var lMap = d3.scaleLinear()
-            .domain([0, 9])
-            .range([75, 110]);
-        var colorAdjusted = d.continentColor
-        colorAdjusted.l = parseInt(lMap(d.endangermentNum));
-        return colorAdjusted;
+      .style('background', (d) => {
+        return d.color
       })
       .style('color', 'black')
       .on('click', (d, i, n) => {
