@@ -5,22 +5,27 @@ block content
       #overlay-target
       #map-target
     #html-container
-      #title
-        h1 Queens Language Map
-        input(id="show-about-content" type="button" value="about")
-        #about-content.hidden
-          p This map shows the incredible diversity of languages spoken in Queens, NY, based on a dataset from the Endangered Language Alliance.
-          input(id="hide-about-content" type="button" value="hide")
+      //#title
+      //  h1 Languages of Queens
+      //  input(id="show-about-content" type="button" value="about")
+      //  #about-content.hidden
+      //    p This map shows the incredible diversity of languages spoken in Queens, NY, based on a dataset from the Endangered Language Alliance.
+      //    input(id="hide-about-content" type="button" value="hide")
+      #lang-content.card.upper-left
       #list-container
         div.continent-item.filter
           div.continent-item-label
-            h2 Languages 
-            p (by Continent)
+            h1 Languages of Queens
           div.filter-inputs
+            p Grouping:
             //input(id="filter-string" type='text')
+            select(name="select-sortby" id="select-sortby")
+              option by Continent
             p Endangerment:
-            input(id="filter-endangerment" type='range' step=1 min=1 max=10)
+            #slider-range
+            #slider-range-labels
         #text-target.list-block
+
       #underlay-controls
         h2 Map Underlay
         p Select data set to show on the map of Queens here:
@@ -36,7 +41,7 @@ block content
         var input = {
             'filterstring': '',
             'filtertype': 'langname',
-            'endangerment': 5,
+            'endangermentRange': [0,10],
             'string': '',
             'underlay': 'Spanish or Spanish Creole'
           }, searchOptions = {
@@ -53,7 +58,9 @@ block content
   
         var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: false}).setView([40.67, -73.78], 11.5);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map);
-        L.svg({ padding: 0 }).addTo(map);  
+        L.svg({ padding: 0 }).addTo(map);
+        
+        //map.fitBounds( [] ) use fitBounds to scale map to fit window  
         
         var overlaySVG = d3.select('#overlay-target').append('svg').attr('id', 'overlay-svg-main')
           .attr('width', window.innerWidth)
@@ -62,13 +69,11 @@ block content
         main();
         
         function main() {
-          updateData( input.filtertype, input.filterstring, () => {
+          updateData( input.filtertype, input.filterstring, input.endangermentRange, () => {
             updateList();
             updateMap();
-          });          
+          });
         }
-
-        
         d3.select('#loading')
           .classed('hidden', true);
         
@@ -81,12 +86,18 @@ block content
           
         d3.select('#filter-endangerment')
           .on('input', function() {
-            input.endangerment = d3.select(this).property('value');
-            getLanguageData( {min: 0, max: input.endangerment, string: input.string}, (json) => {
-              console.log(json)
-            });
-            console.log(input.endangerment);
+            input.endangerment = d3.select(this).property('value'); // update endangerment value
+            main(); // call main function, (fetch data and rerender)
           })
+          
+        $('#slider-range').slider({
+            change: function(event, ui) {
+              input.endangermentRange = ui.values
+              //$('#slider-range-labels').
+              main();
+              //console.log(` min is ${min} and max is ${max}`)
+            } 
+        })
         
         d3.select('#underlay-dropdown')
           .on('input', function() {

@@ -39,12 +39,12 @@ function getFilteredData(collection, query, callback) {
     });
 }
 
-function updateData(mode, input, callback) {
-
+function updateData(mode, input, endangermentRange, callback) {
   //begin data fetching part:
   setTimeout(function() {
     if (mode == 'langname' ) {
-      getData( 'languages', [], (response) => {  // get main language data
+      getLanguageData( {min: endangermentRange[0], max: endangermentRange[1]}, (response) => {
+      //getData( 'languages', [], (response) => {  // get main language data
         filterData( input, response, (filterresponse) => {
           data.languages = filterresponse;
           getData( 'countries', [], (response) => {
@@ -99,10 +99,10 @@ function updateData(mode, input, callback) {
 
                 function initColorMaps( callback ) {
                  hueMap = d3.scaleLinear()
-                     .domain([0, 5])
-                     .range([0,360]);
+                     .domain([0, 4])
+                     .range([0,300]);
                  luminanceMap = d3.scaleLinear()
-                     .domain([0, 9])
+                     .domain([1, 9])
                      .range([75, 110]);
                  callback(null);
                 }
@@ -119,13 +119,11 @@ function updateData(mode, input, callback) {
                 }
 
                 function calcColors(callback) {  //language nest, assign color to each
-
                  languageNest.map( (continent, i ) => {
-                   console.log(i)
                    continent.colors = [];
                    continent.values.map( (endangerment) => {
                      endangerment.values.map( (language) => {
-                       language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 50, luminanceMap(endangerment.key), 1 );
+                       language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 75, luminanceMap(endangerment.key), 1 );
                      })
                    });
                  })
@@ -140,8 +138,6 @@ function updateData(mode, input, callback) {
                   //})
                   // dModified.colors = colors;
                   //console.log(colors)
-                  console.log(endangermentList)
-                  console.log(languageNest)
                   callback(null)
                 }
 
@@ -223,7 +219,7 @@ function getUnderlayData( dataset, callback ) {
 }
 
 function getLanguageData( query, callback ) {
-  let url = `../languages/${query.min}.${query.max}.${query.string}`;
+  let url = `../languages/${query.min}.${query.max}`;
   d3.json(url, (json) => {
     callback(json)
   })

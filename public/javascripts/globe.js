@@ -63,8 +63,8 @@ function updateGlobe( item, callback ) {
           .attr('r', 5)
           .attr("fill", item.color)
           .attr("fill-opacity", "1")
-          .attr("stroke", item.color.darker())
-          .attr("stroke-width", 1.5)
+          //.attr("stroke", item.color.darker())
+          //.attr("stroke-width", 1.5)
 
       var countryList = [];
       item.countries.map( (country) => {

@@ -16,10 +16,17 @@ function updateMap() {
         })
     };
 
-    var mapLayer = d3.select('#map-target').select('svg')
-      .attr("id", "map-svg-main");
+    var mapLayer = d3.select('#map-target').select('svg');
+    mapLayer.selectAll('*').remove();
+    mapLayer.attr("id", "map-svg-main");
 
-    var annoLayer = d3.select('#annotation-target').append('svg')
+    mapLayer.append('g').attr('id', 'map-censustracts') // initialize map groups
+    mapLayer.append('g').attr('id', 'map-queensotln')
+    mapLayer.append('g').attr('id', 'map-dotdensity')
+
+    var annoLayer = d3.select('#annotation-target');
+    annoLayer.selectAll('*').remove();
+    annoLayer.append('svg')
       .attr("id", "annotation-svg-main");
 
     mapLayer.attr("width", window.innerWidth)
@@ -37,16 +44,17 @@ function updateMap() {
 
       .defer(drawNeighborhoodGroups)
       .defer(drawQueensOutline)
-      .defer(drawDotDensity)
       .defer(drawTracts)
+      .defer(drawDotDensity)
       .await( (err) => {
         if (err) throw err;
         update();
       })
 
     function drawQueensOutline(callback) {
+      var outlineLayer = d3.select('#map-queensotln')
       d3.json("/data/queens_re.geojson", function(json) {
-        queensOtln = mapLayer.append("path")
+        queensOtln = outlineLayer.append("path")
           .attr("class", "queens-outline")
           .datum(json)
           .attr("d", path)
@@ -58,7 +66,7 @@ function updateMap() {
     }
 
     function drawNeighborhoodGroups(callback) {
-      mapLayer.selectAll("g")
+      d3.select('#map-dotdensity').selectAll("g")
         .data(neighborhoodsAll.features)
         .enter()
         .append("g")
@@ -121,9 +129,11 @@ function updateMap() {
             .attr("fill", (d) => {
               return d.properties.color
             })
-            .attr("stroke", (d) => {
-              return d.properties.color.darker() })
-            .attr("stroke-width", '2')
+            //.attr("stroke", "white")
+            //.attr("stroke-width", "1")
+            //.attr("stroke", (d) => {
+            //  return d.properties.color.darker() })
+            //.attr("stroke-width", '2')
         })
       })
       langDots = d3.selectAll('.lang-dot')
@@ -144,15 +154,15 @@ function update() {
   //underlayDots.attr("d", pathLittleDots);
   langDots.attr("d", path);
   queensOtln.attr("d", path);
-  //underlayTracts.attr("d", path);
+  underlayTracts.attr("d", path);
 
   d3.selectAll('.selected').classed('selected', false);
   d3.select('#globe-target').remove();
-  d3.select('.globe-container').selectAll('text').remove();
+  d3.select('#globe-container').selectAll('text').remove();
 
   // update census tract underlay
-  d3.select('#census-tracts').selectAll('path')
-    .attr('fill', 'black')
+  d3.select('#map-censustracts').selectAll('path')
+    .attr('fill', 'gray')
     .attr('fill-opacity', (d, i, n) => {
       var tractArea = d.properties.ALAND;
       var quant = d.properties[input.underlay];
@@ -215,9 +225,9 @@ function connectLine( coordArray, target, options ) {
       let data = coordArray
       let tanLength = 0.05
       //let beginTanPt = [data[0][0], data[0][1] + tanLength]
-      let endTanPt = [data[coordArray.length - 1][0], data[coordArray.length - 1][1] - tanLength]
+      //let endTanPt = [data[coordArray.length - 1][0], data[coordArray.length - 1][1] - tanLength]
       //data.splice( 1 , 0, beginTanPt );
-      data.splice( data.length - 1 , 0, endTanPt );
+      //data.splice( data.length - 1 , 0, endTanPt );
       return data
     })
     .attr("d", d3.line()
@@ -285,13 +295,12 @@ function modifyMapFromList(d, i, n) {
 
     d3.select(`#dot-${d._id}-${i}`)
       .classed('selected', true)
-      .style('stroke', d.color.darker())
-      //.append('text')
+      //.style('stroke', 'black')
       //.text('Hello')
 
     d3.select(`#li-${d._id}`)
       .classed('selected', true)
-      .style('border', d.color.darker())
+      //.style('border', '1px solid black')
 
     connectLine(
         [
@@ -301,9 +310,9 @@ function modifyMapFromList(d, i, n) {
         ],
         '#leader-lines',
         {
-          stroke: d.color,
-          //strokedasharray: '5, 5',
-          strokewidth: 2
+          stroke: 'gray', // was d.color
+          strokedasharray: '5, 5',
+          strokewidth: 1
         }
       )
 
@@ -319,16 +328,16 @@ function modifyMapFromList(d, i, n) {
   //console.log(listItemBounds);
   listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
 
-  globePoint = parseTransform(d3.select('.globe-container').attr('transform')).translate;
+  globePoint = parseTransform(d3.select('#globe-container').attr('transform')).translate;
 
   d3.select('#globe-marker').attr('fill', function() {
-    var colorAdjusted = d.continentColor
+    var colorAdjusted = d.color
     colorAdjusted.l = 85;
     colorAdjusted.c = 80;
     return colorAdjusted
   })
 
-  d3.select('#globe-marker').attr('stroke', 'black')
+  d3.select('#globe-marker')//.attr('stroke', 'black')
 }
 
 function drawTracts( callback ) {
@@ -352,15 +361,14 @@ function drawTracts( callback ) {
           // each object, use one property or a combination to determine values for choropleth
           // based on selector
 
-          underlayTracts = d3.select('#map-svg-main').append('g')
-            .attr('id', 'census-tracts')
+          underlayTracts = d3.select('#map-censustracts')
             .selectAll('path')
             .data(json.features)
             .enter().append('path')
             .attr('d', path)
             .attr('fill', 'none')
-            .attr('stroke', 'grey')
-            .attr('stroke-opacity', 0.2)
+            .attr('stroke', 'rgb(222, 222, 222)')
+            .attr('stroke-width', '0.5px')
 
     //console.log(json);
   })

@@ -5,14 +5,41 @@ body {
   margin: 0px;
 }
 
+lang-content p {
+  margin-top: 2em;
+}
+
+/* ~~~ fixed-position containers ~~~ */
+
+.upper-left {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  max-width: 30vw;
+}
+
+/* ~~~ slider ~~~ */
+
+
+.ui-slider-handle {
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background: white;
+}
+
+.ui-slider-handle:focus {
+  outline: none;
+}
+
 #title {
   position: fixed;
   top: 10px;
   left: 10px;
   max-width: 30vw;
   padding: 10px;
-  background: black;
-  color: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   z-index: 2;
 }
 
@@ -40,8 +67,8 @@ body {
   bottom: 10px;
   left: 10px;
   padding: 10px;
-  background: black;
-  color: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 #underlay-controls h2 {
@@ -94,19 +121,23 @@ body {
 }
 
 .continent-item {
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   margin: 10px;
-  background: rgba(255,255,255,0.5);
 }
 
 .continent-item-label {
-  background: black;
-  color: white;
+
   padding: 10px;
 }
 
 .filter {
-  background: black;
-  color: white;
+}
+
+
+.continent-item-filter {
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .filter-inputs {
@@ -116,8 +147,6 @@ body {
 
 .filter-inputs input {
   width: 100%;
-  background: black;
-  color: white;
   font-family: inherit;
   border: none;
   border-bottom: 2px solid white;
@@ -152,4 +181,23 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+.card {
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  padding: 5px;
+}
+
+.card p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.card a {
+  display: inline-block;
+  padding: 4px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  border: 1px solid black;
 }

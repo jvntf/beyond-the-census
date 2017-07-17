@@ -190,21 +190,21 @@ router.get('/underlay/:dataset', function (req, res) {
     });*/
 });
 
-/* GET language list for the map and key based on a filter query */
-router.get('/languages/:endMin.:endMax.:searchstring', function (req, res) {
+/* GET language list based on endangerment range */
+router.get('/languages/:endMin.:endMax', function (req, res) {
     //res.json({min: req.params.endMin,
     //          max: req.params.endMax,
     //          string: req.params.searchstring})
     var query = {
                   $and: [
-                    {endangermentNum: { $lt: req.params.endMax }},
-                    {endangermentNum: { $gt: req.params.endMin }},
-                    {$text: { $search: req.params.searchstring }}
+                    {endangermentNum: { $lt: parseInt(req.params.endMax) }},
+                    {endangermentNum: { $gt: parseInt(req.params.endMin) }}
+                    //{$text: { $search: req.params.searchstring }}
                    ]
                 }
-    console.log(query);
-    if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
-    console.log(query);
+    console.log(req.params.endMax)
+    console.log(req.params.endMin)
+    //if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
     Language.find(query)
     .populate({ path: 'countries', select: 'properties' })
     .populate({ path: 'continents', select: 'properties' })

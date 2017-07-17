@@ -37,8 +37,6 @@ function updateList() {
 
   var continentLabel = continentItem.append("div") // label header for continent
       .attr('class', 'continent-item-label')
-      .style('background', 'black')
-      .style('color', 'white')
 
       continentLabel.append('p')
       .text((d) => {
@@ -93,13 +91,11 @@ function updateList() {
 
   var endangermentItem = languageList.selectAll("div") // ignore this. doesn't do anything (in case we want separate divs for endangerment status)
       .data( (d) => {
-        console.log(d)
         return d.values } )
      .enter();
 
   var languageItem = endangermentItem.selectAll("span") // make each language tag
       .data( (d) => {
-        console.log(d)
         return d.values } )  // shift data (next level down nest?)
       .enter().append("span")
       .attr('id', (d) => { return `li-${d._id}` })
@@ -110,6 +106,36 @@ function updateList() {
       })
       .style('color', 'black')
       .on('click', (d, i, n) => {
+            //console.log(n[i])
+            //.style('border', (d) => {return `2px solid ${d.color.darker()}`})
             modifyMapFromList(d, i, n);
+            updateLanguageCard(d);
           })
+
+          function updateLanguageCard(data) {
+            console.log(data)
+            console.log('update language card')
+
+            var countriesSpoken = data.countries.map( (item) => {
+              return item.properties.ADMIN
+            }).join(", ")
+            console.log(countriesSpoken)
+
+            var neighborhoodsSpoken = data.neighborhoods.map( (item) => {
+              return item.properties.NTAName
+            }).join(", ")
+            console.log(neighborhoodsSpoken)
+
+            var card = d3.select('#lang-content');
+            card.selectAll('*').remove();
+            card.append('h2').text(() => {return data.language});
+            card.append('p').text(() => {return data.description});
+            card.append('p').text(() => {return `Endangerment: ${data.endagerment}`});
+            card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
+            card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
+            card.append('a').attr('href', () => {return data.wiki}).text('wikipedia');
+            card.append('a').attr('href', () => {return data.ethno}).text('ethnologue');
+
+          }
+
 }
