@@ -106,9 +106,10 @@ function updateList() {
       })
       .style('color', 'black')
       .on('click', (d, i, n) => {
+            console.log(d)
             //console.log(n[i])
             //.style('border', (d) => {return `2px solid ${d.color.darker()}`})
-            modifyMapFromList(d, i, n);
+            modifyMapFromList(d._id);
             updateLanguageCard(d);
           })
 
@@ -133,8 +134,14 @@ function updateList() {
             card.append('p').text(() => {return `Endangerment: ${data.endagerment}`});
             card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
             card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-            card.append('a').attr('href', () => {return data.wiki}).text('wikipedia');
-            card.append('a').attr('href', () => {return data.ethno}).text('ethnologue');
+            card.append('a')
+              .attr('href', () => {return data.wiki}).text('wikipedia')
+              .attr('target', 'blank')
+              .attr('class', 'card');
+            card.append('a')
+              .attr('href', () => {return data.ethno}).text('ethnologue')
+              .attr('target', 'blank')
+              .attr('class', 'card');
 
           }
 

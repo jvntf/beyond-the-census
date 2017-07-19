@@ -1,10 +1,12 @@
 function updateGlobe( item, callback ) {
   //console.log(item);
-  var target = d3.select('#overlay-svg-main')
+  var target = d3.select('#globe-target')
   target.select('#globe-container').remove(); // clear globe
   target = target.append('g')
     .attr("id", "globe-container")
-    .attr("transform", "translate(150, 500)") // this shouldn't be absolutely positioned...
+    .attr("transform", "translate(120,120)") // this shouldn't be absolutely positioned...
+
+
 
   var rotation = [ -item.longitude, -item.latitude ];
   var width = window.innerWidth,
