@@ -73,7 +73,7 @@ function updateGlobe( item, callback ) {
         countryList.push( country.properties.ADMIN );
       });
 
-      //Add list of countries under globe
+      /*  //Add list of countries under globe
       var countryList = target.append("text")
         .attr('x', 0)
         .attr('y', 60)
@@ -86,7 +86,7 @@ function updateGlobe( item, callback ) {
         .append('tspan')
         .attr('x', 0)
         .attr('dy', 15)
-        .text(function(d) { return d });
+        .text(function(d) { return d }); */
 
       }
       if (callback) callback(null);

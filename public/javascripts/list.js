@@ -29,7 +29,8 @@ function updateList() {
   var continentItem = textTarget.selectAll('div') // make continent container DIVs
       .data(data.main) // this data comes already nested/sorted from data.main (was languageNest)
     .enter().append('div')
-      .attr('class', 'continent-item')
+      .classed('continent-item', true)
+      .classed('card', true)
 
     //continentItem.datum(   <-- this was for the data modification part, now happening in updateData function
     //
@@ -106,43 +107,44 @@ function updateList() {
       })
       .style('color', 'black')
       .on('click', (d, i, n) => {
-            console.log(d)
-            //console.log(n[i])
-            //.style('border', (d) => {return `2px solid ${d.color.darker()}`})
+            showNarrativePanel();
             modifyMapFromList(d._id);
-            updateLanguageCard(d);
+            updateLanguageCard(d._id);
           })
+}
 
-          function updateLanguageCard(data) {
-            console.log(data)
-            console.log('update language card')
+function updateLanguageCard( id ) {
+  console.log(id)
+  dataItem = data.languages.find( (item) => {
+    return item._id == id;
+  })
 
-            var countriesSpoken = data.countries.map( (item) => {
-              return item.properties.ADMIN
-            }).join(", ")
-            console.log(countriesSpoken)
+  console.log(dataItem)
+  console.log('update language card')
 
-            var neighborhoodsSpoken = data.neighborhoods.map( (item) => {
-              return item.properties.NTAName
-            }).join(", ")
-            console.log(neighborhoodsSpoken)
+  var countriesSpoken = dataItem.countries.map( (item) => {
+    return item.properties.ADMIN
+  }).join(", ")
+  console.log(countriesSpoken)
 
-            var card = d3.select('#lang-content');
-            card.selectAll('*').remove();
-            card.append('h2').text(() => {return data.language});
-            card.append('p').text(() => {return data.description});
-            card.append('p').text(() => {return `Endangerment: ${data.endagerment}`});
-            card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
-            card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-            card.append('a')
-              .attr('href', () => {return data.wiki}).text('wikipedia')
-              .attr('target', 'blank')
-              .attr('class', 'card');
-            card.append('a')
-              .attr('href', () => {return data.ethno}).text('ethnologue')
-              .attr('target', 'blank')
-              .attr('class', 'card');
+  var neighborhoodsSpoken = dataItem.neighborhoods.map( (item) => {
+    return item.properties.NTAName
+  }).join(", ")
+  console.log(neighborhoodsSpoken)
 
-          }
-
+  var card = d3.select('#lang-content');
+  card.selectAll('*').remove();
+  card.append('h2').text(() => {return dataItem.language});
+  card.append('p').text(() => {return dataItem.description});
+  card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
+  card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
+  card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
+  card.append('a')
+    .attr('href', () => {return dataItem.wiki}).text('wikipedia')
+    .attr('target', 'blank')
+    .attr('class', 'card');
+  card.append('a')
+    .attr('href', () => {return dataItem.ethno}).text('ethnologue')
+    .attr('target', 'blank')
+    .attr('class', 'card');
 }

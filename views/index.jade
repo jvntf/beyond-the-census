@@ -9,7 +9,13 @@ block content
       //  #about-content.hidden
       //    p This map shows the incredible diversity of languages spoken in Queens, NY, based on a dataset from the Endangered Language Alliance.
       //    input(id="hide-about-content" type="button" value="hide")
-      #detail-container.card.upper-right
+      div.upper-right.card.narrow
+        input(type="button" value="<--" onClick="toggleNarrativePanel()")
+      #detail-container.card.upper-right.offscreen-right
+        #detail-container-header
+        input(type="button" value="-->" onClick="toggleNarrativePanel()")
+        input(type="button" value="underlay" onClick="drawUnderlay()")
+
         #lang-content
         svg(id="globe-target" viewBox="0 0 240 240")
         
@@ -18,7 +24,7 @@ block content
           option( value="nonenglish") Percent Speaking Languages other than English        
           option( value="medincome") Median Income      
       #list-container
-        div.continent-item.filter
+        div.continent-item.filter.card
           div.continent-item-label
             h1 Languages of Queens
             p 
@@ -33,6 +39,7 @@ block content
             //select(name="select-sortby" id="select-sortby")
             //  option by Continent
             p Endangerment:
+            //input(type="range" multiple value="0,10")
             #slider-range
             #slider-labels
               #slider-label-left | Healthy
@@ -64,10 +71,11 @@ block content
             neighborhoods: [],
             selected: {}
           }, 
-          path, 
-          transform;
+          zoomInitial = 11.75;
+          //path, 
+          //transform;
   
-        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: true}).setView([40.67, -73.84], 11.8);
+        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: true}).setView([40.67, -73.84], zoomInitial);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
         L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map 
         
@@ -85,9 +93,11 @@ block content
         function main() {
           updateData( input.filtertype, input.filterstring, input.endangermentRange, () => {
             updateList();
-            updateMap();
+            //updateMap();
+            drawDotMap();
           });
         }
+        
         d3.select('#loading')
           .classed('hidden', true);
         
@@ -108,13 +118,16 @@ block content
             change: function(event, ui) {
               input.endangermentRange = ui.values;
               //$('#slider-range-labels').
-              
-              data.languages
-              updateList();
-              updateMap();
+              buildDataTree( () => {
+                updateList();
+                //updateMap();
+                drawDotMap();
+              })
               //console.log(` min is ${min} and max is ${max}`)
             } 
         })
+        
+        d3.select()
         
         d3.select('#underlay-dropdown')
           .on('input', function() {

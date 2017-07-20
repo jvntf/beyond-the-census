@@ -1,6 +1,11 @@
 /*
 
   handles choropleth underlay functionality
+
+  to-do:
+  add queens outline or clip underlays to bounds so it's visible
+
+
   functions:
 
   populateUnderlayDropdown
@@ -77,7 +82,8 @@ function drawUnderlay() {
             //fillOpacity: 0.7
         };
     }
-    d3.select('#map-svg-main').raise().on('click', () => { console.log('you clicked the map')});  // move up the heirachy so this draws on top of the leaflet choropleth underlay
- // ensure d3 drawing layer is still on top
+    d3.select('#map-svg-main').raise()
+      //.on('click', () => { console.log('you clicked the map')});  // move up the heirachy so this draws on top of the leaflet choropleth underlay
+      // ensure d3 drawing layer is still on top
   })
 }
