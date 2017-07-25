@@ -17,7 +17,7 @@ function updateGlobe( item, callback ) {
   function init(){
       // set projection
       var projection = d3.geoOrthographic()
-          .scale(60)
+          .scale(100)
           .rotate( rotation )
           //.center( center )
           .translate([0, 0])
@@ -46,7 +46,7 @@ function updateGlobe( item, callback ) {
           .attr('cy', 0)
           .attr('r', projection.scale())
           .attr('class', 'globe')
-          .attr("fill", "#98bde2");
+          .attr("fill", "#e0eaf9");
 
       //Add all of the countries to the globe
       var continentPaths = target.selectAll("path")
@@ -54,7 +54,7 @@ function updateGlobe( item, callback ) {
           .enter()
           .append("path")
           .attr("class", "feature")
-          .attr("fill", "#d8f2a4")
+          .attr("fill", "#ffffff")
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
       //Add marker at the center of the globe

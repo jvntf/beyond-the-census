@@ -108,8 +108,8 @@ function updateList() {
       .style('color', 'black')
       .on('click', (d, i, n) => {
             showNarrativePanel();
-            modifyMapFromList(d._id);
             updateLanguageCard(d._id);
+            modifyMapFromList(d._id);
           })
 }
 
@@ -139,11 +139,12 @@ function updateLanguageCard( id ) {
   card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
   card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
   card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-  card.append('a')
-    .attr('href', () => {return dataItem.wiki}).text('wikipedia')
-    .attr('target', 'blank')
-    .attr('class', 'card');
-  card.append('a')
+  var buttongroup = card.append('div').attr('class', 'button-group');
+  buttongroup.append('a')
+      .attr('href', () => {return dataItem.wiki}).text('wikipedia')
+      .attr('target', 'blank')
+      .attr('class', 'card');
+  buttongroup.append('a')
     .attr('href', () => {return dataItem.ethno}).text('ethnologue')
     .attr('target', 'blank')
     .attr('class', 'card');

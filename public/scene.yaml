@@ -7,6 +7,7 @@ sources:
         max_zoom: 16
 
 layers:
+
     earth:
         data: { source: mapzen }
         draw:
@@ -20,3 +21,17 @@ layers:
             polygons:
                 order: function() { return feature.sort_rank; }
                 color: '#e0eaf9'
+
+    landuse:
+        data: {source: mapzen }
+        draw:
+            polygons:
+                order: function() {return feature.sort_rank; }
+                color: '#f3f7ef'
+
+    places:
+        data: {source: mapzen }
+        draw:
+            polygons:
+                order: function() {return feature.sort_rank; }
+                color: '#f3f7ef'

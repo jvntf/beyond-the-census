@@ -167,6 +167,20 @@ router.get('/languages/BYEND/:endangerment', function (req, res) {
     });
 })
 
+// GET filtered languages based on language name and endangerment level
+// with populated countries, continents and neighborhoods (with geometry)
+router.get('/languages/BYID/:id', function (req, res) {
+    Language.find({
+      _id: req.params.id
+    })
+    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'continents', select: 'properties' })
+    .populate({ path: 'neighborhoods'})
+    .exec( function (err, docs) {
+        res.json(docs);
+    });
+})
+
 /* GET institution by ID */
 router.get('/institutions/:id', function (req, res) {
     if (req.params.id) {

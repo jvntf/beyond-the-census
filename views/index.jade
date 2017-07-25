@@ -9,43 +9,42 @@ block content
       //  #about-content.hidden
       //    p This map shows the incredible diversity of languages spoken in Queens, NY, based on a dataset from the Endangered Language Alliance.
       //    input(id="hide-about-content" type="button" value="hide")
-      div.upper-right.card.narrow
-        input(type="button" value="<--" onClick="toggleNarrativePanel()")
-      #detail-container.card.upper-right.offscreen-right
+      //div.upper-right.card.narrow
+        //input(type="button" value="<--" onClick="toggleNarrativePanel()")
+      #detail-container.card.upper-right
         #detail-container-header
-        input(type="button" value="-->" onClick="toggleNarrativePanel()")
-        input(type="button" value="underlay" onClick="drawUnderlay()")
+        
+          // input(type="button" value="underlay" onClick="drawUnderlay()")
 
         #lang-content
+          p 
+            | This map uses data produced by the Endangered Language Alliance 
+            | on languages spoken throughout the borough. Queens is one of the most linguistically diverse places on earth - 
+            | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
+            | Many features in New York's language landscape remain unknown. 
+                   
         svg(id="globe-target" viewBox="0 0 240 240")
         
-        h2 Map Underlay
-        select(id="underlay-dropdown")
-          option( value="nonenglish") Percent Speaking Languages other than English        
-          option( value="medincome") Median Income      
+        //h2 Map Underlay
+        //select(id="underlay-dropdown")
+        //  option( value="nonenglish") Percent Speaking Languages other than English        
+        //  option( value="medincome") Median Income      
       #list-container
         div.continent-item.filter.card
           div.continent-item-label
             h1 Languages of Queens
-            p 
-              | Data from the 
-              a(href='http://elalliance.org/' target='blank') Endangered Language Alliance 
-              | on languages spoken throughout the borough. Queens is one of the most linguistically diverse places on the planet - 
-              | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
-              | Many features in New York's language landscape remain unknown.
+
           div.filter-inputs
             //p Grouping:
             //input(id="filter-string" type='text')
             //select(name="select-sortby" id="select-sortby")
             //  option by Continent
             p Endangerment:
-            //input(type="range" multiple value="0,10")
-            #slider-range
+            #slider-range-container
+              #slider-range
             #slider-labels
-              #slider-label-left | Healthy
-              #slider-label-right Extinct |
-            p
-              i faded colors represent more endangered languages
+              #slider-label-left Extinct
+              #slider-label-right Healthy
             
         #text-target.list-block
 
@@ -79,6 +78,12 @@ block content
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
         L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map 
         
+        // initialize main d3 map layer
+        var mapLayer = d3.select('#map-target').select('svg');
+        mapLayer.attr("id", "map-svg-main")
+          .raise()
+          .attr('pointer-events', 'all');  
+        
         //map.fitBounds( [] ) use fitBounds to scale map to fit window  
         
         var overlayTarget = d3.select('#overlay-target')
@@ -87,7 +92,19 @@ block content
           .attr('width', window.innerWidth)
           .attr('height', window.innerHeight)
           .attr('pointer-events', 'none')
+          
+        var handlesSlider = document.getElementById('slider-range');
         
+        noUiSlider.create(handlesSlider, {
+        	start: [ 0, 10 ],
+          connect: true,
+          step: 1,
+        	range: {
+        		'min': [ 0 ],
+        		'max': [ 10 ]
+        	}
+        });
+
         main();
         
         function main() {
@@ -127,8 +144,23 @@ block content
             } 
         })
         
-        d3.select()
-        
+        d3.select('#slider-range')
+          .on('change', () => {
+            console.log(input)
+            console.log(`${input.valueLow} to ${input.valueHigh}`)
+            })
+            
+        handlesSlider.noUiSlider.on('set', function(){
+          input.endangermentRange = [10 - this.get()[1], 10 - this.get()[0]];
+          console.log(input.endangermentRange)
+          buildDataTree( () => {
+            updateList();
+            //updateMap();
+            drawDotMap();
+          })     
+        	//addClassFor(lSlide, 'tShow', 450);
+        });            
+    
         d3.select('#underlay-dropdown')
           .on('input', function() {
             input.underlay = d3.select(this).property('value');
@@ -155,4 +187,8 @@ block content
         
         window.addEventListener('resize', () => {
           console.log('window resize')
+          overlayTarget.attr('width', window.innerWidth)
+            .attr('height', window.innerHeight)
+            .select('svg').attr('width', window.innerWidth)
+              .attr('height', window.innerHeight)
         })

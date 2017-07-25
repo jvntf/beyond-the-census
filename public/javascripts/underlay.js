@@ -24,6 +24,8 @@
 
 // EXCLUDE LIST ['STATEFP', 'COUNTYFP', 'TRACTCE', 'GEOID', 'NAME', 'NAMELSAD', 'MTFCC', 'FUNCSTAT', 'ALAND', 'AWATER', 'INTPTLAT', 'INTPTLON', 'Id2']
 
+drawQueensOutline();
+
 function populateUnderlayDropdown( exclude ) {
   if (!exclude) exclude = [];
   console.log(exclude)
@@ -85,5 +87,25 @@ function drawUnderlay() {
     d3.select('#map-svg-main').raise()
       //.on('click', () => { console.log('you clicked the map')});  // move up the heirachy so this draws on top of the leaflet choropleth underlay
       // ensure d3 drawing layer is still on top
+  })
+}
+
+function drawQueensOutline() {
+  d3.json('../data/queens_otln_rikers.geojson', (err, features) => {
+    L.geoJson(features, {style: style}).addTo(map); // add geoJson layer to map for choropleth
+
+    // style features in geojson layer
+    function style(feature) {
+        return {
+            //fillColor: getColor(feature.properties.density),
+            fillColor: 'none',
+            weight: 2,
+            opacity: 1,
+            color: '#e0e0e0',
+            //dashArray: '3',
+            //fillOpacity: 0.7
+        };
+    }
+
   })
 }

@@ -26,12 +26,8 @@ function drawDotMap() {
       })
     })
 
-    // reset/initialize main d3 map layer
-    var mapLayer = d3.select('#map-target').select('svg');
-    mapLayer.selectAll('*').remove();
-    mapLayer.attr("id", "map-svg-main")
-      .raise()
-      .attr('pointer-events', 'all')
+    // reset main map overlay
+    d3.select("#map-svg-main").selectAll('*').remove();
 
     // set map layer to fit window to-do --> needs to adjust when window changes size
     mapLayer.attr("width", window.innerWidth)
@@ -57,8 +53,9 @@ function drawDotMap() {
       //.defer(drawNeighborhoodGroups)
       //.defer(drawQueensOutline)
       //.defer(drawDotDensity)
-      .defer( drawLanguageDots )
       .defer( drawNeighborhoods )
+      .defer( drawLanguageDots )
+      .defer( bringDotsToFront )
       .await( (err) => {
         if (err) throw err;
         update();
@@ -67,7 +64,7 @@ function drawDotMap() {
     // functions
     function drawLanguageDots(callback) {
       var languagesAll = listFlattened;
-      console.log(languagesAll)
+      //console.log(languagesAll)
       languagesAll.forEach( (language, i) => {
         var neighborhoods = language.neighborhoods;
         var thisLang = language;
@@ -95,29 +92,35 @@ function drawDotMap() {
             .attr("class", "lang-dot") // dbd-dd-dot
             .attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
             .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
-            .attr('r', '4')
+            .attr('r', '3')
             .attr('fill', 'none')
             .attr('stroke', (d) => { return d.properties.color })
-            .attr('stroke-width', '2')
+            .attr('stroke-width', '1.5')
             .on('click', (d) => {
-              console.log(d)
-              console.log(`you clicked the circle ${d.properties.language.language}`)
-              modifyMapFromList(d.properties.language._id);
+              //console.log(d)
+              //console.log(`you clicked the circle ${d.properties.language.language}`)
               updateLanguageCard(d.properties.language._id);
+              modifyMapFromList(d.properties.language._id);
+
             })
         })
       })
-      langDots = d3.selectAll('.lang-dot')
+      langDots = d3.select('#map-dotdensity').selectAll('circle')
       callback(null);
     }
 
     function drawNeighborhoods(callback) {
-      nbdOtlns = d3.select('#map-neighborhoodotlns').selectAll("path")
+      nbdOtlns = d3.select('#map-neighborhoodotlns').selectAll("g")
         .data(data.neighborhoods)
         .enter()
+        .append("g")
+        .attr("id", (d) => {
+          //console.log(d)
+          return `nbd-group-${d._id}`
+        })
         .append("path")
         .attr("id", (d) => {
-          console.log(d)
+          //console.log(d)
           return `nbd-${d._id}`
         })
         .attr("d", path)
@@ -132,12 +135,15 @@ function drawDotMap() {
       callback(null);
     }
 
+    function bringDotsToFront(callback) {
+      d3.select('#map-dotdensity').raise()
+      callback(null)
+    }
+
     // event listener for map pan/zoom
     map.on("moveend",  () => {
-      // hide stuff
-      langDots.classed('hidden', true);
-      // call update
-      update();
+      langDots.classed('hidden', true);       // hide stuff
+      update();      // call update
     })
 }
 
@@ -265,19 +271,35 @@ function updateMap() {
 
 // update the path using the current transform
 function update() {
+  console.log('called update')
   d3.selectAll('.leader-line').remove(); // remove all leader lines
   d3.selectAll('.selected').classed('selected', false); // remove 'selected' class from everything
   nbdOtlns.attr('d', path);
   langDots.attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
       .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
-      .attr('r', (d) => {
-        var deltaZoom = map.getZoom() - zoomInitial;
-        return deltaZoom*50 + 3.5 ;
-      })
       .classed('hidden', false);
 }
 
+function connectCurve( sourceCoords, targetCoords, parentElement, options ) {
+  //console.log(parentElement)
+  var data = [sourceCoords, targetCoords];
 
+  var parent = d3.select(parentElement);
+
+  var line = parent.append("path")  // draw straight lines
+    .attr("d", d3.linkHorizontal()
+      .source(function () { return path([sourceCoords]);  })
+      .target(function () { return path([targetCoords]); }))
+      .attr("stroke", "black")
+
+  if (options.stroke) { line.attr("stroke", options.stroke) }
+  else { line.attr("stroke", "black") }
+
+  if (options.strokedasharray) { line.attr("stroke-dasharray", options.strokedasharray ) }
+
+  if (options.strokewidth) { line.attr("stroke-width", options.strokewidth ) }
+  else { line.attr("stroke-width", 1) }
+}
 
 // connects points on map with straight lines
 // takes array of geographic coordinates, selector for target SVG
@@ -296,7 +318,8 @@ function connectLine( coordArray, target, options ) {
       return data
     })
     .attr("d", d3.line()
-      .x(function (d) { return map.latLngToLayerPoint(d).x;  })
+      .x(function (d) { console.log(d)
+        return map.latLngToLayerPoint(d).x;  })
       .y(function (d) { return map.latLngToLayerPoint(d).y; }))
       //.curve(d3.curveCardinal.tension(0.6)))
     .attr("class", "leader-line")
@@ -361,19 +384,36 @@ function modifyMapFromList( id ) {  // rewrite to take a language id
     return item._id == id;
   })
 
+
+  // reset elements
   var overlayTarget = d3.select('#overlay-target').select('svg')
   overlayTarget.selectAll('g').remove();
   overlayTarget.append('g').attr('id', 'leader-lines');
 
-  var neighborhoodGroups = d3.select('#map-dotdensity').selectAll('g')
-  neighborhoodGroups.selectAll('path').attr('stroke', 'none');
-  neighborhoodGroups.selectAll('text').remove();
+  var globeMarker = d3.select('#globe-marker')
+  //.attr('stroke', 'none');
 
-  console.log(neighborhoodGroups)
+  //var neighborhoodGroups = d3.select('#map-dotdensity').selectAll('g')
+  //neighborhoodGroups.selectAll('path').attr('stroke', 'none');
+  //neighborhoodGroups.selectAll('text').remove();
+
+  var neighborhoods = d3.select('#map-neighborhoodotlns')
+
+  neighborhoods.selectAll('text').remove();
+
+  neighborhoods.selectAll('path')
+    .attr('stroke', 'none')
+    .attr('fill', 'none');
+
+  var dots = d3.selectAll('.lang-dot').attr('fill', 'none'); // remove fill on language dots
+
+  var langLabels = d3.selectAll('.language-item').attr('border', 'none');
+
+  //console.log(neighborhoodGroups)
   updateGlobe(dataItem);
 
   dataItem.neighborhoods.forEach((neighborhood, i) => {
-
+    console.log(neighborhood)
     d3.selectAll('.selected')
       .classed('selected', false)
       .style('stroke', null)
@@ -381,44 +421,80 @@ function modifyMapFromList( id ) {  // rewrite to take a language id
       .attr('transform', null)
 
     var langDot = d3.select(`#dot-${dataItem._id}-${i}`);
-    langDot.attr('stroke', 'black');
+    langDot.attr('fill', () => {return dataItem.color})
+      .attr('stroke', () => {return dataItem.color.darker()})
+      .raise();
 
     var dotCenter = langDot.node().getBoundingClientRect();
 
     langDot.classed('selected', true)
 
-    var nbdGroup = d3.select(`#nbd-${neighborhood._id}`);
+    var nbdOtln = d3.select(`#nbd-${neighborhood._id}`)
+      .attr('stroke', ()  => {return dataItem.color})
+      .attr('stroke-dasharray', [2, 2])
+      .attr('fill', () => {return dataItem.color})
+      .attr('fill-opacity', '0.4');
 
-    nbdGroup.select('path')
-      .attr('stroke', 'gray');
-
-    nbdGroup.append('text')
+    /*var nbdGroup = d3.select(`#nbd-group-${neighborhood._id}`).append('text')
       .text((d) => {
         console.log(d)
         return d.properties.NTAName})
-      .attr('fill', 'black')
+      .attr('fill', 'gray')
       .attr("text-anchor", "middle")
-      .attr('font', 'inherit')
-      .attr('x', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
-      .attr('y', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
+      .attr('font-family', 'inherit')
+      .attr('x', () => {
+        console.log(getCoords(`nbd-${neighborhood._id}`))
+        return getCoords(`nbd-${neighborhood._id}`)
+      })
+      //.attr('y', () => { return map.latLngToLayerPoint( [d3.geoCentroid(neighborhood)[1], d3.geoCentroid(neighborhood)[0]] ).y })
 
+      */
     d3.select(`#li-${dataItem._id}`)
       .classed('selected', true)
-      .style('border', '1px solid black')
+      .style('border', () => { return `1px solid ${dataItem.color.darker()}` })
+
+    globeMarker.attr('stroke', () => { return dataItem.color.darker() })
+
+
+    d3.select('#leader-lines').append('text')
+    .text(() => {
+      return neighborhood.properties.NTAName})
+    .attr('fill', 'gray')
+    .attr("text-anchor", "middle")
+    .attr('font-family', 'inherit')
+    .attr('x', () => { return map.latLngToLayerPoint(getCoords(`nbd-${neighborhood._id}`)).x })
+    .attr('y', () => { return map.latLngToLayerPoint(getCoords(`nbd-${neighborhood._id}`)).y + 10 })
+
+    //.attr('y', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
+
+    //connectCurve(
+    //  getCoords(`nbd-${neighborhood._id}`),
+    //  getCoords(`li-${dataItem._id}`, {anchor: 'center-right'}),
+    //  '#leader-lines',
+    //  {
+    //    stroke: 'black', // was d.color
+    //    //strokedasharray: '5, 5',
+    //    strokewidth: 1
+    //  }
+    //)
+
+
 
     connectLine(
         [
-          getCoords("globe-marker"),
-          getCoords(`nbd-${dataItem.properties._id}`),
+          getCoords("globe-marker", {anchor: 'center-left'}),
+          getCoords(`dot-${dataItem._id}-${i}`),
           getCoords(`li-${dataItem._id}`, {anchor: 'center-right'})
         ],
         '#leader-lines',
         {
-          stroke: 'black', // was d.color
+          stroke: dataItem.color.darker(),
           //strokedasharray: '5, 5',
           strokewidth: 1
         }
       )
+
+
 
   })
 
@@ -435,12 +511,6 @@ function modifyMapFromList( id ) {  // rewrite to take a language id
   //globePoint = parseTransform(d3.select('#globe-container').attr('transform')).translate;
   globePoint = getCoords('globe-marker')
 
-  d3.select('#globe-marker').attr('fill', function() {
-    var colorAdjusted = dataItem.color
-    colorAdjusted.l = 85;
-    colorAdjusted.c = 80;
-    return colorAdjusted
-  })
-
-  d3.select('#globe-marker')//.attr('stroke', 'black')
+  d3.select('#globe-marker').attr('fill', () => {return dataItem.color })
+    .attr('stroke', () => { return dataItem.color.darker() })
 }

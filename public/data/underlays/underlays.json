@@ -1,0 +1,17 @@
+[
+  {
+    "label": "7 Train",
+    "narrative": "There's a popular idea that the neighborhoods served by the 7 train are among the most diverse in the city. Queens' language diversity isn't just confined to those areas, though.",
+    "file": "nycsubway.json"
+  },
+  {
+    "label": "Beyond English and Spanish",
+    "narrative": "Which neighborhoods have the highest concentrations of people who speak languages other than English and Spanish, as reported by the Census?",
+    "file": "censuslanguages.json"
+  },
+  {
+    "label": "New New Yorkers",
+    "narrative": "Where are the highest percentages of people born outside of the United States?",
+    "file": "censuslanguages.json"
+  }
+]
