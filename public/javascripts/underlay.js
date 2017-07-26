@@ -106,6 +106,7 @@ function drawQueensOutline() {
             //fillOpacity: 0.7
         };
     }
+    d3.select('#map-svg-main').raise()
 
   })
 }

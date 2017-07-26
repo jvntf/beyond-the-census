@@ -11,6 +11,7 @@ block content
       //    input(id="hide-about-content" type="button" value="hide")
       //div.upper-right.card.narrow
         //input(type="button" value="<--" onClick="toggleNarrativePanel()")
+
       #detail-container.card.upper-right
         #detail-container-header
         
@@ -29,6 +30,8 @@ block content
         //select(id="underlay-dropdown")
         //  option( value="nonenglish") Percent Speaking Languages other than English        
         //  option( value="medincome") Median Income      
+      #map-toolbar.card.upper-mid
+        input(id="reset-map-button" type="button" value="Reset Map")
       #list-container
         div.continent-item.filter.card
           div.continent-item-label
@@ -82,7 +85,9 @@ block content
         var mapLayer = d3.select('#map-target').select('svg');
         mapLayer.attr("id", "map-svg-main")
           .raise()
-          .attr('pointer-events', 'all');  
+          .attr('pointer-events', 'auto'); 
+        
+        //d3.select('#map-target').attr('pointer-events', 'none');  
         
         //map.fitBounds( [] ) use fitBounds to scale map to fit window  
         
@@ -92,6 +97,8 @@ block content
           .attr('width', window.innerWidth)
           .attr('height', window.innerHeight)
           .attr('pointer-events', 'none')
+          
+        overlaySVG.append('g').attr('id', 'leader-lines');
           
         var handlesSlider = document.getElementById('slider-range');
         
@@ -183,12 +190,26 @@ block content
               .classed('hidden', true);
             d3.select('#show-about-content')
               .classed('hidden', false);            
-          }) 
+          })
+          
+        d3.select('#reset-map-button')
+          .on('click', function() {
+            map.flyTo([40.67, -73.84], 11.75);
+          })           
         
         window.addEventListener('resize', () => {
-          console.log('window resize')
+          //console.log('window resize')
           overlayTarget.attr('width', window.innerWidth)
             .attr('height', window.innerHeight)
             .select('svg').attr('width', window.innerWidth)
               .attr('height', window.innerHeight)
         })
+        
+        d3.select(window)
+          .on('scroll', () => {
+            //var leaderLines = d3.select('#leader-lines').selectAll('*').remove();
+           })
+           
+        //map.on('click', (e) => { console.log("clicked map")
+        //console.log(e) })
+              

@@ -150,7 +150,11 @@ function buildDataTree( callback ) {
      continent.colors = [];
      continent.values.map( (endangerment) => {
        endangerment.values.map( (language) => {
-         language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 75, luminanceMap(endangerment.key), 1 );
+         if (language.neighborhoods.length > 0) {
+           language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 75, luminanceMap(endangerment.key), 1 );
+         } else {
+           language.color = continent.colors[endangerment.key] = d3.hcl( 0,0,150,1 ); // if no neigborhoods, assign white
+         }
        })
      });
    })

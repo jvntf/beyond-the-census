@@ -20,6 +20,24 @@ h1 {
   position: fixed;
   top: 0px;
   right: 0px;
+  width: 22vw;
+  float: right;
+
+}
+
+.upper-mid {
+  position: fixed;
+  top: 0px;
+  right: 50%;
+  float: left;
+}
+
+.center-top {
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  left:
+  margin: auto;
 }
 
 /* ~~~ slider ~~~ */
@@ -145,6 +163,7 @@ h1 {
   float: left;
   margin: 0px;
   padding: 0px;
+  width: 22vw;
 }
 
 .continent-item-filter {
@@ -216,8 +235,6 @@ h1 {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   padding: 10px;
   margin: 10px;
-  min-width: 200px;
-  max-width: 20vw;
 }
 
 .card p {
@@ -230,18 +247,28 @@ h1 {
 }
 
 #lang-content a {
-  text-decoration: none;
   color: black;
+  text-decoration: none;
   display: inline;
   padding: 4px;
   margin: 0px;
   margin-right: 3px;
   margin-bottom: 3px;
-  border: 1px solid black;
+  border: 1px solid rgb(209, 209, 209);
+}
+
+#places-list span {
+  display: inline-block;
+  color: black;
+  padding: 4px;
+  margin: 0px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  border: 1px solid rgb(209, 209, 209);
 }
 
 .lang-dot {
-  cursor: pointer;
+  cursor: default;
 }
 
 #underlay-dropdown {

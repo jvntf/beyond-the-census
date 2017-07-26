@@ -1,5 +1,3 @@
-console.log('narrative.js loaded')
-
 var narrativePanel = d3.select('#detail-container')
 
 function toggleNarrativePanel() {

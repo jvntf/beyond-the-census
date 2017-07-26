@@ -1,12 +1,12 @@
 function updateGlobe( item, callback ) {
-  //console.log(item);
+
+  var thisLanguage = item;
+
   var target = d3.select('#globe-target')
   target.select('#globe-container').remove(); // clear globe
   target = target.append('g')
     .attr("id", "globe-container")
     .attr("transform", "translate(120,120)") // this shouldn't be absolutely positioned...
-
-
 
   var rotation = [ -item.longitude, -item.latitude ];
   var width = window.innerWidth,
@@ -57,13 +57,27 @@ function updateGlobe( item, callback ) {
           .attr("fill", "#ffffff")
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
+      console.log(thisLanguage.countries);
+
+      var countryPaths = target.append('g')
+          .selectAll("path")
+          .data(thisLanguage.countries)
+          .enter()
+          .append("path")
+          .attr("class", "feature")
+          .attr("fill", () => {return item.color})
+          .attr('fill-opacity', "0.5")
+          .attr('stroke', ()  => {return item.color.darker()})
+          //.attr('stroke-dasharray', [2, 2])
+          .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
+
       //Add marker at the center of the globe
       var Circle = target.append("circle")
           .attr('id', 'globe-marker')
           .attr('cx', 0)
           .attr('cy', 0)
-          .attr('r', 5)
-          .attr("fill", item.color)
+          .attr('r', 3)
+          .attr("fill", item.color.darker().darker())
           .attr("fill-opacity", "1")
           //.attr("stroke", item.color.darker())
           //.attr("stroke-width", 1.5)

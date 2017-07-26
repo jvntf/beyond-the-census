@@ -40,6 +40,7 @@ function updateList() {
       .attr('class', 'continent-item-label')
 
       continentLabel.append('p')
+      .attr('id', (d) => { return d.key.replace(/ /g,'-')})
       .text((d) => {
         //console.log(d)
         return d.key });
@@ -98,54 +99,92 @@ function updateList() {
   var languageItem = endangermentItem.selectAll("span") // make each language tag
       .data( (d) => {
         return d.values } )  // shift data (next level down nest?)
-      .enter().append("span")
-      .attr('id', (d) => { return `li-${d._id}` })
+      .enter().append("span");
+
+      languageItem.attr('id', (d) => { return `li-${d._id}` })
       .attr('class', 'language-item')
-      .text((d) => {return d.language})
+
+      languageItem.append("p").attr('class', 'glyph').text((d) => {
+        if ( d.story !== undefined ) {
+          return 'star'
+        } else { return null }
+      })
+
+      languageItem.text((d) => {
+          return d.language
+      })
+
       .style('background', (d) => {
         return d.color
       })
       .style('color', 'black')
-      .on('click', (d, i, n) => {
+      .on('click', (d, i, n) => { // d here is populated language object
             showNarrativePanel();
             updateLanguageCard(d._id);
             modifyMapFromList(d._id);
           })
 }
 
-function updateLanguageCard( id ) {
-  console.log(id)
+function updateLanguageCard( id, callback ) {
+  //console.log(id)
   dataItem = data.languages.find( (item) => {
     return item._id == id;
   })
 
-  console.log(dataItem)
-  console.log('update language card')
+  //console.log(dataItem)
+  //console.log('update language card')
 
   var countriesSpoken = dataItem.countries.map( (item) => {
     return item.properties.ADMIN
   }).join(", ")
-  console.log(countriesSpoken)
+  //console.log(countriesSpoken)
 
   var neighborhoodsSpoken = dataItem.neighborhoods.map( (item) => {
     return item.properties.NTAName
   }).join(", ")
-  console.log(neighborhoodsSpoken)
+  //console.log(neighborhoodsSpoken)
 
   var card = d3.select('#lang-content');
   card.selectAll('*').remove();
   card.append('h2').text(() => {return dataItem.language});
   card.append('p').text(() => {return dataItem.description});
-  card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
-  card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
-  card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
+  //card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
+  //card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
+  //card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
+  card.append('h3').text('Links:')
   var buttongroup = card.append('div').attr('class', 'button-group');
   buttongroup.append('a')
       .attr('href', () => {return dataItem.wiki}).text('wikipedia')
       .attr('target', 'blank')
-      .attr('class', 'card');
+      //.attr('class', 'card');
   buttongroup.append('a')
     .attr('href', () => {return dataItem.ethno}).text('ethnologue')
     .attr('target', 'blank')
-    .attr('class', 'card');
+    //.attr('class', 'card');
+
+  card.append('h3').text('Spoken In:');
+  var placesGroup = card.append('div').attr('id', 'places-list');
+
+
+  dataItem.countries.forEach( (country) => {
+    placesGroup.append('span').text(() => {return country.properties.ADMIN })
+  })
+
+  dataItem.neighborhoods.forEach( (neighborhood) => {
+    placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
+  })
+
+  if (callback) {callback(null)}
+}
+
+
+// scroll list to provided element ID
+function scrollList(id, callback) {
+  $(document.body).animate({
+    'scrollTop':   $(`#${id}`).offset().top
+  }, {
+    'duration': 500,
+    'queue': false,
+    'done': () => { callback(null) }
+  });
 }

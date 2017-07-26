@@ -26,7 +26,8 @@ var CountrySchema = new Schema({  //properties.languages
   _id: Schema.Types.ObjectId,
   properties: {
     languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
-  }
+  },
+  geometry: Schema.Types.Mixed
 });
 
 var ContinentSchema = new Schema({
@@ -109,7 +110,7 @@ router.get('/countries/:id', function (req, res) {
 });
 /* GET all countries */
 router.get('/countries', function (req, res) {
-    Country.find({}).populate('properties.languages').exec( function (err, docs) {
+    Country.find({}).populate().exec( function (err, docs) { // populate had argument 'properties.languages'
         res.json(docs);
     });
 });
@@ -144,7 +145,7 @@ router.get('/languages/:id', function (req, res) {
 /* GET all languages */
 router.get('/languages', function (req, res) {
     Language.find({})
-    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'countries', select: 'properties, geometry' })
     .populate({ path: 'continents', select: 'properties' })
     .populate({ path: 'neighborhoods'})
     .exec( function (err, docs) {
@@ -220,7 +221,7 @@ router.get('/languages/:endMin.:endMax', function (req, res) {
     console.log(req.params.endMin)
     //if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
     Language.find(query)
-    .populate({ path: 'countries', select: 'properties' })
+    .populate({ path: 'countries' })
     .populate({ path: 'continents', select: 'properties' })
     .populate({ path: 'neighborhoods'})
     .exec( function (err, docs) {
