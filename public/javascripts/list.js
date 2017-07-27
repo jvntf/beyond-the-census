@@ -39,7 +39,7 @@ function updateList() {
   var continentLabel = continentItem.append("div") // label header for continent
       .attr('class', 'continent-item-label')
 
-      continentLabel.append('p')
+      continentLabel.append('h2')
       .attr('id', (d) => { return d.key.replace(/ /g,'-')})
       .text((d) => {
         //console.log(d)
@@ -104,13 +104,10 @@ function updateList() {
       languageItem.attr('id', (d) => { return `li-${d._id}` })
       .attr('class', 'language-item')
 
-      languageItem.append("p").attr('class', 'glyph').text((d) => {
-        if ( d.story !== undefined ) {
-          return 'star'
-        } else { return null }
-      })
-
       languageItem.text((d) => {
+        if ( d.story !== undefined ) {
+          return `* ${d.language}`
+        }
           return d.language
       })
 
@@ -146,33 +143,46 @@ function updateLanguageCard( id, callback ) {
 
   var card = d3.select('#lang-content');
   card.selectAll('*').remove();
-  card.append('h2').text(() => {return dataItem.language});
-  card.append('p').text(() => {return dataItem.description});
+  card.append('h1').text(() => {return dataItem.language});
+  //card.append('p').text(() => {return dataItem.description});
   //card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
   //card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
   //card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-  card.append('h3').text('Links:')
-  var buttongroup = card.append('div').attr('class', 'button-group');
-  buttongroup.append('a')
-      .attr('href', () => {return dataItem.wiki}).text('wikipedia')
-      .attr('target', 'blank')
+  //card.append('h2').text('Links:')
+  //var buttongroup = card.append('div').attr('class', 'button-group');
+  //buttongroup.append('a')
+  //    .attr('href', () => {return dataItem.wiki}).text('wikipedia')
+  //    .attr('target', 'blank')
       //.attr('class', 'card');
-  buttongroup.append('a')
-    .attr('href', () => {return dataItem.ethno}).text('ethnologue')
-    .attr('target', 'blank')
+  //buttongroup.append('a')
+  //  .attr('href', () => {return dataItem.ethno}).text('ethnologue')
+  //  .attr('target', 'blank')
     //.attr('class', 'card');
 
   card.append('h3').text('Spoken In:');
   var placesGroup = card.append('div').attr('id', 'places-list');
 
+  dataItem.neighborhoods.forEach( (neighborhood) => {
+    placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
+  })
 
   dataItem.countries.forEach( (country) => {
     placesGroup.append('span').text(() => {return country.properties.ADMIN })
   })
 
-  dataItem.neighborhoods.forEach( (neighborhood) => {
-    placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
-  })
+
+
+  // deal with story content, if present
+  var storycontainer = d3.select('#story-content') // select div
+
+  if ( dataItem.story !== undefined ) {
+    storycontainer.classed('hidden', false)
+    storycontainer.selectAll('*').remove();
+    storycontainer.append('p').text(() => { return dataItem.story });
+  } else {
+    storycontainer.classed('hidden', true)
+  }
+
 
   if (callback) {callback(null)}
 }

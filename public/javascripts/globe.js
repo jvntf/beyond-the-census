@@ -1,5 +1,7 @@
 function updateGlobe( item, callback ) {
 
+  d3.select('#globe-target').classed('hidden', false);
+
   var thisLanguage = item;
 
   var target = d3.select('#globe-target')
@@ -67,7 +69,7 @@ function updateGlobe( item, callback ) {
           .attr("class", "feature")
           .attr("fill", () => {return item.color})
           .attr('fill-opacity', "0.5")
-          .attr('stroke', ()  => {return item.color.darker()})
+          //.attr('stroke', ()  => {return item.color.darker()})
           //.attr('stroke-dasharray', [2, 2])
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 

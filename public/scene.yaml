@@ -6,6 +6,14 @@ sources:
             api_key: mapzen-tDHBHDp
         max_zoom: 16
 
+styles:
+    flatlines:
+        base: lines
+        lighting: false # ignore lights
+    flatpolys:
+        base: polygons
+        lighting: false # ignore lights
+
 layers:
 
     earth:
@@ -31,7 +39,24 @@ layers:
 
     places:
         data: {source: mapzen }
+        filter:
+            kind: borough
         draw:
-            polygons:
-                order: function() {return feature.sort_rank; }
-                color: '#f3f7ef'
+            text:
+                order: function() { return feature.sort_rank; }
+                text_source: name
+                font:
+                    weight: bold
+                    size: 10pt
+                    family: Cousine
+                    style: italic
+                    fill: rgb(209, 209, 209)
+
+    roads:
+        data: { source: mapzen, layer: roads }
+        filter: function() { return feature.kind != "rail" && feature.kind != "ferry";}
+        draw:
+            lines:
+                order: function() { return feature.sort_rank; }
+                color: rgb(240,240,240)
+                width: [[11, 1px], [15, 1px]]

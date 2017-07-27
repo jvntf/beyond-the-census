@@ -24,7 +24,9 @@ block content
             | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
             | Many features in New York's language landscape remain unknown. 
                    
-        svg(id="globe-target" viewBox="0 0 240 240")
+        svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
+        #story-content.hidden
+        #underlay-control.hidden
         
         //h2 Map Underlay
         //select(id="underlay-dropdown")
@@ -73,13 +75,26 @@ block content
             neighborhoods: [],
             selected: {}
           }, 
-          zoomInitial = 11.75;
+          zoomInitial = 11.75,
+          queensBounds = 
+                        [
+                          [
+                            40.541828312256,
+                            -73.962621595193
+                          ],
+                          [
+                            40.801003155081,
+                            -73.700021556431
+                          ]
+                        ]
+          ;
           //path, 
           //transform;
   
-        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: true}).setView([40.67, -73.84], zoomInitial);
+        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: true}).fitBounds( queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
-        L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map 
+        L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map
+      
         
         // initialize main d3 map layer
         var mapLayer = d3.select('#map-target').select('svg');
@@ -117,6 +132,7 @@ block content
         function main() {
           updateData( input.filtertype, input.filterstring, input.endangermentRange, () => {
             updateList();
+            drawQueensOutline();
             //updateMap();
             drawDotMap();
           });
@@ -194,7 +210,10 @@ block content
           
         d3.select('#reset-map-button')
           .on('click', function() {
-            map.flyTo([40.67, -73.84], 11.75);
+  
+            //var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
+            map.flyToBounds(queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 1} );            
+            //map.flyTo([40.67, -73.84], 11.75);
           })           
         
         window.addEventListener('resize', () => {

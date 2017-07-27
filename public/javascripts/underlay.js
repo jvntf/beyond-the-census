@@ -24,8 +24,6 @@
 
 // EXCLUDE LIST ['STATEFP', 'COUNTYFP', 'TRACTCE', 'GEOID', 'NAME', 'NAMELSAD', 'MTFCC', 'FUNCSTAT', 'ALAND', 'AWATER', 'INTPTLAT', 'INTPTLON', 'Id2']
 
-drawQueensOutline();
-
 function populateUnderlayDropdown( exclude ) {
   if (!exclude) exclude = [];
   console.log(exclude)

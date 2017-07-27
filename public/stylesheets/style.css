@@ -14,15 +14,28 @@ h1 {
   font-weight: 700;
 }
 
+h3 {
+  font-style: italic;
+  color: rgb(107, 107, 107);
+}
+
+#map-toolbar a {
+
+}
+
+#story-content {
+  border-top: 1px solid gray;
+  padding-top: 0.75em;
+}
+
 /* ~~~ fixed-position containers ~~~ */
 
 .upper-right {
   position: fixed;
   top: 0px;
   right: 0px;
-  width: 22vw;
+  width: 18vw;
   float: right;
-
 }
 
 .upper-mid {
@@ -119,7 +132,7 @@ h1 {
 }
 
 #underlay-controls h2 {
-  margin-bottom: 5px;
+
 }
 
 #title h1 {
@@ -202,7 +215,7 @@ h1 {
 /* -- */
 
 .continent-item-label h1, h2, p {
-  margin: 0;
+
 }
 
 .button-group {
