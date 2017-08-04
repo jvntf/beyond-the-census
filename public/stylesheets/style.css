@@ -19,11 +19,12 @@ h3 {
   color: rgb(107, 107, 107);
 }
 
-#map-toolbar a {
-
+#story-content {
+  border-top: 1px solid gray;
+  padding-top: 0.75em;
 }
 
-#story-content {
+#underlay-control {
   border-top: 1px solid gray;
   padding-top: 0.75em;
 }
@@ -41,7 +42,7 @@ h3 {
 .upper-mid {
   position: fixed;
   top: 0px;
-  right: 50%;
+  right: 20vw;
   float: left;
 }
 
@@ -302,4 +303,20 @@ h3 {
   background: -moz-linear-gradient(left, #7f7f7f 0%, #dddddd 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(left, #7f7f7f 0%,#dddddd 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to right, #7f7f7f 0%,#dddddd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+#person-container {
+  margin: 4em;
+}
+
+.story p {
+  margin: 0;
+  margin-bottom: 1em;
+  font-size: 4em;
+  font-weight: bold;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+#controls label {
+  display: block;
 }

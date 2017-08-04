@@ -140,10 +140,10 @@ function drawDotMap() {
         .attr("stroke", "transparent")
         .attr("class", "leaflet-interactive nbd-otln")
         .on('click', (d) => {
-
+            console.log(d)
             if (d.properties.BoroCode == 4 || d.properties.NTAName == "Rikers Island") {
 
-
+            updateNeighborhoodCard(d);
 
               // one option: zoom to neighborhood when clicked
              var d3bounds = d3.geoBounds(d);
@@ -319,7 +319,7 @@ function updateMap() {
 // update the path using the current transform
 function update() {
   //d3.select('#map-neighborhoodotlns').selectAll('#').attr('fill', 'none')
-  d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots 
+  d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots
   d3.select('#leader-lines').selectAll('*').remove(); //remove leader lines and text.
   d3.selectAll('.leader-line').remove(); // remove all leader lines
   //d3.selectAll('.nbd-otln').attr('stroke', 'transparent')

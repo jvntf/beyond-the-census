@@ -1,0 +1,56 @@
+extends layout
+block content
+
+    #controls
+      label(for"hideUSborn") Hide Born in the US
+        input(id="hideUSborn" type="checkbox")
+      label(for"hideEnglish") Hide English Speakers  
+        input(id="hideEnglish" type="checkbox")
+      label(for"hideSpanish") Hide Spanish Speakers  
+        input(id="hideSpanish" type="checkbox")
+      input(id="loadStory" type="button" value="get a story")
+    #person-container
+    
+    script(type='text/javascript').
+      var state = {
+        basequery: '../individual',
+        queryarray: [false, false, false],
+        querystring: './individual/false/false/false'
+      };
+      
+      updateStory(state.querystring);
+      
+      d3.select('#loadStory').on('click', () => {
+        updateStory(state.querystring);
+      })
+      
+      var hideUSbornCheckBox = d3.select('#hideUSborn').on('click', () => {
+        updateQueryString( hideUSbornCheckBox.node().checked, 0 )
+      })
+      var hideEnglishCheckBox = d3.select('#hideEnglish').on('click', () => {
+        updateQueryString( hideEnglishCheckBox.node().checked, 1 )
+      })
+      var hideSpanishCheckBox = d3.select('#hideSpanish').on('click', () => {
+        updateQueryString( hideSpanishCheckBox.node().checked, 2 )
+      })
+      
+      function updateStory(q) {
+        d3.json(q, (json) => {
+          var person = d3.select('#person-container')
+          person.selectAll('*').remove()
+          person.append('div')
+            .classed('story', true)
+            .selectAll('p')
+            .data(json.story)
+            .enter()
+            .append('p')
+            .text((d, i) => {return d})    
+        })
+      }
+      
+      function updateQueryString(value, position) {
+        state.queryarray[position] = value;
+        state.querystring = state.basequery + '/' + state.queryarray.toString().replace(/,/g , '/');
+      }
+
+      

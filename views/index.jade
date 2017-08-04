@@ -32,8 +32,8 @@ block content
         //select(id="underlay-dropdown")
         //  option( value="nonenglish") Percent Speaking Languages other than English        
         //  option( value="medincome") Median Income      
-      #map-toolbar.card.upper-mid
-        input(id="reset-map-button" type="button" value="Reset Map")
+
+      a(id="reset-map-button" onClick="resetMap()").card.upper-mid Reset Map
       #list-container
         div.continent-item.filter.card
           div.continent-item-label
@@ -207,15 +207,7 @@ block content
             d3.select('#show-about-content')
               .classed('hidden', false);            
           })
-          
-        d3.select('#reset-map-button')
-          .on('click', function() {
-  
-            //var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
-            map.flyToBounds(queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 1} );            
-            //map.flyTo([40.67, -73.84], 11.75);
-          })           
-        
+                  
         window.addEventListener('resize', () => {
           //console.log('window resize')
           overlayTarget.attr('width', window.innerWidth)
@@ -232,3 +224,10 @@ block content
         //map.on('click', (e) => { console.log("clicked map")
         //console.log(e) })
               
+        function resetMap() {      
+            //var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
+            map.flyToBounds(queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 1} );            
+            //map.flyTo([40.67, -73.84], 11.75);
+            d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
+            removeUnderlay()
+        }

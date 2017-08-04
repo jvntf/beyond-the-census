@@ -148,11 +148,11 @@ function updateLanguageCard( id, callback ) {
   //card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
   //card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
   //card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-  //card.append('h2').text('Links:')
-  //var buttongroup = card.append('div').attr('class', 'button-group');
-  //buttongroup.append('a')
-  //    .attr('href', () => {return dataItem.wiki}).text('wikipedia')
-  //    .attr('target', 'blank')
+  card.append('h2').text('Links:')
+  var buttongroup = card.append('div').attr('class', 'button-group');
+  buttongroup.append('a')
+      .attr('href', () => {return dataItem.wiki}).text('wikipedia')
+      .attr('target', 'blank')
       //.attr('class', 'card');
   //buttongroup.append('a')
   //  .attr('href', () => {return dataItem.ethno}).text('ethnologue')
@@ -171,20 +171,42 @@ function updateLanguageCard( id, callback ) {
   })
 
 
-
   // deal with story content, if present
   var storycontainer = d3.select('#story-content') // select div
+  var underlaycontrol = d3.select('#underlay-control')
 
   if ( dataItem.story !== undefined ) {
     storycontainer.classed('hidden', false)
     storycontainer.selectAll('*').remove();
     storycontainer.append('p').text(() => { return dataItem.story });
+
+    underlaycontrol.classed('hidden', false)
+    underlaycontrol.selectAll('*').remove();
+    underlaycontrol.append('a').attr('onClick', 'drawUnderlay()').text('Show Underlay')
   } else {
     storycontainer.classed('hidden', true)
   }
 
 
   if (callback) {callback(null)}
+}
+
+function updateNeighborhoodCard(dataItem) {
+  // clear card (hide globe)
+  d3.select('#globe-target').classed('hidden', 'true');
+  d3.select('#lang-content').selectAll('*').remove();
+  d3.select('#story-content').classed('hidden', 'true');
+  d3.select('#underlay-control').classed('hidden', 'true');
+
+  var nbdCard = d3.select('#lang-content');
+
+  nbdCard.append('h1').text(() => {return dataItem.properties.NTAName})
+  nbdCard.append('h3').text('Languages Spoken:')
+  var langsList = nbdCard.append('div').attr('id', 'places-list');
+
+  dataItem.properties.languages.forEach( (item) => {
+    langsList.append('span').text(() => { return item._id })
+  })
 }
 
 
