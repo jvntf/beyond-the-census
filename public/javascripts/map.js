@@ -1,13 +1,14 @@
 // declare variables for map layers
 var path,
   transform,
-  langDots,
+  institutionDots,
+  institutionDotLabels,
+  institutionBarChart,
   underlayDots,
   underlayTracts,
   queensOtln,
   nbdGroups,
   nbdOtlns;
-
 
 function drawDotMap() {
     var width = window.innerWidth,
@@ -63,60 +64,57 @@ function drawDotMap() {
 
     // functions
     function drawLanguageDots(callback) {
-      var languagesAll = listFlattened;
+      //var languagesAll = listFlattened;
       //console.log(languagesAll)
-      languagesAll.forEach( (language, i) => {
-        var neighborhoods = language.neighborhoods;
-        var thisLang = language;
-        neighborhoods.forEach( (neighborhood, j) => {
-        d3.select('#map-dotdensity')
-        //d3.select(`#nbd-${neighborhood._id}`)
-            .append('circle')
-            .datum( () => {
-              var point =
-                  {
-                  "type": "Feature",
-                    "geometry": {
-                      "type": "Point",
-                      "coordinates": []
-                    },
-                    "properties": {}
-                  };
-              point.properties.color = thisLang.color;
-              point.properties.neighborhood = neighborhood.properties.NTAName;
-              point.properties.language = language;
-              point.geometry.coordinates = dotDensityPoints( 1, neighborhood.geometry )[0]
-              return point;
-            })
-            .attr("id", (d) => { return `dot-${language._id}-${j}`}) // give dot an id in the format 'dot-' + [language ID] + neighborhood-index
-            .attr("class", "lang-dot") // dbd-dd-dot
-            .attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
-            .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
-            .attr('r', () => {
-              var currentZoom = map.getZoom();
-              rMap = d3.scaleLinear()
-                  .domain([11, 15])
-                  .range([3, 10]);
-              return rMap(currentZoom);
-              })
-            .attr('fill', (d) => { return d.properties.color })
-            .attr('fill-opacity', '0.2')
-            .attr('stroke', (d) => { return d.properties.color })
-            .attr('stroke-width', '1.5')
-            .on('click', (d) => {
+      console.log(data.institutions)
 
-              let contId = d.properties.language.continents[0].properties.CONTINENT.replace(/ /g, '-');
-              var q = d3.queue(1);
-                q.defer(scrollList, contId)
-                q.defer(updateLanguageCard, d.properties.language._id)
-                q.defer(modifyMapFromList, d.properties.language._id)
-                q.await(function(err) {
-                  if (err) throw err;
-                })
-            })
+      var institutionDotGroups = d3.select('#map-dotdensity').selectAll('g')
+        .data(data.institutions)
+        .enter()
+        .append('g')
+
+      /*institutionDots = institutionDotGroups.append('circle')
+        .attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+        .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
+        .attr('r', '5')
+        .attr('fill', 'black')*/
+
+      /*institutionDotLabels = institutionDotGroups.append('text')
+        .attr('x', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+        .attr('y', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
+        .attr('font-size', '10px')
+        .text( (d) => { return d.properties.institution} )*/
+
+      institutionBarChart = institutionDotGroups.append('g')
+        .attr('transform', (d) => {
+          return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
         })
-      })
-      langDots = d3.select('#map-dotdensity').selectAll('circle')
+
+      var barChartSquares = institutionBarChart.selectAll('rect')
+        .data((d) => { console.log(d); return d.properties.languages})
+        .enter()
+        .append('rect')
+        //.attr('x', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+        .attr('y', (d, i) => { return i*10 })
+        .classed('leaflet-interactive', true)
+        .attr('width', '10')
+        .attr('height', (d) => {return 10} )
+        .attr('fill', (d) => {
+            var lang = data.languages.find( (item) => {
+              return item._id == d
+            })
+            console.log(lang);
+            return lang.color
+          })
+        .attr('stroke', 'black')
+        //.on('click', (d) => {
+        //  console.log(d)
+        //  console.log( data.languages.find( (item) => { // get matching language record
+        //    return item._id == d.properties.languages[0]
+      //    }))
+      //    console.log(d.properties.institution)
+      //  })
+
       callback(null);
     }
 
@@ -189,153 +187,11 @@ function drawDotMap() {
 
     // event listener for map pan/zoom
     map.on("moveend",  () => {
-      langDots.classed('hidden', true);       // hide stuff
+      //institutionDots.classed('hidden', true);       // hide stuff
       update();      // call update
     })
 }
 
-/*
-function updateMap() {
-
-    var neighborhoodsAll = {
-        type: 'FeatureCollection',
-        features: data.neighborhoods.filter( (neighborhood) => {
-          return neighborhood.properties.BoroCode == 4;
-        })
-    };
-
-    var mapLayer = d3.select('#map-target').select('svg');
-    mapLayer.selectAll('*').remove();
-    mapLayer.attr("id", "map-svg-main")
-      .raise()
-      .attr('pointer-events', 'all')
-
-    mapLayer.append('g').attr('id', 'map-censustracts') // initialize map groups
-    mapLayer.append('g').attr('id', 'map-queensotln')
-    mapLayer.append('g').attr('id', 'map-dotdensity')
-
-    var annoLayer = d3.select('#annotation-target');
-    annoLayer.selectAll('*').remove();
-    annoLayer.append('svg')
-      .attr("id", "annotation-svg-main");
-
-    mapLayer.attr("width", window.innerWidth)
-      .attr("height", window.innerHeight);
-
-    transform = d3.geoTransform({point: projectPoint});
-    path = d3.geoPath().projection(transform).pointRadius('4');
-    var pathLittleDots = d3.geoPath().projection(transform).pointRadius('0.5');
-
-    var width = window.innerWidth,
-        height = window.innerHeight;
-
-    var q = d3.queue(1)  // concurrency of 1, sets queue to run in series
-      .defer(drawNeighborhoodGroups)
-      .defer(drawQueensOutline)
-      .defer(drawDotDensity)
-      .await( (err) => {
-        if (err) throw err;
-        update();
-      })
-
-    function drawQueensOutline(callback) {
-      var outlineLayer = d3.select('#map-queensotln')
-      d3.json("/data/queens_re.geojson", function(json) {
-        queensOtln = outlineLayer.append("path")
-          .attr("class", "queens-outline")
-          .datum(json)
-          .attr("d", path)
-          .attr("fill", "none")
-          .attr("stroke", "#dbdbdb")
-          .attr("stroke-width", 2)
-        callback(null);
-      });
-    }
-
-    function drawNeighborhoodGroups(callback) {
-      nbdGroups = d3.select('#map-dotdensity').selectAll("g")
-        .data(neighborhoodsAll.features)
-        .enter()
-        .append("g")
-        .attr("id", (d) => {
-          return `nbd-${d._id}`
-        })
-      nbdOtlns = nbdGroups.append("path")
-        .attr("d", path)
-        .attr('fill', 'none')
-        .attr('stroke', 'none')
-      callback(null);
-    }
-
-    function drawDotDensity(callback) {
-      var languagesAll = data.languages;
-      languagesAll.forEach( (language, i) => {
-        var neighborhoods = language.neighborhoods;
-        var thisLang = language;
-        neighborhoods.forEach( (neighborhood, j) => {
-        d3.select(`#nbd-${neighborhood._id}`)
-            .append('circle')
-            .datum( () => {
-              var point =
-                  {
-                  "type": "Feature",
-                    "geometry": {
-                      "type": "Point",
-                      "coordinates": []
-                    },
-                    "properties": {}
-                  };
-              point.properties.color = thisLang.color;
-              point.properties.neighborhood = neighborhood.properties.NTAName;
-              point.properties.language = language;
-              point.geometry.coordinates = dotDensityPoints( 1, neighborhood.geometry )[0]
-              return point;
-            })
-            .attr("id", (d) => { return `dot-${language._id}-${j}`}) // give dot an id in the format 'dot-' + [language ID] + neighborhood-index
-            .attr("class", "lang-dot") // dbd-dd-dot
-            .attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
-            .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
-            .attr('r', '3')
-            .attr('fill', (d) => { return d.properties.color })
-            .on('click', (d) => {
-              console.log(d)
-              console.log(`you clicked the circle ${d.properties.language.language}`)
-              modifyMapFromList(d.properties.language._id);
-              updateLanguageCard(d.properties.language._id);
-            })
-        })
-      })
-      langDots = d3.selectAll('.lang-dot')
-      callback(null);
-    }
-
-    map.on("moveend",  () => {
-      langDots.classed('hidden', true);
-      update();
-    })
-}
-*/
-
-// update the path using the current transform
-function update() {
-  //d3.select('#map-neighborhoodotlns').selectAll('#').attr('fill', 'none')
-  d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots
-  d3.select('#leader-lines').selectAll('*').remove(); //remove leader lines and text.
-  d3.selectAll('.leader-line').remove(); // remove all leader lines
-  //d3.selectAll('.nbd-otln').attr('stroke', 'transparent')
-  d3.selectAll('.selected').classed('selected', false); // remove 'selected' class from everything
-  nbdOtlns.attr('d', path);
-  langDots.attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
-      .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
-      .attr('r', () => {
-        var currentZoom = map.getZoom();
-        rMap = d3.scaleLinear()
-            .domain([11, 15])
-            .range([1, 7]);
-        return rMap(currentZoom);
-        })
-      .classed('hidden', false);
-}
 
 function connectCurve( sourceCoords, targetCoords, parentElement, options ) {
   //console.log(parentElement)
@@ -538,4 +394,34 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
     .attr('stroke', () => { return dataItem.color.darker().darker() })
 
   if (callback) { callback(null) }
+}
+
+
+// update the path using the current transform
+function update() {
+  d3.selectAll()
+  //d3.select('#map-neighborhoodotlns').selectAll('#').attr('fill', 'none')
+  d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots
+  d3.select('#leader-lines').selectAll('*').remove(); //remove leader lines and text.
+  d3.selectAll('.leader-line').remove(); // remove all leader lines
+  //d3.selectAll('.nbd-otln').attr('stroke', 'transparent')
+  d3.selectAll('.selected').classed('selected', false); // remove 'selected' class from everything
+  nbdOtlns.attr('d', path);
+
+  /*institutionDotLabels.attr('x', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+          .attr('y', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })*/
+
+  /*institutionDots.attr('cx', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+      .attr('cy', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
+      .attr('r', () => {
+        var currentZoom = map.getZoom();
+        rMap = d3.scaleLinear()
+            .domain([11, 15])
+            .range([1, 7]);
+        return rMap(currentZoom);
+        })
+      .classed('hidden', false);*/
+
+  institutionBarChart.attr('x', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x })
+    .attr('y', (d) => { return map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y })
 }

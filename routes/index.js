@@ -41,11 +41,15 @@ var storyhelper = require('./helpers/storyhelper');
     _id: Schema.Types.ObjectId,
     countries: [{type: Schema.Types.ObjectId, ref: 'Country'}],
     continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}],
-    neighborhoods: [{type: Schema.Types.ObjectId, ref: 'Neighborhood'}]
+    neighborhoods: [{type: Schema.Types.ObjectId, ref: 'Neighborhood'}],
+    institutions: [{type: Schema.Types.ObjectId, ref: 'Institution'}]
   });
 
   var InstitutionSchema = new Schema({
-    _id: Schema.Types.ObjectId
+    _id: Schema.Types.ObjectId,
+    properties: {
+      languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+    }
   });
 
   var IndividualSchema = new Schema({
@@ -115,7 +119,7 @@ var storyhelper = require('./helpers/storyhelper');
 
 /* ~~~ GET routes for data (behind the scenes) ~~~ */
 
-  /* GET random PUMS individual */
+  /* GET random PUMS individual, with ability to filter out US natives, english and spanish speakers */
   router.get('/individual/:nativity/:english/:spanish', function (req, res) {
 
       var queryNativity = {}
@@ -268,14 +272,17 @@ var storyhelper = require('./helpers/storyhelper');
       console.log(req.params.endMin)
       //if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
       Language.find(query)
-      .populate({ path: 'countries' })
+      .populate({ path: 'countries', select: 'properties' })
       .populate({ path: 'continents', select: 'properties' })
-      .populate({ path: 'neighborhoods'})
+      .populate({ path: 'neighborhoods', select: 'properties' })
+      .populate({ path: 'institutions'})
       .exec( function (err, docs) {
           if (err) throw err;
           res.json(docs);
       });
   });
+
+
 
 /* ~~~ export ~~~ */
 

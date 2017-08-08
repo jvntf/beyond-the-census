@@ -12,6 +12,17 @@ block content
       //div.upper-right.card.narrow
         //input(type="button" value="<--" onClick="toggleNarrativePanel()")
 
+      #person-container.card
+        #person-content
+        #controls
+          label(for"hideUSborn") Hide Born in the US
+            input(id="hideUSborn" type="checkbox")
+          label(for"hideEnglish") Hide English Speakers  
+            input(id="hideEnglish" type="checkbox")
+          label(for"hideSpanish") Hide Spanish Speakers  
+            input(id="hideSpanish" type="checkbox")
+          input(id="loadStory" type="button" value="get a story")
+
       #detail-container.card.upper-right
         #detail-container-header
         
@@ -37,19 +48,19 @@ block content
       #list-container
         div.continent-item.filter.card
           div.continent-item-label
-            h1 Languages of Queens
+            h1 languages of queens
 
           div.filter-inputs
             //p Grouping:
             //input(id="filter-string" type='text')
             //select(name="select-sortby" id="select-sortby")
             //  option by Continent
-            p Endangerment:
+            p endangerment:
             #slider-range-container
               #slider-range
             #slider-labels
-              #slider-label-left Extinct
-              #slider-label-right Healthy
+              #slider-label-left extinct
+              #slider-label-right healthy
             
         #text-target.list-block
 
@@ -126,7 +137,7 @@ block content
         		'max': [ 10 ]
         	}
         });
-
+        
         main();
         
         function main() {
@@ -183,7 +194,7 @@ block content
           })     
         	//addClassFor(lSlide, 'tShow', 450);
         });            
-    
+        
         d3.select('#underlay-dropdown')
           .on('input', function() {
             input.underlay = d3.select(this).property('value');
@@ -230,4 +241,45 @@ block content
             //map.flyTo([40.67, -73.84], 11.75);
             d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
             removeUnderlay()
+        }
+        
+        var state = {
+          basequery: '../individual',
+          queryarray: [false, false, false],
+          querystring: './individual/false/false/false'
+        };
+        
+        updateStory(state.querystring);
+        
+        d3.select('#loadStory').on('click', () => {
+          updateStory(state.querystring);
+        })
+        
+        var hideUSbornCheckBox = d3.select('#hideUSborn').on('click', () => {
+          updateQueryString( hideUSbornCheckBox.node().checked, 0 )
+        })
+        var hideEnglishCheckBox = d3.select('#hideEnglish').on('click', () => {
+          updateQueryString( hideEnglishCheckBox.node().checked, 1 )
+        })
+        var hideSpanishCheckBox = d3.select('#hideSpanish').on('click', () => {
+          updateQueryString( hideSpanishCheckBox.node().checked, 2 )
+        })
+        
+        function updateStory(q) {
+          d3.json(q, (json) => {
+            var person = d3.select('#person-content')
+            person.selectAll('*').remove()
+            person.append('div')
+              .classed('story', true)
+              .selectAll('p')
+              .data(json.story)
+              .enter()
+              .append('p')
+              .text((d, i) => {return d})    
+          })
+        }
+        
+        function updateQueryString(value, position) {
+          state.queryarray[position] = value;
+          state.querystring = state.basequery + '/' + state.queryarray.toString().replace(/,/g , '/');
         }

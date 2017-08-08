@@ -53,9 +53,12 @@ function updateData(mode, input, endangermentRange, callback) {
               data.neighborhoods = response;
               getData( 'continents', [], (response) => {
                 data.continents = response;
-                buildDataTree( () => {
-                  callback(null)
-                });
+                getData( 'institutions', [], (response) => {
+                  data.institutions = response;
+                  buildDataTree( () => {
+                    callback(null)
+                  });
+                })
               })
             })
           })
