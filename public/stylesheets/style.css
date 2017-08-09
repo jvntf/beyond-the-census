@@ -11,8 +11,17 @@ lang-content p {
 }
 
 h1 {
+  margin: 0;
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
   font-size: 1.9em;
   font-weight: 700;
+}
+
+h2 {
+  margin: 0;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }
 
 h3 {
@@ -227,8 +236,9 @@ h3 {
   margin-bottom: 5px;
 }
 
-.language-item {
+.list.lang {
   display: inline-block;
+  font-size: 0.7em;
   padding: 2px;
   margin: 0px;
   margin-right: 5px;
@@ -322,4 +332,17 @@ h3 {
 
 #controls label {
   display: block;
+}
+
+.nbd-selected {
+  fill: rgba(100,100,100,0.5);
+}
+
+.maplang-hidden {
+  fill: white;
+  stroke: rgba(0,0,0,0.1);
+}
+
+.listlang-hidden {
+  background: white !important;
 }

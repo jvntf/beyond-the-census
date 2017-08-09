@@ -101,8 +101,7 @@ function updateList() {
         return d.values } )  // shift data (next level down nest?)
       .enter().append("span");
 
-      languageItem.attr('id', (d) => { return `li-${d._id}` })
-      .attr('class', 'language-item')
+      languageItem.attr('class', (d) => { return `list lang list-${d._id}` })
 
       languageItem.text((d) => {
         if ( d.story !== undefined ) {
@@ -116,6 +115,9 @@ function updateList() {
       })
       .style('color', 'black')
       .on('click', (d, i, n) => { // d here is populated language object
+            d3.selectAll('.map.lang').classed('maplang-hidden', true)
+            d3.selectAll(`.map.lang-${d._id}`).classed('maplang-hidden', false)
+            d3.selectAll(`.map.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
             showNarrativePanel();
             updateLanguageCard(d._id);
             modifyMapFromList(d._id);
