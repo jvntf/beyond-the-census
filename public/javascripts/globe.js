@@ -30,18 +30,6 @@ function updateGlobe( item, callback ) {
           .projection(projection)
           .pointRadius(3);
 
-      /*var pathLittleDots = d3.geoPath()
-          .projection(projection)
-          .pointRadius(1);      */
-
-      /*var overlayTarget = d3.select('#overlay-target')
-          .append("svg")
-          .attr('id', 'overlay-svg-main')
-
-
-      var globeTarget = overlayTarget.append("g")
-          */
-
       //Create the base globe
       var backgroundCircle = target.append("circle")
           .attr('cx', 0)
@@ -61,28 +49,57 @@ function updateGlobe( item, callback ) {
 
       console.log(thisLanguage.countries);
 
-      var countryPaths = target.append('g')
-          .selectAll("path")
+      var countryGroups = target.selectAll('g')
           .data(thisLanguage.countries)
           .enter()
-          .append("path")
-          .attr("class", "feature")
-          .attr("fill", () => {return item.color})
-          .attr('fill-opacity', "0.5")
+          .append('g')
+          .attr('transform', (d) => {
+        //    console.log(d)
+            let projectedPoints = projection(d3.geoCentroid(d));
+            return `translate(${projectedPoints[0]}, ${projectedPoints[1]})`
+          })
+          //.attr("fill", () => {return item.color})
+          //.attr('fill-opacity', "0.5")
           //.attr('stroke', ()  => {return item.color.darker()})
           //.attr('stroke-dasharray', [2, 2])
-          .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
+          //.attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
+
+      countryGroups.append('line')
+        .attr('x1', 0)
+        .attr('y1', -3)
+        .attr('x2', 0)
+        .attr('y2', 0)
+        .attr('stroke', 'gray')
+
+      countryGroups.append('rect')
+          .attr('class', 'globe-marker')
+          .attr('x', -3)
+          .attr('y', -9)
+          .attr('width', 6)
+          .attr('height', 6)
+          .attr('stroke', 'gray')
+          .attr("fill", item.color)
+          .attr("fill-opacity", "1")
 
       //Add marker at the center of the globe
-      var Circle = target.append("circle")
+      var marker = target.append("g")
+
+      marker.append('line')
+        .attr('x1', 0)
+        .attr('y1', -3)
+        .attr('x2', 0)
+        .attr('y2', 0)
+        .attr('stroke', 'gray')
+
+      marker.append('rect')
           .attr('id', 'globe-marker')
-          .attr('cx', 0)
-          .attr('cy', 0)
-          .attr('r', 3)
-          .attr("fill", item.color.darker().darker())
+          .attr('x', -3)
+          .attr('y', -9)
+          .attr('width', 6)
+          .attr('height', 6)
+          .attr('stroke', 'gray')
+          .attr("fill", item.color)
           .attr("fill-opacity", "1")
-          //.attr("stroke", item.color.darker())
-          //.attr("stroke-width", 1.5)
 
       var countryList = [];
       item.countries.map( (country) => {

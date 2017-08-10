@@ -43,7 +43,12 @@ function updateList() {
       .attr('id', (d) => { return d.key.replace(/ /g,'-')})
       .text((d) => {
         //console.log(d)
-        return d.key });
+        return d.key })
+      .on('click', (d) => {
+        console.log(d)
+        d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
+        d3.selectAll(`.cont-${d.values[0].values[0].continents[0]._id}`).classed('listlang-hidden', false).classed('maplang-hidden', false)
+      });
 
 //  var endangermentScale = continentLabel.append('span')
 //      .attr('class', 'endangerment-scale')
@@ -101,7 +106,7 @@ function updateList() {
         return d.values } )  // shift data (next level down nest?)
       .enter().append("span");
 
-      languageItem.attr('class', (d) => { return `list lang list-${d._id}` })
+      languageItem.attr('class', (d) => { return `list lang lang-${d._id} cont-${d.continents[0]._id}`})
 
       languageItem.text((d) => {
         if ( d.story !== undefined ) {
@@ -115,6 +120,10 @@ function updateList() {
       })
       .style('color', 'black')
       .on('click', (d, i, n) => { // d here is populated language object
+            d3.selectAll('.list.lang').classed('listlang-hidden', true)
+            d3.selectAll(`.list.lang-${d._id}`).classed('listlang-hidden', false)
+            //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
             d3.selectAll('.map.lang').classed('maplang-hidden', true)
             d3.selectAll(`.map.lang-${d._id}`).classed('maplang-hidden', false)
             d3.selectAll(`.map.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();

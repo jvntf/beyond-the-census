@@ -272,7 +272,7 @@ var storyhelper = require('./helpers/storyhelper');
       console.log(req.params.endMin)
       //if (req.params.searchstring == 'NULL') {query.$and.splice(2,1)};
       Language.find(query)
-      .populate({ path: 'countries', select: 'properties' })
+      .populate({ path: 'countries' })
       .populate({ path: 'continents', select: 'properties' })
       .populate({ path: 'neighborhoods', select: 'properties' })
       .populate({ path: 'institutions'})

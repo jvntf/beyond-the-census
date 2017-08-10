@@ -6,6 +6,11 @@ body {
   margin: 0px;
 }
 
+
+input:focus {
+  outline: none;
+}
+
 lang-content p {
   margin-top: 2em;
 }
@@ -44,6 +49,14 @@ h3 {
 .upper-right {
   position: fixed;
   top: 0px;
+  right: 0px;
+  width: 18vw;
+  float: right;
+}
+
+.lower-right {
+  position: fixed;
+  bottom: 0px;
   right: 0px;
   width: 18vw;
   float: right;
@@ -345,4 +358,20 @@ h3 {
 
 .listlang-hidden {
   background: white !important;
+}
+
+#showall-langs-button {
+  border: none;
+  font-weight: bold;
+  background: linear-gradient(to right, #ff4d4d,#ffb366,#ffff4d,#66ff66,#80dfff,#6666ff,#d966ff);
+}
+
+#hideall-langs-button {
+  border: none;
+  font-weight: bold;
+  background: rgb(250, 250, 250);
+}
+
+#map-controls input {
+  display: block;
 }

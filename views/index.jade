@@ -12,7 +12,7 @@ block content
       //div.upper-right.card.narrow
         //input(type="button" value="<--" onClick="toggleNarrativePanel()")
 
-      #person-container.card
+      #person-container.card.hidden
         #person-content
         #controls
           label(for"hideUSborn") Hide Born in the US
@@ -29,11 +29,29 @@ block content
           // input(type="button" value="underlay" onClick="drawUnderlay()")
 
         #lang-content
+        #intro
+          h3 About:
           p 
-            | This map uses data produced by the Endangered Language Alliance 
-            | on languages spoken throughout the borough. Queens is one of the most linguistically diverse places on earth - 
-            | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
-            | Many features in New York's language landscape remain unknown. 
+            | Each colored square on the map represents a place where a particular language is spoken. 
+            | A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).
+
+          //  | This map uses data produced by the Endangered Language Alliance 
+          //  | on languages spoken throughout the borough. Queens is one of the most linguistically diverse places on earth - 
+          //  | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
+          //  | Many features in New York's language landscape remain unknown.
+
+          h3 Map instructions:
+          p
+            | To zoom, either use the +/- buttons to the left or the scroll wheel on your mouse.
+            | Press the "Zoom to All" button to zoom to the entire borough of Queens.
+            | To pan, click and drag on the map.
+          p 
+            | Clicking on a language or a place will highlight it on the map, and give more information in this panel.
+            | You can also filter languages using the slider to the left, or show all the languages from a particular continent by clicking its name in the list.
+
+
+          input(type="button" onClick="hideIntro()" id="hideintro-button" value="Okay!").card            
+          
                    
         svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
         #story-content.hidden
@@ -43,25 +61,36 @@ block content
         //select(id="underlay-dropdown")
         //  option( value="nonenglish") Percent Speaking Languages other than English        
         //  option( value="medincome") Median Income      
+      
+      #map-controls.card.lower-right
+        label(for"showNeighborhoods") Show Neighborhoods
+          input(id="showNeighborhoods" type="checkbox" checked)
+        label(for"showInstitutions") Show Institutions
+          input(id="showInstitutions" type="checkbox" checked)          
+        input(type="button" onClick="resetMap()" id="reset-map-button" value="Zoom to All").card
+        input(type="button" onClick="map.zoomIn()" id="zoomout-button" value="+").card
+        input(type="button" onClick="map.zoomOut()" id="zoomin-button" value="-").card
 
-      a(id="reset-map-button" onClick="resetMap()").card.upper-mid Reset Map
+
       #list-container
         div.continent-item.filter.card
           div.continent-item-label
-            h1 languages of queens
+            h1 Languages of Queens
 
           div.filter-inputs
             //p Grouping:
             //input(id="filter-string" type='text')
             //select(name="select-sortby" id="select-sortby")
             //  option by Continent
-            p endangerment:
+            p Endangerment:
             #slider-range-container
               #slider-range
             #slider-labels
               #slider-label-left extinct
               #slider-label-right healthy
-            
+            input(type="button" onClick="showAllLangs()" id="showall-langs-button" value="Show All").card            
+            input(type="button" onClick="hideAllLangs()" id="hideall-langs-button" value="Hide All").card            
+
         #text-target.list-block
 
     #drawing-container
@@ -87,22 +116,21 @@ block content
             selected: {}
           }, 
           zoomInitial = 11.75,
-          queensBounds = 
-                        [
-                          [
-                            40.541828312256,
-                            -73.962621595193
-                          ],
-                          [
-                            40.801003155081,
-                            -73.700021556431
-                          ]
-                        ]
+          queensBounds = [[40.541828312256,-73.962621595193],[40.801003155081,-73.700021556431]]
           ;
           //path, 
           //transform;
   
-        var map = new L.Map('map-target', {zoomSnap: 0.25, zoomControl: false, attributionControl: true}).fitBounds( queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
+        var map = new L.Map('map-target', {
+            minZoom: 11,
+            maxZoom: 18,
+            maxBounds: [[40.4,-74.2],[41.0,-73.4]],
+            maxBoundsViscosity: 1.0,
+            zoomSnap: 0.25, 
+            zoomControl: false, 
+            attributionControl: true
+          })
+          .fitBounds( queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
         L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map
       
@@ -162,37 +190,32 @@ block content
         d3.select('#filter-endangerment')
           .on('input', function() {
             input.endangerment = d3.select(this).property('value'); // update endangerment value
-            main(); // call main function, (fetch data and rerender)
+            console.log(input.endangerment)
+            //main(); // call main function, (fetch data and rerender)
           })
-          
-        $('#slider-range').slider({
-            change: function(event, ui) {
-              input.endangermentRange = ui.values;
-              //$('#slider-range-labels').
-              buildDataTree( () => {
-                updateList();
-                //updateMap();
-                drawDotMap();
-              })
-              //console.log(` min is ${min} and max is ${max}`)
-            } 
-        })
-        
-        d3.select('#slider-range')
-          .on('change', () => {
-            console.log(input)
-            console.log(`${input.valueLow} to ${input.valueHigh}`)
-            })
             
         handlesSlider.noUiSlider.on('set', function(){
           input.endangermentRange = [10 - this.get()[1], 10 - this.get()[0]];
           console.log(input.endangermentRange)
-          buildDataTree( () => {
-            updateList();
-            //updateMap();
-            drawDotMap();
-          })     
-        	//addClassFor(lSlide, 'tShow', 450);
+
+          
+          // hide everything
+          d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
+          
+          //console.data.languages
+            
+          // get language ids in range
+          let langsFiltered = data.languages.filter( (language) => {
+            return language.endangermentNum > input.endangermentRange[0] && language.endangermentNum < input.endangermentRange[1]
+          })
+
+          
+          langsFiltered.forEach( (item) => {
+            let selector = `.lang-${item._id}`;
+            console.log(selector)
+            d3.selectAll(selector).classed('listlang-hidden', false).classed('maplang-hidden', false)
+          });
+
         });            
         
         d3.select('#underlay-dropdown')
@@ -218,7 +241,19 @@ block content
             d3.select('#show-about-content')
               .classed('hidden', false);            
           })
-                  
+          
+        var showNeighborhoodsBox = d3.select('#showNeighborhoods')
+          .on('click', function() {
+            let status = showNeighborhoodsBox.node().checked;
+            d3.selectAll('.map.nbd').classed('hidden', !status);                          
+          })
+          
+        var showInstitutionsBox = d3.select('#showInstitutions')
+          .on('click', function() {
+            let status = showInstitutionsBox.node().checked;
+            d3.selectAll('.map.inst').classed('hidden', !status);      
+          })             
+                             
         window.addEventListener('resize', () => {
           //console.log('window resize')
           overlayTarget.attr('width', window.innerWidth)
@@ -241,6 +276,15 @@ block content
             //map.flyTo([40.67, -73.84], 11.75);
             d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
             removeUnderlay()
+        }
+        function showAllLangs() {
+          d3.selectAll('.lang').classed('maplang-hidden', false).classed('listlang-hidden', false)
+        }
+        function hideAllLangs() {
+          d3.selectAll('.lang').classed('maplang-hidden', true).classed('listlang-hidden', true)
+        }
+        function hideIntro() {
+          d3.select('#intro').classed('hidden', true)
         }
         
         var state = {

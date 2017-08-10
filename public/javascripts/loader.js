@@ -156,7 +156,7 @@ function buildDataTree( callback ) {
          if (language.neighborhoods.length > 0) {
            language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 75, luminanceMap(endangerment.key), 1 );
          } else {
-           language.color = continent.colors[endangerment.key] = d3.hcl( 0,0,150,1 ); // if no neigborhoods, assign white
+           language.color = continent.colors[endangerment.key] = d3.hcl( 0,0,90,1 ); // if no neigborhoods, assign just off white
          }
        })
      });

@@ -60,3 +60,15 @@ layers:
                 order: function() { return feature.sort_rank; }
                 color: rgb(240,240,240)
                 width: [[11, 1px], [15, 1px]]
+
+    buildings:
+        data: { source: mapzen }
+        draw:
+            polygons:
+                order: function() { return feature.sort_rank; }
+                color: '#f4f4f4'
+        3d-buildings:
+            filter: { $zoom: { min: 15 } }
+            draw:
+                polygons:
+                    extrude: function () { return feature.height > 20 || $zoom >= 16; }

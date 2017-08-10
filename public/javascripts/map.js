@@ -73,6 +73,7 @@ function drawDotMap() {
         .data(data.institutions)
         .enter()
         .append('g')
+        .attr('class', 'map inst')
         .attr('transform', (d) => {
           console.log()
           return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
@@ -112,7 +113,7 @@ function drawDotMap() {
             let lang = data.languages.find( (item) => {
               return item._id == d
             })
-            return `map lang lang-${lang._id} leaflet-interactive`
+            return `map lang lang-${lang._id} cont-${lang.continents[0]._id} leaflet-interactive`
           })
         .attr('fill', (d) => {
             let lang = data.languages.find( (item) => {
@@ -120,6 +121,9 @@ function drawDotMap() {
             })
             return lang.color
           })
+        .on('click', (d) => {
+          updateLanguageCard(d);
+        })
         //.on('click', (d) => {
         //  console.log(d)
         //  console.log( data.languages.find( (item) => { // get matching language record
@@ -162,17 +166,36 @@ function drawDotMap() {
           //console.log(d)
           return `nbd-group-${d._id}`
         })
+        .attr('class', 'map nbd')
         .attr('transform', (d) => {
-                  return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
-                })
+          return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x} ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
+        })
 
-
+        // colored language squares
         neighborhoodGroups.append('g').selectAll('rect')
           .data((d) => { return d.properties.languages})
           .enter()
           .append('rect')
-          .attr('x', -3)
-          .attr('y', (d, i) => {return i*-6-6})
+          .attr('x', (d, i, n) => {
+            switch (i < n.length * 0.5) {
+              case true:
+                return '-3'
+                break;
+              case false:
+                return '-9'
+                break;
+            }
+          })
+          .attr('y', (d, i, n) => {
+            switch (i < n.length * 0.5) {
+              case true:
+                return i*-6-6
+                break;
+              case false:
+                return (i-Math.round(n.length/2))*-6-6
+                break;
+              }
+          })
           .attr('width', '6')
           .attr('height', '6')
           .attr('stroke', 'transparent')
@@ -180,7 +203,7 @@ function drawDotMap() {
               let lang = data.languages.find( (item) => {
                 return item._id == d
               })
-              return `map lang lang-${lang._id} leaflet-interactive`
+              return `map lang lang-${lang._id} cont-${lang.continents[0]._id} leaflet-interactive`
             })
           .attr('fill', (d) => {
               let lang = data.languages.find( (item) => {
@@ -188,6 +211,11 @@ function drawDotMap() {
               })
               return lang.color
             })
+            .on('click', (d) => {
+              // d is ID
+              updateLanguageCard(d);
+            })
+
 
 
         neighborhoodGroups.append('line')
@@ -201,23 +229,31 @@ function drawDotMap() {
           .attr('stroke', 'grey')
           .attr('stroke-width', '1px')
           .attr('fill', 'none')
-          .attr('x', (d) => {return '-3'})
-          .attr('y', (d) => {return d.properties.languages.length * -6})
-          .attr('width', (d) => {return '6'})
-          .attr('height', (d) => {return d.properties.languages.length * 6})
+          .attr('x', (d) => {return '-9'})
+          .attr('y', (d) => {return Math.round(d.properties.languages.length* 0.5) * -6})
+          .attr('width', (d) => {return '12'})
+          .attr('height', (d) => {return Math.round(d.properties.languages.length* 0.5) * 6})
         callback(null);
 
+        neighborhoodGroups.append('text')
+          .attr('fill', 'gray')
+          .attr('text-anchor', 'left')
+          .attr('font-family', 'courier')
+          .attr('font-size', '9px')
+          .attr('transform', 'rotate(270, 0, 0) translate(0, 16)')
+          .text((d) => { return d.properties.NTAName})
 
         neighborhoodGroups.append("circle")
         .attr('cx', '0')
         .attr('cy', '5')
-        .attr('r', '7')
+        .attr('r', '12')
         .attr("id", (d) => {
           //console.log(d)
           return `nbd-${d._id}`
         })
-        .attr("stroke", "transparent")
-        .attr("fill", "rgba(0,0,0,0.1)")
+        .attr("stroke", "rgba(0,0,0,0.2")
+        .attr('stroke-dasharray', '3, 3')
+        .attr("fill", "transparent")
         .attr("class", "leaflet-interactive nbd-otln")
         .lower()
         .on('click', (d) => {
@@ -328,6 +364,21 @@ function connectLine( coordArray, target, options ) {
 
   if (options.strokewidth) { line.attr("stroke-width", options.strokewidth ) }
   else { line.attr("stroke-width", 1) }
+}
+
+function connectLineMulti( coordArray ) {
+
+}
+
+function getCoordsMulti( selector ) {
+  let elems = d3.selectAll(selector).nodes();
+  let coords = elems.map( (item) => {
+    let box = item.getBoundingClientRect();
+    let x = (box.width / 2) + box.left;
+    let y = (box.height / 2) + box.top;
+    return [x, y]
+  })
+  return coords;
 }
 
 // returns map coordinates of DOM element, either SVG or HTML, by ID
@@ -507,7 +558,7 @@ function update() {
       .classed('hidden', false);*/
 
   neighborhoodGroups.attr('transform', (d) => {
-            return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
+            return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y}) rotate(90, 0, 0)`
           })
   institutionGroups.attr('transform', (d) => {
             return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
