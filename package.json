@@ -1,6 +1,9 @@
 {
-  "name": "leaflet-test",
-  "version": "0.0.0",
+  "name": "queenslanguagemap",
+  "version": "0.0.1",
+  "engines": {
+    "node": "6.9.1"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

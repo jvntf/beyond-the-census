@@ -4,8 +4,10 @@ var mongoose = require('mongoose');
 var request = require('request');
 var storyhelper = require('./helpers/storyhelper');
 
+var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
+
 /* ~~~ mongoose connection (access to database) ~~~ */
-  mongoose.connect('mongodb://localhost/ELAdata', function (err) {
+  mongoose.connect(mongoDB, function (err) {
       if (err) {console.log(err)};
   });
 
