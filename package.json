@@ -2,7 +2,7 @@
   "name": "queenslanguagemap",
   "version": "0.0.1",
   "engines": {
-    "node": "6.9.1"
+    "node": "6.11.0"
   },
   "private": true,
   "scripts": {
