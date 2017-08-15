@@ -30,7 +30,7 @@ function updateList() {
       .data(data.main) // this data comes already nested/sorted from data.main (was languageNest)
     .enter().append('div')
       .classed('continent-item', true)
-      .classed('card', true)
+      //.classed('card', true)
 
     //continentItem.datum(   <-- this was for the data modification part, now happening in updateData function
     //
@@ -110,7 +110,7 @@ function updateList() {
 
       languageItem.text((d) => {
         if ( d.story !== undefined ) {
-          return `* ${d.language}`
+          return `•${d.language}`
         }
           return d.language
       })
@@ -154,12 +154,23 @@ function updateLanguageCard( id, callback ) {
 
   var card = d3.select('#lang-content');
   card.selectAll('*').remove();
-  card.append('h1').text(() => {return dataItem.language});
-  //card.append('p').text(() => {return dataItem.description});
-  //card.append('p').text(() => {return `Endangerment: ${dataItem.endagerment}`});
-  //card.append('p').text(() => {return `Spoken globally in ${countriesSpoken}`});
-  //card.append('p').text(() => {return `Spoken locally in ${neighborhoodsSpoken}`});
-  card.append('h2').text('Links:')
+  card.append('h2').text(() => {return dataItem.language});
+
+  card.append('p').text( () => {return dataItem.description})
+
+  // deal with story content, if present
+  var storycontainer = d3.select('#story-content') // select div
+  var underlaycontrol = d3.select('#underlay-control')
+
+  if ( dataItem.story !== undefined ) {
+    storycontainer.classed('hidden', false)
+    storycontainer.selectAll('*').remove();
+    storycontainer.append('p').text(() => { return dataItem.story });
+  } else {
+    storycontainer.classed('hidden', true)
+  }
+
+  card.append('h3').text('Links')
   var buttongroup = card.append('div').attr('class', 'button-group');
   buttongroup.append('a')
       .attr('href', () => {return dataItem.wiki}).text('wikipedia')
@@ -170,34 +181,17 @@ function updateLanguageCard( id, callback ) {
   //  .attr('target', 'blank')
     //.attr('class', 'card');
 
-  card.append('h3').text('Spoken In:');
+  card.append('h3').text('Spoken In');
   var placesGroup = card.append('div').attr('id', 'places-list');
 
-  dataItem.neighborhoods.forEach( (neighborhood) => {
-    placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
-  })
+  // list neighborhoods spoken in "spoken in" list
+  //dataItem.neighborhoods.forEach( (neighborhood) => {
+  //  placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
+  //})
 
   dataItem.countries.forEach( (country) => {
     placesGroup.append('span').text(() => {return country.properties.ADMIN })
   })
-
-
-  // deal with story content, if present
-  var storycontainer = d3.select('#story-content') // select div
-  var underlaycontrol = d3.select('#underlay-control')
-
-  if ( dataItem.story !== undefined ) {
-    storycontainer.classed('hidden', false)
-    storycontainer.selectAll('*').remove();
-    storycontainer.append('p').text(() => { return dataItem.story });
-
-    underlaycontrol.classed('hidden', false)
-    underlaycontrol.selectAll('*').remove();
-    underlaycontrol.append('a').attr('onClick', 'drawUnderlay()').text('Show Underlay')
-  } else {
-    storycontainer.classed('hidden', true)
-  }
-
 
   if (callback) {callback(null)}
 }

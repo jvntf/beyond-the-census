@@ -1,3 +1,21 @@
+cameras:
+    camera1:
+        type: isometric
+        axis: [0, 2]
+
+styles:
+    buildings:
+        base: polygons
+        shaders:
+            blocks:
+                color: 'white'
+    flatlines:
+        base: lines
+        lighting: false # ignore lights
+    flatpolys:
+        base: polygons
+        lighting: false # ignore lights
+
 sources:
     mapzen:
         type: TopoJSON
@@ -6,16 +24,7 @@ sources:
             api_key: mapzen-tDHBHDp
         max_zoom: 16
 
-styles:
-    flatlines:
-        base: lines
-        lighting: false # ignore lights
-    flatpolys:
-        base: polygons
-        lighting: false # ignore lights
-
 layers:
-
     earth:
         data: { source: mapzen }
         draw:
@@ -28,14 +37,14 @@ layers:
         draw:
             polygons:
                 order: function() { return feature.sort_rank; }
-                color: '#e0eaf9'
+                color: '#dfdede'
 
     landuse:
         data: {source: mapzen }
         draw:
             polygons:
                 order: function() {return feature.sort_rank; }
-                color: '#f3f7ef'
+                color: '#eeeeee'
 
     places:
         data: {source: mapzen }
@@ -46,11 +55,10 @@ layers:
                 order: function() { return feature.sort_rank; }
                 text_source: name
                 font:
-                    weight: bold
                     size: 10pt
-                    family: Cousine
+                    family: Univers
                     style: italic
-                    fill: rgb(209, 209, 209)
+                    fill: rgb(224, 224, 224)
 
     roads:
         data: { source: mapzen, layer: roads }
@@ -67,8 +75,14 @@ layers:
             polygons:
                 order: function() { return feature.sort_rank; }
                 color: '#f4f4f4'
-        3d-buildings:
-            filter: { $zoom: { min: 15 } }
+        extruded:
             draw:
                 polygons:
-                    extrude: function () { return feature.height > 20 || $zoom >= 16; }
+                    style: buildings
+                    extrude: function () { return feature.height > 0 || $zoom >= 16; }
+        #3d-buildings:
+      #      filter: { $zoom: { min: 15 } }
+      #      draw:
+      #          polygons:
+      #              style: buildings;
+      #              extrude: function () { return feature.height > 20 || $zoom >= 15; }

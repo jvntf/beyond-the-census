@@ -5,10 +5,12 @@ html
         
         // google fonts
         link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Archivo:400,400i,500,500i,600,600i,700,700i')
-        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:400,500,700')
-
+        // link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:400,500,700')
+        // fonts.com (Univers)
+        link(type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/c28915cb-7a1f-477c-9084-e9e755ede452.css")
+        
         // fontawesome (icons)
-        link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
+        link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
 
         // jquery 
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
@@ -19,9 +21,16 @@ html
         script(src='https://unpkg.com/leaflet@1.1.0/dist/leaflet.js' integrity='sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==' crossorigin='')
         script(src='https://mapzen.com/tangram/tangram.min.js')
 
+        // leaflet zoom home plugin
+        link(rel="stylesheet" href="/javascripts/lib/zoomhome/leaflet.zoomhome.css")
+        script(src="/javascripts/lib/zoomhome/leaflet.zoomhome.min.js")
+        
         // d3
         script(src='https://d3js.org/d3.v4.min.js')        
         script(src='https://d3js.org/topojson.v1.min.js')
+        
+        // d3 jetpack plugins
+        script(src='/javascripts/lib/d3jetpack.js')
         
         // fuzzy search for data loading
         script(src='/javascripts/lib/fuzzy.js')

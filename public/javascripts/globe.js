@@ -1,5 +1,4 @@
 function updateGlobe( item, callback ) {
-
   d3.select('#globe-target').classed('hidden', false);
 
   var thisLanguage = item;
@@ -36,7 +35,7 @@ function updateGlobe( item, callback ) {
           .attr('cy', 0)
           .attr('r', projection.scale())
           .attr('class', 'globe')
-          .attr("fill", "#e0eaf9");
+          .attr("fill", "#dfdede");
 
       //Add all of the countries to the globe
       var continentPaths = target.selectAll("path")
@@ -78,7 +77,7 @@ function updateGlobe( item, callback ) {
           .attr('width', 6)
           .attr('height', 6)
           .attr('stroke', 'gray')
-          .attr("fill", item.color)
+          .attr("fill", (d) => {if (item.color) {return item.color} else {return 'gray'}})
           .attr("fill-opacity", "1")
 
       //Add marker at the center of the globe
@@ -98,7 +97,7 @@ function updateGlobe( item, callback ) {
           .attr('width', 6)
           .attr('height', 6)
           .attr('stroke', 'gray')
-          .attr("fill", item.color)
+          .attr("fill", (d) => {return item.color})
           .attr("fill-opacity", "1")
 
       var countryList = [];
