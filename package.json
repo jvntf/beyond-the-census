@@ -12,7 +12,6 @@
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "csv": "^1.1.1",
-    "d3-textwrap": "^2.0.0",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "*",

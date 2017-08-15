@@ -4,11 +4,6 @@ cameras:
         axis: [0, 2]
 
 styles:
-    buildings:
-        base: polygons
-        shaders:
-            blocks:
-                color: 'white'
     flatlines:
         base: lines
         lighting: false # ignore lights
@@ -75,14 +70,8 @@ layers:
             polygons:
                 order: function() { return feature.sort_rank; }
                 color: '#f4f4f4'
-        extruded:
+        3d-buildings:
+            filter: { $zoom: { min: 15 } }
             draw:
                 polygons:
-                    style: buildings
-                    extrude: function () { return feature.height > 0 || $zoom >= 16; }
-        #3d-buildings:
-      #      filter: { $zoom: { min: 15 } }
-      #      draw:
-      #          polygons:
-      #              style: buildings;
-      #              extrude: function () { return feature.height > 20 || $zoom >= 15; }
+                    extrude: function () { return feature.height > 20 || $zoom >= 15; }
