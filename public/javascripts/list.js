@@ -3,27 +3,6 @@
 function updateList() {
 
   var textTarget = d3.select('#text-target'); // get target HTML node to append things to
-
-  /*
-    from here down, start adding HTML to the DOM
-
-    the end result will be that something like this...
-
-    v div.continent-item
-        v div.continent-item-label
-            v p [LANGUAGE NAME]
-            v span.endangerment-scale
-        v div.language-list
-            v span#li-[LANGUAGE._ID].language-item
-            v span#li-[LANGUAGE._ID].language-item
-            v span#li-[LANGUAGE._ID].language-item
-            v span#li-[LANGUAGE._ID].language-item
-    > div.continent-item
-    > div.continent-item
-
-    ... gets appended to div#text-target
-  */
-
   textTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
 
   var continentItem = textTarget.selectAll('div') // make continent container DIVs
@@ -45,9 +24,9 @@ function updateList() {
         //console.log(d)
         return d.key })
       .on('click', (d) => {
-        console.log(d)
         d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
         d3.selectAll(`.cont-${d.values[0].values[0].continents[0]._id}`).classed('listlang-hidden', false).classed('maplang-hidden', false)
+        updateContinentCard(d.values[0].values[0].continents[0]._id, null)
       });
 
 //  var endangermentScale = continentLabel.append('span')
@@ -133,92 +112,12 @@ function updateList() {
           })
 }
 
-function updateLanguageCard( id, callback ) {
-  //console.log(id)
-  dataItem = data.languages.find( (item) => {
-    return item._id == id;
-  })
-
-  //console.log(dataItem)
-  //console.log('update language card')
-
-  var countriesSpoken = dataItem.countries.map( (item) => {
-    return item.properties.ADMIN
-  }).join(", ")
-  //console.log(countriesSpoken)
-
-  var neighborhoodsSpoken = dataItem.neighborhoods.map( (item) => {
-    return item.properties.NTAName
-  }).join(", ")
-  //console.log(neighborhoodsSpoken)
-
-  var card = d3.select('#lang-content');
-  card.selectAll('*').remove();
-  card.append('h2').text(() => {return dataItem.language});
-
-  card.append('p').text( () => {return dataItem.description})
-
-  // deal with story content, if present
-  var storycontainer = d3.select('#story-content') // select div
-  var underlaycontrol = d3.select('#underlay-control')
-
-  if ( dataItem.story !== undefined ) {
-    storycontainer.classed('hidden', false)
-    storycontainer.selectAll('*').remove();
-    storycontainer.append('p').text(() => { return dataItem.story });
-  } else {
-    storycontainer.classed('hidden', true)
-  }
-
-  card.append('h3').text('Links')
-  var buttongroup = card.append('div').attr('class', 'button-group');
-  buttongroup.append('a')
-      .attr('href', () => {return dataItem.wiki}).text('wikipedia')
-      .attr('target', 'blank')
-      //.attr('class', 'card');
-  //buttongroup.append('a')
-  //  .attr('href', () => {return dataItem.ethno}).text('ethnologue')
-  //  .attr('target', 'blank')
-    //.attr('class', 'card');
-
-  card.append('h3').text('Spoken In');
-  var placesGroup = card.append('div').attr('id', 'places-list');
-
-  // list neighborhoods spoken in "spoken in" list
-  //dataItem.neighborhoods.forEach( (neighborhood) => {
-  //  placesGroup.append('span').text(() => {return neighborhood.properties.NTAName })
-  //})
-
-  dataItem.countries.forEach( (country) => {
-    placesGroup.append('span').text(() => {return country.properties.ADMIN })
-  })
-
-  if (callback) {callback(null)}
-}
-
-function updateNeighborhoodCard(dataItem) {
-  // clear card (hide globe)
-  d3.select('#globe-target').classed('hidden', 'true');
-  d3.select('#lang-content').selectAll('*').remove();
-  d3.select('#story-content').classed('hidden', 'true');
-  d3.select('#underlay-control').classed('hidden', 'true');
-
-  var nbdCard = d3.select('#lang-content');
-
-  nbdCard.append('h1').text(() => {return dataItem.properties.NTAName})
-  nbdCard.append('h3').text('Languages Spoken:')
-  var langsList = nbdCard.append('div').attr('id', 'places-list');
-
-  dataItem.properties.languages.forEach( (item) => {
-    langsList.append('span').text(() => { return item._id })
-  })
-}
-
-
 // scroll list to provided element ID
 function scrollList(id, callback) {
-  $(document.body).animate({
-    'scrollTop':   $(`#${id}`).offset().top
+  let classString = `.list.lang.lang-${id}`;
+  console.log(classString);
+  $('#text-target').animate({
+    'scrollTop':   $(`.list.lang.lang-${id}`).offset().top
   }, {
     'duration': 500,
     'queue': false,

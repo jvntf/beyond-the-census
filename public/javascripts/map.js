@@ -16,7 +16,7 @@ var path,
 
 function drawDotMap() {
     var mapContainer = d3.select('#map-target').node().getBoundingClientRect();
-    console.log(mapContainer)
+    //console.log(mapContainer)
     var mapWidth = mapContainer.width,
         mapHeight = mapContainer.height;
 
@@ -78,7 +78,6 @@ function drawDotMap() {
         .data(data.institutions)
         .enter()
         .append('g')
-        .attr('class', 'map inst')
         .attr('transform', (d) => {
           console.log()
           return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y})`
@@ -98,15 +97,25 @@ function drawDotMap() {
         .attr('font-size', '10px')
         .text( (d) => { return d.properties.institution} )*/
 
+
+        // builds up text, broken into lines, in reverse order from top of bar chart
       var institutionText = institutionGroups.append('text')
+        .attr('class', 'institution label')
         .attr('fill', 'gray')
         .attr('text-anchor', 'middle')
         .attr('font-family', 'UniversNextW01-Regular')
         .attr('font-size', '9px')
-        .attr('transform', 'translate(0, 5)')
+        .attr('transform', (d) => {
+          return `translate(0, ${(d.properties.languages.length * -6) - 4 })`
+          })
         .tspans(function(d) {
-            return d3.wordwrap(d.properties.institution, 15);  // break line after 15 characters
-          }).attr('dy', '1em');
+            return d3.wordwrap(d.properties.institution, 15).reverse();
+          }, -9)
+        .style('cursor', 'pointer')
+        .on('click', (d) => {
+            console.log(d.parent._id)
+            updateInstitutionCard(d.parent._id);
+          });
 
       var barChartSquares = institutionGroups.append('g').selectAll('rect')
         .data((d) => { return d.properties.languages})
@@ -254,7 +263,7 @@ function drawDotMap() {
           //.attr('x', (d, i, n) => {return Math.round(n.length/2)*-6+6})
           //.attr('y', (d) => {return '-9'})
           .attr('height', (d) => {return '12'})
-          .attr('width', (d, i, n) => {console.log(d.properties.languages.length); return Math.round(d.properties.languages.length/2)*6})
+          .attr('width', (d, i, n) => {return Math.round(d.properties.languages.length/2)*6})
         callback(null);
 
         neighborhoodSymbol.attr('transform', (d) => {return `translate( ${-6*Math.round(d.properties.languages.length/2)/2} -6 )`})
@@ -269,7 +278,19 @@ function drawDotMap() {
           .attr('transform', 'translate(0, 9)')
           .tspans(function(d) {
               return d3.wordwrap(d.properties.NTAName, 15);  // break line after 15 characters
-            }).attr('dy', '1em');
+            }).attr('dy', '1em')
+          .style('cursor', 'pointer')
+          .on('click', (d) => {
+            console.log(d)
+              // one option: zoom to neighborhood when clicked
+              var d3bounds = d3.geoBounds(d.parent);
+              //var padCalc = window.innerWidth * 0.25
+
+              var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
+              map.flyToBounds(flipped, {paddingTopLeft: [ 30,30 ], paddingBottomRight: [ 30,30 ]} );
+
+              updateNeighborhoodCard(d.parent._id)
+            });
 
           //.text((d) => { return d.properties.NTAName})
 
@@ -499,9 +520,9 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
       mapPoint = [],
       globePoint = [];
 
-  var listItemBounds = d3.select(`#li-${dataItem._id}`)._groups[0][0].getBoundingClientRect();
+  //var listItemBounds = d3.select(`#li-${dataItem._id}`)._groups[0][0].getBoundingClientRect();
   //console.log(listItemBounds);
-  listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
+  //listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
 
   //globePoint = parseTransform(d3.select('#globe-container').attr('transform')).translate;
   globePoint = getCoords('globe-marker')
@@ -512,9 +533,9 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
   if (callback) { callback(null) }
 }
 
-
 // update the path using the current transform
 function update() {
+
   d3.selectAll()
   //d3.select('#map-neighborhoodotlns').selectAll('#').attr('fill', 'none')
   d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots
@@ -545,6 +566,14 @@ function update() {
           })
   institutionGroups.attr('transform', (d) => {
             return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y}) scale(${zoomLevel/12})`
+          })
+          .attr('class', () => {
+            let zoom = map.getZoom();
+            if (zoom < 13.5) {
+              return 'map inst mapsymbol-hidden'
+            } else {
+              return 'map inst'
+            }
           })
 
 }

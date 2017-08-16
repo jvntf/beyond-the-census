@@ -13,12 +13,16 @@ block content
     //    input(id="loadStory" type="button" value="get a story")
 
     #header
-      h1.header-link-left Languages of Queens
-      div.header-link-right
-        a About
+      table
+        tbody
+          tr
+            td.table-left
+              h1 Languages of Queens            
+            td.table-right
+              a(onClick="updateAboutCard()") About
+
     
     #container-main
-
       #list-container
         #list-filters
           div.filter-inputs
@@ -39,59 +43,22 @@ block content
             input(type="button"  class="lang-toggle-button" onClick="hideAllLangs()" id="hideall-langs-button" value="Hide All")
         #text-target.list-block
         
-      #drawing-container
+      #drawing-container.drawing-wide
         #overlay-target
         #map-target
-        #map-controls
-          label(for"showNeighborhoods") Show Neighborhoods
-            input(id="showNeighborhoods" type="checkbox" checked)
-          label(for"showInstitutions") Show Institutions
-            input(id="showInstitutions" type="checkbox" checked)  
-          label(for"showLabels") Show Labels
-            input(id="showLabels" type="checkbox" checked)                  
+        //#map-controls
+          //label(for"showNeighborhoods") Show Neighborhoods
+          //  input(id="showNeighborhoods" type="checkbox" checked)
+          //label(for"showInstitutions") Show Institutions
+          //  input(id="showInstitutions" type="checkbox" checked)  
+          //label(for"showLabels") Show Labels
+          //  input(id="showLabels" type="checkbox" checked)                  
                     
-          //input(type="button" onClick="resetMap()" id="reset-map-button" value="Zoom to All").card.padded
-          //input(type="button" onClick="map.zoomIn()" id="zoomout-button" value="+").card.padded
-          //input(type="button" onClick="map.zoomOut()" id="zoomin-button" value="-").card.padded
-        
-        
-      #detail-container
+      #detail-container.hidden
+        #detail-control
+          a(onClick="setCardVisible(false)") X
         #lang-content
-
-                   
         svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
-        #story-content.hidden
-        #underlay-control.hidden
-        
-        //h2 Map Underlay
-        //select(id="underlay-dropdown")
-        //  option( value="nonenglish") Percent Speaking Languages other than English        
-        //  option( value="medincome") Median Income            
-      
-      #popup-container
-        #popup-content
-          h2 About
-          p 
-            | Each colored square on the map represents a place where a particular language is spoken. 
-            | A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).
-
-          //  | This map uses data produced by the Endangered Language Alliance 
-          //  | on languages spoken throughout the borough. Queens is one of the most linguistically diverse places on earth - 
-          //  | the languages and locations shown here represent only a subset of communities directly associated with the Alliance.
-          //  | Many features in New York's language landscape remain unknown.
-
-          // h2 Map instructions:
-          //p
-          //  | To zoom, either use the +/- buttons to the left or the scroll wheel on your mouse.
-          //  | Press the "Zoom to All" button to zoom to the entire borough of Queens.
-          //  | To pan, click and drag on the map.
-          //p 
-          //  | Clicking on a language or a place will highlight it on the map, and give more information in this panel.
-          //  | You can also filter languages using the slider to the left, or show all the languages from a particular continent by clicking its name in the list.
-
-
-          input(type="button" onClick="hideIntro()" id="hideintro-button" value="Okay!").card.padded            
-          
     
     // script starts here
     script(type='text/javascript').
@@ -183,19 +150,19 @@ block content
         d3.select('#filter-string')
           .on('input', function () {
             input.string = d3.select(this).property('value');
-            console.log(input.string);
+            //console.log(input.string);
           });
           
         d3.select('#filter-endangerment')
           .on('input', function() {
             input.endangerment = d3.select(this).property('value'); // update endangerment value
-            console.log(input.endangerment)
+            //console.log(input.endangerment)
             //main(); // call main function, (fetch data and rerender)
           })
             
         handlesSlider.noUiSlider.on('set', function(){
           input.endangermentRange = [10 - this.get()[1], 10 - this.get()[0]];
-          console.log(input.endangermentRange)
+          //console.log(input.endangermentRange)
 
           
           // hide everything
@@ -211,7 +178,7 @@ block content
           
           langsFiltered.forEach( (item) => {
             let selector = `.lang-${item._id}`;
-            console.log(selector)
+            //console.log(selector)
             d3.selectAll(selector).classed('listlang-hidden', false).classed('maplang-hidden', false)
           });
 
@@ -261,10 +228,10 @@ block content
                              
         window.addEventListener('resize', () => {
           //console.log('window resize')
-          overlayTarget.attr('width', window.innerWidth)
-            .attr('height', window.innerHeight)
-            .select('svg').attr('width', window.innerWidth)
-              .attr('height', window.innerHeight)
+          //overlayTarget.attr('width', window.innerWidth)
+          //  .attr('height', window.innerHeight)
+          //  .select('svg').attr('width', window.innerWidth)
+          //    .attr('height', window.innerHeight)
         })
         
         d3.select(window)
@@ -282,6 +249,7 @@ block content
             d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
             removeUnderlay()
         }
+        
         function showAllLangs() {
           d3.selectAll('.lang').classed('maplang-hidden', false).classed('listlang-hidden', false)
         }

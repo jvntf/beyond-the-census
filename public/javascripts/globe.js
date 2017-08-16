@@ -46,8 +46,6 @@ function updateGlobe( item, callback ) {
           .attr("fill", "#ffffff")
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
-      console.log(thisLanguage.countries);
-
       var countryGroups = target.selectAll('g')
           .data(thisLanguage.countries)
           .enter()
