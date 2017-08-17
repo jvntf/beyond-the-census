@@ -72,7 +72,8 @@ body {
   vertical-align: top;
   margin: 0px;
   padding: 0px;
-  height: 90vh;
+  height: 95vh;
+  overflow: hidden;
 }
 
 .drawing-medium {

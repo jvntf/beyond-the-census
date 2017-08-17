@@ -13,14 +13,6 @@ function setCardVisible(bool) {
   window.dispatchEvent(new Event('resize'));
 }
 
-function updateAboutCard() {
-  clearCard();
-  setCardVisible(true);
-  var card = d3.select('#lang-content');
-  card.append('h2').text('About')
-  card.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
-}
-
 function updateInstitutionCard(id, callback) {
   clearCard();
   setCardVisible(true);
@@ -53,6 +45,7 @@ function updateInstitutionCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
+          .on('click', () => {updateLanguageCard(item._id)})
           .style('background', () => {return item.color})
       })
       if (callback) {callback(null)}
@@ -93,6 +86,7 @@ function updateCountryCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
+          .on('click', () => {updateLanguageCard(item._id)})
           .style('background', () => {return item.color})
       })
     })
@@ -120,6 +114,7 @@ function updateAboutCard() {
   var card = d3.select('#lang-content');
   card.append('h2').text('About')
   card.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
+  card.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
 }
 
 function updateNeighborhoodCard(id, callback) {
@@ -156,6 +151,7 @@ function updateNeighborhoodCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
+          .on('click', () => {updateLanguageCard(item._id)})
           .style('background', () => {return item.color})
       })
     })
