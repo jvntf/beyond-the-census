@@ -190,7 +190,31 @@ function drawDotMap() {
             return lang.color
           })
         .on('click', (d) => {
-          updateLanguageCard(d);
+          let lang = data.languages.find( (item) => {
+            return item._id == d
+          })
+          scrollList(lang._id, () => {})
+          //console.log(lang)
+          d3.selectAll('.list.lang').classed('listlang-hidden', true)
+          d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
+          //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+          d3.selectAll('.map.lang').classed('maplang-hidden', true)
+          d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
+          d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
+          //showNarrativePanel();
+          updateLanguageCard(lang._id);
+
+          updateGlobe(lang);
+          d3.selectAll('.globe.country').classed('globe-hidden', true)
+          d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+          lang.countries.forEach( (item) => {
+            d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
+          })
+
+          d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
+
         })
         .on('mouseover', (d, i, n) => {
         var box = d3.select(n[i]).attr('stroke', (d) => {
@@ -228,7 +252,7 @@ function drawDotMap() {
 
         neighborhoodOutlines = neighborhoodGroups.append("path")
           .attr('class', (d) => {
-            console.log(d)
+            //console.log(d)
             return `otln nbd-${d._id}`
           })
           .attr("d", path)
@@ -306,8 +330,30 @@ function drawDotMap() {
               return lang.color
             })
             .on('click', (d) => {
-              // d is ID
-              updateLanguageCard(d);
+              let lang = data.languages.find( (item) => {
+                return item._id == d
+              })
+              scrollList(lang._id, () => {})
+              //console.log(lang)
+              d3.selectAll('.list.lang').classed('listlang-hidden', true)
+              d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
+              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+              d3.selectAll('.map.lang').classed('maplang-hidden', true)
+              d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
+              d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
+              //showNarrativePanel();
+              updateLanguageCard(lang._id);
+
+              updateGlobe(lang);
+              d3.selectAll('.globe.country').classed('globe-hidden', true)
+              d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+              lang.countries.forEach( (item) => {
+                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
+              })
+
+              d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
             })
             .on('mouseover', (d, i, n) => {
             var box = d3.select(n[i]).attr('stroke', (d) => {
@@ -501,7 +547,7 @@ function getCoordsMulti( selector ) {
 // returns map coordinates of DOM element, either SVG or HTML, by ID
 // to-do: be able to specify what part of the element you want (default center)
 function getCoords( id, options ) {
-  let box = d3.select(`#${id}`).node().getBoundingClientRect();
+  //let box = d3.select(`#${id}`).node().getBoundingClientRect();
   let x, y, latLng;
   if (options && options.anchor) {
     switch (options.anchor) {
@@ -548,7 +594,7 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
   //console.log(dataItem)
 
 
-    globeMarker.attr('stroke', () => { return dataItem.color.darker().darker() })
+    //globeMarker.attr('stroke', () => { return dataItem.color.darker().darker() })
 
 
     //connectCurve(
@@ -590,7 +636,7 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
   //listItemPoint = [listItemBounds.left, listItemBounds.top + (listItemBounds.height/2) ];
 
   //globePoint = parseTransform(d3.select('#globe-container').attr('transform')).translate;
-  globePoint = getCoords('globe-marker')
+  //globePoint = getCoords('globe-marker')
 
   d3.select('#globe-marker').attr('fill', () => {return dataItem.color })
     .attr('stroke', () => { return dataItem.color.darker().darker() })

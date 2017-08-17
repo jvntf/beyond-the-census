@@ -35,7 +35,7 @@ function updateInstitutionCard(id, callback) {
     .await( (err) => {
       console.log(dataItem);
       card.append('h2').text(() => {return dataItem.properties.institution})
-      card.append('p').text(() => {return dataItem.properties.type})
+      //card.append('p').text(() => {return dataItem.properties.type})
       card.append('p').text(() => {return dataItem.properties.description})
       card.append('p').text(() => {return dataItem.properties.address})
       // write language list
@@ -45,7 +45,32 @@ function updateInstitutionCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
-          .on('click', () => {updateLanguageCard(item._id)})
+          .on('click', () => {
+            let lang = data.languages.find( (searchitem) => {
+              return searchitem._id == item._id
+            })
+            scrollList(lang._id, () => {})
+            //console.log(lang)
+            d3.selectAll('.list.lang').classed('listlang-hidden', true)
+            d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
+            //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+            d3.selectAll('.map.lang').classed('maplang-hidden', true)
+            d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
+            d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
+            //showNarrativePanel();
+            updateLanguageCard(lang._id);
+
+            updateGlobe(lang);
+            d3.selectAll('.globe.country').classed('globe-hidden', true)
+            d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+            lang.countries.forEach( (item) => {
+              d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
+            })
+
+            d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
+          })
           .style('background', () => {return item.color})
       })
       if (callback) {callback(null)}
@@ -86,7 +111,33 @@ function updateCountryCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
-          .on('click', () => {updateLanguageCard(item._id)})
+          .on('click', () => {
+
+              let lang = data.languages.find( (searchitem) => {
+                return searchitem._id == item._id
+              })
+              scrollList(lang._id, () => {})
+              //console.log(lang)
+              d3.selectAll('.list.lang').classed('listlang-hidden', true)
+              d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
+              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+              d3.selectAll('.map.lang').classed('maplang-hidden', true)
+              d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
+              d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
+              //showNarrativePanel();
+              updateLanguageCard(lang._id);
+
+              updateGlobe(lang);
+              d3.selectAll('.globe.country').classed('globe-hidden', true)
+              d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+              lang.countries.forEach( (item) => {
+                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
+              })
+
+              d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
+          })
           .style('background', () => {return item.color})
       })
     })
@@ -151,7 +202,33 @@ function updateNeighborhoodCard(id, callback) {
         langsList.append('span')
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
-          .on('click', () => {updateLanguageCard(item._id)})
+          .on('click', () => {
+
+              let lang = data.languages.find( (searchitem) => {
+                return searchitem._id == item._id
+              })
+              scrollList(lang._id, () => {})
+              //console.log(lang)
+              d3.selectAll('.list.lang').classed('listlang-hidden', true)
+              d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
+              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+              d3.selectAll('.map.lang').classed('maplang-hidden', true)
+              d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
+              d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
+              //showNarrativePanel();
+              updateLanguageCard(lang._id);
+
+              updateGlobe(lang);
+              d3.selectAll('.globe.country').classed('globe-hidden', true)
+              d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+              lang.countries.forEach( (item) => {
+                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
+              })
+
+              d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
+          })
           .style('background', () => {return item.color})
       })
     })

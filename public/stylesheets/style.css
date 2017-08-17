@@ -73,7 +73,6 @@ body {
   margin: 0px;
   padding: 0px;
   height: 95vh;
-  overflow: hidden;
 }
 
 .drawing-medium {
@@ -503,4 +502,8 @@ h3 {
 .leaflet-touch .leaflet-bar {
   border-radius: 0px;
   border: 1px solid gray;
+}
+
+.globe-hidden {
+  visibility: hidden;
 }
