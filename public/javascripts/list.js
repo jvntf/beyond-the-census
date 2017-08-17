@@ -133,7 +133,7 @@ function scrollList(id, callback) {
   let classString = `.list.lang.lang-${id}`;
   console.log(classString);
   $('#text-target').animate({
-    'scrollTop':   $(`.list.lang.lang-${id}`).offset().top
+    'scrollTop':  $(`.list.lang.lang-${id}`).offset().top
   }, {
     'duration': 500,
     'queue': false,

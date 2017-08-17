@@ -679,6 +679,14 @@ function update() {
   neighborhoodSymbolGroup.attr('transform', (d) => {
             return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y}) scale(${zMap(zoomLevel) + 1})`
           })
+          .attr('class', () => {
+            let zoom = map.getZoom();
+            if (zoom > 15.5) {
+              return 'map inst mapsymbol-hidden'
+            } else {
+              return 'map inst'
+            }
+          })
   institutionGroups.attr('transform', (d) => {
 
             return `translate(${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).x}, ${map.latLngToLayerPoint( [d3.geoCentroid(d)[1], d3.geoCentroid(d)[0]] ).y}) scale(${zMap(zoomLevel) + 1})`

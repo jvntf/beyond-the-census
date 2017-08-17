@@ -90,6 +90,8 @@ body {
   margin: 0px;
   padding: 0px;
   width: 25%;
+  height: 95vh;
+  overflow: hidden;
   border-left: 1px solid black;
 }
 
