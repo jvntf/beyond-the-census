@@ -80,11 +80,6 @@ block content
           svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
                       
   
-
-
-                             
-
-    
     // script starts here
     script(type='text/javascript').
         
@@ -256,8 +251,14 @@ block content
             let status = showLabelsBox.node().checked;
             d3.selectAll('text').classed('hidden', !status)
           })                     
-                             
+        
+        d3.select('#langlist-target').on('scroll', () => {
+          clearOverlay();
+        })
+              
+                       
         window.addEventListener('resize', () => {
+          clearOverlay();
           //console.log('window resize')
           //overlayTarget.attr('width', window.innerWidth)
           //  .attr('height', window.innerHeight)
@@ -269,9 +270,11 @@ block content
           .on('scroll', () => {
             //var leaderLines = d3.select('#leader-lines').selectAll('*').remove();
            })
+
+
            
-        //map.on('click', (e) => { console.log("clicked map")
-        //console.log(e) })
+        //map.on('click', (e) => { clearOverlay(); })
+        //console.log(e) });
 
         // filter UI element event handlers
 
@@ -319,6 +322,7 @@ block content
         
         function hideDetails() {
           d3.select('#detail-container').classed('hidden', true)
+          clearOverlay();
         }
         
 
@@ -371,4 +375,8 @@ block content
         function clearSearchForm() {
           var e = document.getElementById("searchString-input");
           e.value = '';
+        }
+        
+        function clearOverlay() {
+          d3.select('#overlay-target').selectAll('*').remove();
         }

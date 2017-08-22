@@ -103,9 +103,9 @@ function updateGlobe( item, callback ) {
           .selectAll('rect')
           .data(state.langAll)
           .enter().append('rect')
-          .attr('transform', (d) => {
+          .attr('transform', (d) => {  // somebody in here isn't working right
             //console.log(d);
-            let projectedPoint = projection([d.longitude, d.latitude]);
+            var projectedPoint = projection([d.longitude, d.latitude]);
             return `translate(${projectedPoint[0]}, ${projectedPoint[1]})`
           })
           .attr('width', '6')

@@ -60,37 +60,8 @@ function updateList() {
               return `${d.groupColor.darker().darker()}`
             })
             .on('click', (d, i, n) => { // d here is populated language object
-              //var padCalc = window.innerWidth * 0.25
-              //map.flyToBounds(input.queensbounds, {paddingTopLeft: [ 30,30 ], paddingBottomRight: [ padCalc,30 ]} );
-
-              //console.log(d)
-
-              //d3.selectAll('.list.lang').classed('listlang-hidden', true)
-              //d3.selectAll(`.list.lang-${d._id}`).classed('listlang-hidden', false)
-              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
-
-
-
-              //d3.selectAll('.map.lang').classed('maplang-hidden', true)
-              //d3.selectAll(`.map.lang-${d._id}`).classed('maplang-hidden', false)
-              //d3.selectAll(`.map.lang-${d._id}`).select(this.parenltNode).select(this.parentNode).raise();
-              //showNarrativePanel();
-              updateLanguageCard(d._id);
-
-              updateGlobe(d);
-              //d3.selectAll('.globe.country').classed('globe-hidden', true)
-              //d3.selectAll('.globe.lang').classed('globe-hidden', true)
-
-              d.countries.forEach( (item) => {
-                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return d.color})
-              })
-
-              //d3.selectAll(`.globe.lang-${d._id}`).classed('globe-hidden', false)
-
-              //modifyMapFromList(d._id);
-
-
-      })
+              selectSingleLang(d._id);
+            })
       callback(null);
     })
     //.defer( (callback) => {
