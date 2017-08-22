@@ -37,7 +37,7 @@ function updateGlobe( item, callback ) {
           .attr('class', 'globe')
           .attr("fill", "#dfdede");
 
-      //Add all of the countries to the globe
+      //Add all of the continents to the globe
       var continentPaths = target.selectAll("path")
           .data(data.continents)
           .enter()
@@ -46,15 +46,29 @@ function updateGlobe( item, callback ) {
           .attr("fill", "#ffffff")
           .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
 
-      /*var countryGroups = target.selectAll('g')
-          .data(thisLanguage.countries)
+      var countryPaths = target.append('g').selectAll("path")
+          .data(() => { return item.countries.filter( (item) => { return item._id != '594ae598fbf0992b18cebfe6'})}) //exclude kazakhstan, causing problems 
+          .enter()
+          .append("path")
+          .attr("class", "feature")
+          .attr("fill", () => {return item.color})
+          //.attr("stroke", () => {return item.color.darker().darker()})
+          //.attr("stroke-dasharray", [2, 2])
+          .attr("d", path);  // this is where svg data gets added, based on data transformed through path generator
+
+    /*  var countryPaths = target.selectAll('g')
+          .data(() => { return thisLanguage.countries })
           .enter()
           .append('g')
           .attr('transform', (d) => {
-        //    console.log(d)
             let projectedPoints = projection(d3.geoCentroid(d));
             return `translate(${projectedPoints[0]}, ${projectedPoints[1]})`
-          })*/
+          })
+
+      countryPaths.append('path')
+          .attr('d', (d) => {return path(d)})
+          .attr('fill', (d) => {return .color}) */
+
           //.attr("fill", () => {return item.color})
           //.attr('fill-opacity', "0.5")
           //.attr('stroke', ()  => {return item.color.darker()})
@@ -77,7 +91,7 @@ function updateGlobe( item, callback ) {
           .attr('stroke', 'gray')
           .attr("fill", (d) => {if (item.color) {return item.color} else {return 'gray'}})
           .attr("fill-opacity", "1")*/
-
+/*
           var countrymarkers = target.append('g')
               .selectAll('rect')
               .data(data.countries)
@@ -87,13 +101,13 @@ function updateGlobe( item, callback ) {
                 let projectedPoint = projection(d3.geoCentroid(d));
                 return `translate(${projectedPoint[0]}, ${projectedPoint[1]})`
               })
-              .attr('width', '4')
-              .attr('height', '4')
+              .attr('width', '6')
+              .attr('height', '6')
               .attr('fill', 'transparent')
               .attr('stroke', (d) => {
                 return '#bebebe';
               })
-              .attr('stroke-width', '1')
+              .attr('stroke-width', '2')
               .attr('class', (d) => {
                 return `globe-hidden globe country country-${d._id}`
               })
@@ -108,25 +122,25 @@ function updateGlobe( item, callback ) {
             var projectedPoint = projection([d.longitude, d.latitude]);
             return `translate(${projectedPoint[0]}, ${projectedPoint[1]})`
           })
-          .attr('width', '6')
-          .attr('height', '6')
+          .attr('width', '8')
+          .attr('height', '8')
           .attr('fill', (d) => {
             return d.color;
           })
           .attr('class', (d) => {
             return `globe-hidden globe lang lang-${d._id}`
           })
-
+*/
 
       //Add marker at the center of the globe
-      /*var marker = target.append("g")
+      var marker = target.append("g")
 
-      marker.append('line')
-        .attr('x1', 0)
-        .attr('y1', -3)
-        .attr('x2', 0)
-        .attr('y2', 0)
-        .attr('stroke', 'gray')
+      //marker.append('line')
+      //  .attr('x1', 0)
+      //  .attr('y1', -3)
+      //  .attr('x2', 0)
+      //  .attr('y2', 0)
+      //  .attr('stroke', 'gray')
 
       marker.append('rect')
           .attr('id', 'globe-marker')
@@ -134,14 +148,14 @@ function updateGlobe( item, callback ) {
           .attr('y', -9)
           .attr('width', 6)
           .attr('height', 6)
-          .attr('stroke', 'gray')
-          .attr("fill", (d) => {return item.color})
-          .attr("fill-opacity", "1")*/
+          //.attr('stroke', 'gray')
+          .attr("fill", (d) => {return item.color.darker()})
+          .attr("fill-opacity", "1")
 
-      var countryList = [];
-      item.countries.map( (country) => {
-        countryList.push( country.properties.ADMIN );
-      });
+    //  var countryList = [];
+    //  item.countries.map( (country) => {
+    //    countryList.push( country.properties.ADMIN );
+    //  });
 
       /*  //Add list of countries under globe
       var countryList = target.append("text")

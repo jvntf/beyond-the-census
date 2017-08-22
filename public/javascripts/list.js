@@ -95,12 +95,12 @@ function updateLegend() {
   var legendTarget = d3.select('#listlegend-target'); // get target HTML node to append things to
   legendTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
 
-  legendTarget.append('p').text('grouped by continent:').classed('legend-label', true)
+  //legendTarget.append('p').text('grouped by continent:').classed('legend-label', true)
 
   legendItem = legendTarget.selectAll("span") // make each language tag from selection set
       .data(uniqueContinents)
       .enter().append("span")
-      .classed('list-block', true);
+      .classed('legend-item', true);
 
   legendItem.text((d) => { return d.name})
     .style('background', (d) => {

@@ -41,6 +41,7 @@ function selectSingleLang(langid) {
       //d3.selectAll(`.globe.lang-${langSingle._id}`).classed('globe-hidden', false)
 
       //modifyMapFromList(langSingle._id);
+      mapHighlightSingle(langSingle._id);
       connect(langSingle._id);
     })
 

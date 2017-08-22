@@ -187,12 +187,21 @@ function updateContinentCard(id, callback) {
 }
 
 function updateAboutCard() {
+  // basic setup
   clearCard();
   setCardVisible(true);
-  var card = d3.select('#lang-content').append('div').classed('padded', true);
-  card.append('h2').text('About')
-  card.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
-  card.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
+  var card = d3.select('#lang-content');
+
+  let cardheader = card.append('div').attr('id', 'card-header')
+    .style('background', (d) => {return '#a7a7a7'})
+    .style('color', (d) => {return '#343434'})
+    .append('table').append('tbody').append('tr')
+  cardheader.append('td').append('h2').text('About');
+  cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
+
+  let cardbody = card.append('div').classed('card-body', true)
+  cardbody.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
+  cardbody.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
 }
 
 function updateNeighborhoodCard(id, callback) {
@@ -306,7 +315,6 @@ function updateLanguageCard( id, callback ) {
     .append('table').append('tbody').append('tr')
   cardheader.append('td').append('h2').text(() => {return dataItem.language});
   cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
-
 
   let cardbody = card.append('div').classed('card-body', true)
   cardbody.append('p').text( () => {return dataItem.description})

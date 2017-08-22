@@ -14,12 +14,21 @@ var path,
   nbdGroups,
   nbdOtlns;
 
-function mapShowSelected() {
+function mapShowSelected() { // hide everything not in the selection group list
   d3.selectAll('.map.lang').classed('map-hidden', true);
   state.langGroup.forEach( (item) => {
     let langId = item._id;
     d3.selectAll(`.map.lang-${langId}`).classed('map-hidden', false);
   })
+}
+
+function mapHighlightSingle(langid) {
+  d3.selectAll('.map.lang').classed('map-unhighlight', true);
+  d3.selectAll(`.map.lang-${langid}`).classed('map-unhighlight', false);
+}
+
+function mapUnHighlight() {
+  d3.selectAll('.map.lang').classed('map-unhighlight', false);
 }
 
 function mapShowAll() {
@@ -337,7 +346,7 @@ function drawDotMap() {
               var d3bounds = d3.geoBounds(d.parent);
               var padCalc = window.innerWidth * 0.25
               var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
-              map.flyToBounds(flipped, {paddingTopLeft: [10,10 ], paddingBottomRight: [ padCalc,10 ]} );
+              map.flyToBounds(flipped, {paddingTopLeft: [ padCalc,10 ], paddingBottomRight: [ padCalc,10 ]} );
 
               //updateNeighborhoodCard(d.parent._id)
 

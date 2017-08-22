@@ -133,8 +133,8 @@ function buildDataTree( callback ) {
        .domain([0, 5])
        .range([0,360]);
    luminanceMap = d3.scaleLinear()
-       .domain([1, 9])
-       .range([75, 110]);
+       .domain([0, 9])
+       .range([80, 105]);
    callback(null);
   }
 
@@ -155,8 +155,8 @@ function buildDataTree( callback ) {
        endangerment.values.map( (language) => {
          //if (language.neighborhoods.length > 0) {
            //language.color = '#000000'
-           language.groupColor = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 70, 70, 1 );
-           language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 70, luminanceMap(language.endangermentNum), 1 );
+           language.groupColor = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 50, 80, 1 );
+           language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 50, luminanceMap(language.endangermentNum), 1 );
 
          //} else {
            //language.groupColor = continent.colors[endangerment.key] = d3.hcl( 0,0,90,1 ); // if no neigborhoods, assign just off white
