@@ -25,7 +25,7 @@ function updateInstitutionCard(id, callback) {
           return item._id == id;
         })
         dataItem.properties.language_objs = dataItem.properties.languages.map( (item) => {
-          return data.languages.find( (langitem) => {
+          return state.langAll.find( (langitem) => {
             //console.log('full languages ready')
             return langitem._id == item;
           })
@@ -46,7 +46,7 @@ function updateInstitutionCard(id, callback) {
           .text(() => { return item.language })
           .attr('class', () => {return `card lang lang-${item._id}`})
           .on('click', () => {
-            let lang = data.languages.find( (searchitem) => {
+            let lang = state.langAll.find( (searchitem) => {
               return searchitem._id == item._id
             })
             scrollList(lang._id, () => {})
@@ -89,7 +89,7 @@ function updateCountryCard(id, callback) {
           return item._id == id;
         })
         dataItem.properties.language_objs = dataItem.properties.languages.map( (item) => {
-          return data.languages.find( (langitem) => {
+          return state.langAll.find( (langitem) => {
             console.log('full languages ready')
             return langitem._id == item;
           })
@@ -113,7 +113,7 @@ function updateCountryCard(id, callback) {
           .attr('class', () => {return `card lang lang-${item._id}`})
           .on('click', () => {
 
-              let lang = data.languages.find( (searchitem) => {
+              let lang = state.langAll.find( (searchitem) => {
                 return searchitem._id == item._id
               })
               scrollList(lang._id, () => {})
@@ -162,7 +162,7 @@ function updateContinentCard(id, callback) {
 function updateAboutCard() {
   clearCard();
   setCardVisible(true);
-  var card = d3.select('#lang-content');
+  var card = d3.select('#lang-content').append('div').classed('padded', true);
   card.append('h2').text('About')
   card.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
   card.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
@@ -180,7 +180,7 @@ function updateNeighborhoodCard(id, callback) {
           return item._id == id;
         })
         dataItem.properties.language_objs = dataItem.properties.languages.map( (item) => {
-          return data.languages.find( (langitem) => {
+          return state.langAll.find( (langitem) => {
             //console.log('full languages ready')
             return langitem._id == item;
           })
@@ -192,6 +192,12 @@ function updateNeighborhoodCard(id, callback) {
       console.log(dataItem);
 
       // write country name
+      card.append('span')
+        .classed('card-label')
+        .style('background', (d) => {
+          console.log(d);
+          return d.color;
+        })
       card.append('h2').text(() => {return dataItem.properties.NTAName})
 
       // write language list
@@ -204,7 +210,7 @@ function updateNeighborhoodCard(id, callback) {
           .attr('class', () => {return `card lang lang-${item._id}`})
           .on('click', () => {
 
-              let lang = data.languages.find( (searchitem) => {
+              let lang = state.langAll.find( (searchitem) => {
                 return searchitem._id == item._id
               })
               scrollList(lang._id, () => {})
@@ -256,7 +262,7 @@ function updateLanguageCard( id, callback ) {
   var card = d3.select('#lang-content');
 
   // data
-  dataItem = data.languages.find( (item) => {
+  dataItem = state.langAll.find( (item) => {
     return item._id == id;
   })
   //var countriesSpoken = dataItem.countries.map( (item) => {
@@ -267,26 +273,41 @@ function updateLanguageCard( id, callback ) {
   //}).join(", ")
 
   // write name and description
-  card.append('h2').text(() => {return dataItem.language});
-  card.append('p').text( () => {return dataItem.description})
+  let cardheader = card.append('div').classed('card-header', true)
+    .style('background', (d) => {console.log(dataItem); return dataItem.color})
+    .style('color', (d) => {return dataItem.color.darker().darker()})
+    .append('table').append('tbody').append('tr')
+  cardheader.append('td').append('h2').text(() => {return dataItem.language});
+  cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
+
+
+  let cardbody = card.append('div').classed('card-body', true)
+  cardbody.append('p').text( () => {return dataItem.description})
 
   // deal with story content, if present
   if ( dataItem.story !== undefined ) {
-    card.append('p').text(() => { return dataItem.story });
+    cardbody.append('p').text(() => { return dataItem.story });
   }
 
   // wikipedia link
-  card.append('a')
+  cardbody.append('a')
       .attr('href', () => {return dataItem.wiki})
-      .html('wikipedia <i class="fa fa-external-link" aria-hidden="true"></i>')
+      .text('wikipedia')
+      //.html('wikipedia <i class="fa fa-external-link" aria-hidden="true"></i>')
       .attr('target', 'blank')
 
-  card.append('h3').text('Spoken In');
-  var placesGroup = card.append('div').attr('class', 'places-list');
+  cardbody.append('h3').text('Spoken In');
+  var placesGroup = cardbody.append('div').attr('class', 'places-list');
 
-  dataItem.countries.forEach( (country) => {
-    placesGroup.append('span').text(() => {return country.properties.ADMIN }).on('click', () => { updateCountryCard(country._id) });
-  })
+  if (dataItem.countries) {
+    dataItem.countries.forEach( (country) => {
+      console.log(country)
+      placesGroup.append('span').text(() => {return country.properties.ADMIN })
+        //.on('click', () => { updateCountryCard(country._id) })
+        ;
+    })
+  }
+
 
   if (callback) {callback(null)}
 }

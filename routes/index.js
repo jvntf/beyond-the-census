@@ -197,7 +197,7 @@ var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
   /* GET all languages */
   router.get('/languages', function (req, res) {
       Language.find({})
-      .populate({ path: 'countries', select: 'properties, geometry' })
+      .populate({ path: 'countries'})
       .populate({ path: 'continents', select: 'properties' })
       .populate({ path: 'neighborhoods'})
       .exec( function (err, docs) {

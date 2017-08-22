@@ -101,7 +101,7 @@ function updateGlobe( item, callback ) {
 
       var langmarkers = target.append('g')
           .selectAll('rect')
-          .data(data.languages)
+          .data(state.langAll)
           .enter().append('rect')
           .attr('transform', (d) => {
             //console.log(d);

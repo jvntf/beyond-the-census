@@ -14,6 +14,13 @@ var path,
   nbdGroups,
   nbdOtlns;
 
+
+function showSelected() {
+  state.langGroup.forEach( (item) => {
+
+  })
+}
+
 function drawDotMap() {
     var mapContainer = d3.select('#map-target').node().getBoundingClientRect();
     //console.log(mapContainer)
@@ -136,7 +143,7 @@ function drawDotMap() {
 
         //.on('click', (d) => {
         //  console.log(d)
-        //  console.log( data.languages.find( (item) => { // get matching language record
+        //  console.log( state.langAll.find( (item) => { // get matching language record
         //    return item._id == d.properties.languages[0]
       //    }))
       //    console.log(d.properties.institution)
@@ -178,19 +185,19 @@ function drawDotMap() {
         //.attr('height', (d) => {return 10} )
         .attr('stroke', 'transparent')
         .attr('class', (d, i) => {
-            let lang = data.languages.find( (item) => {
+            let lang = state.langAll.find( (item) => {
               return item._id == d
             })
             return `map lang lang-${lang._id} cont-${lang.continents[0]._id} leaflet-interactive`
           })
         .attr('fill', (d) => {
-            let lang = data.languages.find( (item) => {
+            let lang = state.langAll.find( (item) => {
               return item._id == d
             })
             return lang.color
           })
         .on('click', (d) => {
-          let lang = data.languages.find( (item) => {
+          let lang = state.langAll.find( (item) => {
             return item._id == d
           })
           scrollList(lang._id, () => {})
@@ -218,7 +225,7 @@ function drawDotMap() {
         })
         .on('mouseover', (d, i, n) => {
         var box = d3.select(n[i]).attr('stroke', (d) => {
-          let lang = data.languages.find( (item) => {
+          let lang = state.langAll.find( (item) => {
             return item._id == d
           })
           return lang.color.darker()
@@ -318,19 +325,19 @@ function drawDotMap() {
           .attr('height', '6')
           .attr('stroke', 'transparent')
           .attr('class', (d, i) => {
-              let lang = data.languages.find( (item) => {
+              let lang = state.langAll.find( (item) => {
                 return item._id == d
               })
               return `map lang lang-${lang._id} cont-${lang.continents[0]._id} leaflet-interactive`
             })
           .attr('fill', (d) => {
-              let lang = data.languages.find( (item) => {
+              let lang = state.langAll.find( (item) => {
                 return item._id == d
               })
               return lang.color
             })
             .on('click', (d) => {
-              let lang = data.languages.find( (item) => {
+              let lang = state.langAll.find( (item) => {
                 return item._id == d
               })
               scrollList(lang._id, () => {})
@@ -357,7 +364,7 @@ function drawDotMap() {
             })
             .on('mouseover', (d, i, n) => {
             var box = d3.select(n[i]).attr('stroke', (d) => {
-              let lang = data.languages.find( (item) => {
+              let lang = state.langAll.find( (item) => {
                 return item._id == d
               })
               return lang.color.darker()
@@ -385,15 +392,22 @@ function drawDotMap() {
             }).attr('dy', '1em')
           .style('cursor', 'pointer')
           .on('click', (d) => {
-            console.log(d)
+
+            console.log(d.parent)
+            state.filters.localAttr = {key: 'neighborhoods', value: d.parent._id}
+
+            console.log(state.filters.localAttr)
+
+            applyFilters();
+
               // one option: zoom to neighborhood when clicked
               var d3bounds = d3.geoBounds(d.parent);
-              //var padCalc = window.innerWidth * 0.25
-
+              var padCalc = window.innerWidth * 0.25
               var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
-              map.flyToBounds(flipped, {paddingTopLeft: [ 30,30 ], paddingBottomRight: [ 30,30 ]} );
+              map.flyToBounds(flipped, {paddingTopLeft: [10,10 ], paddingBottomRight: [ padCalc,10 ]} );
 
-              updateNeighborhoodCard(d.parent._id)
+              //updateNeighborhoodCard(d.parent._id)
+
             });
 
           neighborhoodTextGroup.on('mouseover', (d, i, n) => {
@@ -582,8 +596,8 @@ function projectPoint(x, y) {
 
 function modifyMapFromList( id, callback ) {  // rewrite to take a language id
 
-  var dataItem = data.languages.find( (item) => { return item._id == id; })
-  var dataIndex = data.languages.findIndex( (item) => { return item._id == id; })
+  var dataItem = state.langAll.find( (item) => { return item._id == id; })
+  var dataIndex = state.langAll.findIndex( (item) => { return item._id == id; })
 
   var langLabels = d3.selectAll('.language-item')
   var langDots = d3.selectAll('.lang-dot')
@@ -646,7 +660,7 @@ function modifyMapFromList( id, callback ) {  // rewrite to take a language id
 
 // update the path using the current transform
 function update() {
-
+  hideDetails();
   d3.selectAll()
   //d3.select('#map-neighborhoodotlns').selectAll('#').attr('fill', 'none')
   d3.selectAll('.lang-dot').attr('fill-opacity', '0.2').attr('stroke-opacity', '1') // reset all dots

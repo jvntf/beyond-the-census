@@ -43,10 +43,10 @@ function updateData(mode, input, endangermentRange, callback) {
   //begin data fetching part:
   setTimeout(function() {
     if (mode == 'langname' ) {
-      getLanguageData( {min: endangermentRange[0], max: endangermentRange[1]}, (response) => {
+      getData( 'languages', [], (response) => {
       //getData( 'languages', [], (response) => {  // get main language data
         filterData( input, response, (filterresponse) => {
-          data.languages = filterresponse;
+          state.langAll = filterresponse;
           getData( 'countries', [], (response) => {
             data.countries = response;
             getData( 'neighborhoods', [], (response) => {
@@ -68,7 +68,7 @@ function updateData(mode, input, endangermentRange, callback) {
   }, 250)
 }
 
-// takes raw data on global data object (data.languages, data.neighborhoods etc)
+// takes raw data on global data object (state.langAll, data.neighborhoods etc)
 // and builds a structured/sorted/grouped data tree with additional color attributes
 // this feeds into the list and map views to produce the colored dots.
 // to-do, add dot density location calc to this function (help control clustering)
@@ -107,8 +107,8 @@ function buildDataTree( callback ) {
   // functions
 
   function filterLanguageData(callback) {
-    var filter = input.endangermentRange;
-    var languagesFiltered = data.languages.filter( (item) => {
+    var filter = state.filters.endangermentRange;
+    var languagesFiltered = state.langAll.filter( (item) => {
       return item.endangermentNum > filter[0] && item.endangermentNum < filter[1] // return only items where endangerment number is less than filter max and greater than filter min
     })
     filteredLanguageList = languagesFiltered;
@@ -130,8 +130,8 @@ function buildDataTree( callback ) {
 
   function initColorMaps( callback ) {
    hueMap = d3.scaleLinear()
-       .domain([0, 4])
-       .range([0,300]);
+       .domain([0, 5])
+       .range([0,360]);
    luminanceMap = d3.scaleLinear()
        .domain([1, 9])
        .range([75, 110]);
@@ -153,11 +153,14 @@ function buildDataTree( callback ) {
      continent.colors = [];
      continent.values.map( (endangerment) => {
        endangerment.values.map( (language) => {
-         if (language.neighborhoods.length > 0) {
-           language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 75, luminanceMap(endangerment.key), 1 );
-         } else {
-           language.color = continent.colors[endangerment.key] = d3.hcl( 0,0,90,1 ); // if no neigborhoods, assign just off white
-         }
+         //if (language.neighborhoods.length > 0) {
+           //language.color = '#000000'
+           language.groupColor = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 70, 70, 1 );
+           language.color = continent.colors[endangerment.key] = d3.hcl( hueMap(i) , 70, luminanceMap(language.endangermentNum), 1 );
+
+         //} else {
+           //language.groupColor = continent.colors[endangerment.key] = d3.hcl( 0,0,90,1 ); // if no neigborhoods, assign just off white
+         //}
        })
      });
    })
@@ -195,7 +198,7 @@ function filterData(string, data, callback) {
 function getData( collection, ids, callback ) { // id is optional
 
   let url = `../${collection}`;
-  d3.json(url, function(json){
+  d3.json(url, function(json) {
     if (ids.length > 0) {
       //console.log(ids);
       let filteredJson = []

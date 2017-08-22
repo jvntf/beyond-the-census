@@ -1,138 +1,170 @@
 // THINGS TO MAKE THE LIST SIDE PANEL FROM LANGUAGE DATASET
 
+// renders list from state.langGroup contents
 function updateList() {
+  //console.log('called update list')
 
-  var textTarget = d3.select('#text-target'); // get target HTML node to append things to
-  textTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
+  var q = d3.queue(1)  // concurrency of 1, sets queue to run in series
+    .defer( (callback) => {
 
-  var continentItem = textTarget.selectAll('div') // make continent container DIVs
-      .data(data.main) // this data comes already nested/sorted from data.main (was languageNest)
-    .enter().append('div')
-      .classed('continent-item', true)
-      //.classed('card', true)
+      var listTarget = d3.select('#langlist-target'); // get target HTML node to append things to
+      listTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
 
-    //continentItem.datum(   <-- this was for the data modification part, now happening in updateData function
-    //
-    //)
+        //var continentItem = textTarget.selectAll('div') // make continent container DIVs
+        //    .data(data.main) // this data comes already nested/sorted from data.main (was languageNest)
+        //  .enter().append('div')
+        //    .classed('continent-item', true)
 
-  var continentLabel = continentItem.append("div") // label header for continent
-      .attr('class', 'continent-item-label')
+        //var continentLabel = continentItem.append("div") // label header for continent
+        //    .attr('class', 'continent-item-label')
 
-      continentLabel.append('h2')
-      .attr('id', (d) => { return d.key.replace(/ /g,'-')})
-      .text((d) => {
-        //console.log(d)
-        return d.key })
-      .on('click', (d) => {
-        d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
-        d3.selectAll(`.cont-${d.values[0].values[0].continents[0]._id}`).classed('listlang-hidden', false).classed('maplang-hidden', false)
-        updateContinentCard(d.values[0].values[0].continents[0]._id, null)
-      });
+        //    continentLabel.append('h2')
+        //    .attr('id', (d) => { return d.key.replace(/ /g,'-')})
+        //    .text((d) => {
+              //console.log(d)
+        //      return d.key })
+        //    .on('click', (d) => {
+        //      d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
+        //      d3.selectAll(`.cont-${d.values[0].values[0].continents[0]._id}`).classed('listlang-hidden', false).classed('maplang-hidden', false)
+        //      updateContinentCard(d.values[0].values[0].continents[0]._id, null)
+        //    });
 
-//  var endangermentScale = continentLabel.append('span')
-//      .attr('class', 'endangerment-scale')
-//      .append('svg')
+        //var languageList = continentItem.append("div") // make container for list of languages within continent
+        //    .attr('class', 'language-list')
 
-//  endangermentScale.attr('transform', 'translate(0,0)')
-//        .selectAll('rect')
-//        .data( (d) => {console.log(d)})
+        //var endangermentItem = languageList.selectAll("div") // ignore this. doesn't do anything (in case we want separate divs for endangerment status)
+        //    .data( (d) => {
+        //      return d.values } )
+        //   .enter();
 
-/*
-      var g = svg.append("g")
-          .attr("class", "key")
-          .attr("transform", "translate(0,40)");
+        var languageItem = listTarget.selectAll("span") // make each language tag from selection set
+            .data(state.langGroup.sort( (a, b) => {return d3.ascending(a.continents[0].properties.CONTINENT, b.continents[0].properties.CONTINENT)}))
+            .enter().append("span");
 
-      g.selectAll("rect")
-        .data(color.range().map(function(d) {
-            d = color.invertExtent(d);
-            if (d[0] == null) d[0] = x.domain()[0];
-            if (d[1] == null) d[1] = x.domain()[1];
-            return d;
-          }))
-        .enter().append("rect")
-          .attr("height", 8)
-          .attr("x", function(d) { return x(d[0]); })
-          .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-          .attr("fill", function(d) { return color(d[0]); });
+            languageItem.attr('class', (d) => { return `list-block list lang lang-${d._id} cont-${d.continents[0]._id}`})
 
-      g.append("text")
-          .attr("class", "caption")
-          .attr("x", x.range()[0])
-          .attr("y", -6)
-          .attr("fill", "#000")
-          .attr("text-anchor", "start")
-          .attr("font-weight", "bold")
-          .text("Unemployment rate");
-
-      g.call(d3.axisBottom(x)
-          .tickSize(13)
-          .tickFormat(function(x, i) { return i ? x : x + "%"; })
-          .tickValues(color.domain()))
-        .select(".domain")
-          .remove();
-*/
-
-  var languageList = continentItem.append("div") // make container for list of languages within continent
-      .attr('class', 'language-list')
-
-  var endangermentItem = languageList.selectAll("div") // ignore this. doesn't do anything (in case we want separate divs for endangerment status)
-      .data( (d) => {
-        return d.values } )
-     .enter();
-
-  var languageItem = endangermentItem.selectAll("span") // make each language tag
-      .data( (d) => {
-        return d.values } )  // shift data (next level down nest?)
-      .enter().append("span");
-
-      languageItem.attr('class', (d) => { return `list lang lang-${d._id} cont-${d.continents[0]._id}`})
-
-      languageItem.text((d) => {
-        if ( d.story !== undefined ) {
-          return `•${d.language}`
-        }
-          return d.language
-      })
-
-      .style('background', (d) => {
-        return d.color
-      })
-      .style('color', 'black')
-      .on('click', (d, i, n) => { // d here is populated language object
-
-            //console.log(d)
-
-            d3.selectAll('.list.lang').classed('listlang-hidden', true)
-            d3.selectAll(`.list.lang-${d._id}`).classed('listlang-hidden', false)
-            //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
-
-
-
-            d3.selectAll('.map.lang').classed('maplang-hidden', true)
-            d3.selectAll(`.map.lang-${d._id}`).classed('maplang-hidden', false)
-            d3.selectAll(`.map.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
-            //showNarrativePanel();
-            updateLanguageCard(d._id);
-
-            updateGlobe(d);
-            d3.selectAll('.globe.country').classed('globe-hidden', true)
-            d3.selectAll('.globe.lang').classed('globe-hidden', true)
-
-            d.countries.forEach( (item) => {
-              d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return d.color})
+            languageItem.text((d) => {
+              //if ( d.story !== undefined ) {
+              //  return `•${d.language}`
+              //}
+                return d.language
             })
 
-            d3.selectAll(`.globe.lang-${d._id}`).classed('globe-hidden', false)
+            .style('background', (d) => {
+              if (d.neighborhoods && d.neighborhoods.length > 0) return d.color;
+            })
+            .style('border', (d) => {
+              if ( !d.neighborhoods || d.neighborhoods.length == 0) return `1px solid ${d.color}`;
+            })
+            .style('color', (d) => {
+              return `${d.groupColor.darker().darker()}`
+            })
+            .on('click', (d, i, n) => { // d here is populated language object
+              //var padCalc = window.innerWidth * 0.25
+              //map.flyToBounds(input.queensbounds, {paddingTopLeft: [ 30,30 ], paddingBottomRight: [ padCalc,30 ]} );
 
-            //modifyMapFromList(d._id);
-          })
+              //console.log(d)
+
+              //d3.selectAll('.list.lang').classed('listlang-hidden', true)
+              //d3.selectAll(`.list.lang-${d._id}`).classed('listlang-hidden', false)
+              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
+
+
+
+              //d3.selectAll('.map.lang').classed('maplang-hidden', true)
+              //d3.selectAll(`.map.lang-${d._id}`).classed('maplang-hidden', false)
+              //d3.selectAll(`.map.lang-${d._id}`).select(this.parenltNode).select(this.parentNode).raise();
+              //showNarrativePanel();
+              updateLanguageCard(d._id);
+
+              updateGlobe(d);
+              //d3.selectAll('.globe.country').classed('globe-hidden', true)
+              //d3.selectAll('.globe.lang').classed('globe-hidden', true)
+
+              d.countries.forEach( (item) => {
+                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return d.color})
+              })
+
+              //d3.selectAll(`.globe.lang-${d._id}`).classed('globe-hidden', false)
+
+              //modifyMapFromList(d._id);
+
+
+      })
+      callback(null);
+    })
+    //.defer( (callback) => {
+    //  callback(null);
+    //})
+    .await( (err) => {
+      if (err) throw err;
+      updateLegend();
+      updateStatus();
+    })
 }
+
+function updateLegend() {
+  //console.log('called update legend')
+// listlegend-target.list-block
+// write legend into listlegend-target.list-block
+  var continentNames = [];
+  var uniqueContinents = [];
+  state.langGroup.forEach( (item) => {
+    if ( item.continents && !continentNames.includes(item.continents[0].properties.CONTINENT) ) {
+      continentNames.push(item.continents[0].properties.CONTINENT)
+      uniqueContinents.push({
+        _id: item.continents[0]._id,
+        name: item.continents[0].properties.CONTINENT,
+        groupColor: item.groupColor
+      });
+    }
+  });
+  //console.log(uniqueContinents);
+
+  var legendTarget = d3.select('#listlegend-target'); // get target HTML node to append things to
+  legendTarget.selectAll('*').remove(); // remove any existing list elements ( so this can be used to refresh the list on data change )
+
+  legendTarget.append('p').text('grouped by continent:').classed('legend-label', true)
+
+  legendItem = legendTarget.selectAll("span") // make each language tag from selection set
+      .data(uniqueContinents)
+      .enter().append("span")
+      .classed('list-block', true);
+
+  legendItem.text((d) => { return d.name})
+    .style('background', (d) => {
+      return `${d.groupColor}`
+    })
+    .style('color', (d) => {
+      return `${d.groupColor.darker().darker()}`
+    })
+    .style('background', (d) => {
+      let colorModified = d3.hcl( d.groupColor.h , d.groupColor.c , 110, 1 );
+      colorModified.l = 110;
+      return `linear-gradient(to right,${colorModified},${d.groupColor})`
+    })
+    .on('click', (d) => {
+      console.log(d)
+      state.filters.globalAttr = {
+        key: 'continents', value: d._id
+      }
+      applyFilters();
+    })
+}
+
+function updateStatus() {
+  d3.select('#langlist-status-texttarget').selectAll('*').remove();
+  //d3.select('#langlist-status-texttarget').append('p').text(() => {
+  //  return `showing ${state.langGroup.length} languages of ${state.langAll.length}`
+  //})
+}
+
 
 // scroll list to provided element ID
 function scrollList(id, callback) {
   let classString = `.list.lang.lang-${id}`;
-  console.log(classString);
-  $('#text-target').animate({
+  //console.log(classString);
+  $('#langlist-target').animate({
     'scrollTop':  $(`.list.lang.lang-${id}`).offset().top
   }, {
     'duration': 500,
