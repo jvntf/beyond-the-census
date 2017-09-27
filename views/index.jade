@@ -33,7 +33,7 @@ block content
                 td.table-left-icon
                   span(id="search-icon" class="fa fa-search" aria-hidden="true")
                 td
-                  input(id="searchString-input" type='text')
+                  input(id="searchString-input" type='text' autofocus)
                 //td.table-right-icon
                   //span(id="clearform-icon") X
         
@@ -48,24 +48,25 @@ block content
               #slider-labels
                 #slider-label-left extinct
                 #slider-label-right healthy
-
+            #listlegend-target    
                 
             //input(type="button"  class="lang-toggle-button" onClick="hideAllLangs()" id="hideall-langs-button" value="Hide All")
         #langlist-status.shadow
           #langlist-status-texttarget
           input(type="button" onClick="resetFilters()" value="reset").button-fullwidth
-        #listlegend-target         
         #langlist-target
+      #map-title
+        h1 Languages of Queens
 
       
-
+      #overlay-target
 
       #drawing-container.drawing-wide
         #about-link
           a(onClick="updateAboutCard()") about            
         #map-title
           h1 Languages of Queens
-        #overlay-target
+
         #map-target
         //#map-controls
           //label(for"showNeighborhoods") Show Neighborhoods
@@ -80,11 +81,6 @@ block content
           svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
                       
   
-
-
-                             
-
-    
     // script starts here
     script(type='text/javascript').
         
@@ -131,22 +127,25 @@ block content
             neighborhoods: [],
             selected: {}
           }, 
-          zoomInitial = 11.5,
-          queensBounds = [[40.54,-73.99],[40.79,-73.6]]
+          zoomInitial = 11.75,
+          mapCenter = [40.68658, -73.8099],
+          queensBounds = [[40.35,-74.33],[40.85,-73.2]]
           ;
           //path, 
           //transform;
   
         var map = new L.Map('map-target', {
+            center: mapCenter,
+            zoom: zoomInitial,
             minZoom: 11,
             maxZoom: 18,
             maxBounds: queensBounds,
-            maxBoundsViscosity: 1.0,
+            maxBoundsViscosity: 0.2,
             zoomSnap: 0.25, 
             zoomControl: true, 
             attributionControl: false
           })
-          .fitBounds( queensBounds, {paddingTopLeft: [ 0.5, 0.5 ], paddingBottomRight: [ 0.5, 0.5 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
+          //.fitBounds( queensBounds, {paddingTopLeft: [ 0.5, 0.5 ], paddingBottomRight: [ 0.5, 0.5 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
         Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
         L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map
         
@@ -256,8 +255,14 @@ block content
             let status = showLabelsBox.node().checked;
             d3.selectAll('text').classed('hidden', !status)
           })                     
-                             
+        
+        d3.select('#langlist-target').on('scroll', () => {
+          clearOverlay();
+        })
+              
+                       
         window.addEventListener('resize', () => {
+          clearOverlay();
           //console.log('window resize')
           //overlayTarget.attr('width', window.innerWidth)
           //  .attr('height', window.innerHeight)
@@ -268,15 +273,11 @@ block content
         d3.select(window)
           .on('scroll', () => {
             //var leaderLines = d3.select('#leader-lines').selectAll('*').remove();
-           })
-           
-        //map.on('click', (e) => { console.log("clicked map")
-        //console.log(e) })
-
+           })   
+        //map.on('click', (e) => { clearOverlay(); })
+        //console.log(e) });
         // filter UI element event handlers
-
         // endangerment slider: set endangermentRange, call applyFilters (rebuild data),
-
         state.ui.endangermentSlider.on('set', function(){
           state.filters.endangermentRange = [10 - this.get()[1], 10 - this.get()[0]];
           applyFilters();
@@ -300,12 +301,8 @@ block content
             d3.selectAll(selector).classed('listlang-hidden', false).classed('maplang-hidden', false)
           });*/
         });
-
-              
         function resetMap() {      
-            //var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
-            map.flyToBounds(queensBounds, {paddingTopLeft: [ window.innerWidth * 0.20 , 10 ], paddingBottomRight: [ window.innerWidth * 0.15 , 10 ], duration: 1} );            
-            //map.flyTo([40.67, -73.84], 11.75);
+            map.flyTo(mapCenter, zoomInitial);
             d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
             removeUnderlay()
         }
@@ -319,6 +316,8 @@ block content
         
         function hideDetails() {
           d3.select('#detail-container').classed('hidden', true)
+          clearOverlay();
+          mapUnHighlight();
         }
         
 
@@ -371,4 +370,8 @@ block content
         function clearSearchForm() {
           var e = document.getElementById("searchString-input");
           e.value = '';
+        }
+        
+        function clearOverlay() {
+          d3.select('#overlay-target').selectAll('*').remove();
         }

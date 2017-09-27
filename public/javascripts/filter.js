@@ -5,7 +5,8 @@
 // takes the entire state.filters object and applies it to state.langAll array to get state.langGroup
 // also re-renders list every time the selection changes
 function applyFilters() {
-
+  hideDetails();
+  clearOverlay();
   // setup: define searchOptions (used for searchstring filtering, but better to declare outside of array.filter to improve speed slightly)
   var searchOptions = {
     //  pre: '<' // wrap search results in string with extra characters?
@@ -39,12 +40,13 @@ function applyFilters() {
               && localAttr
                && searchString
   })
+  mapShowSelected();
   updateList();
 }
 
 // rebuild list with all languages
 function resetFilters() {
-  console.log('resetfilters')
+  //console.log('resetfilters')
   var q = d3.queue(1)  // concurrency of 1, sets queue to run in series
     .defer( (callback) => {
         // bring all back to langGroup array
@@ -73,6 +75,7 @@ function resetFilters() {
     })
     .await( (err) => {
       if (err) throw err;
+      mapShowAll();
       resetUI(); // put sliders back
       resetMap(); // zoom back to borough view
       setCardVisible(false); // hide detail card

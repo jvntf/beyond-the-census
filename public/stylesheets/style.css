@@ -60,9 +60,8 @@ tr {
 
   #map-title {
     position: absolute;
-    bottom: 0px;
-    left: 0px;
-    padding: 10px;
+    bottom: 10px;
+    left: calc(10px + 18% + 10px);
   }
 
   #map-title h1 {
@@ -79,23 +78,24 @@ tr {
     text-align: right;
     text-decoration: underline;
     color: #888888;
+    cursor: pointer;
   }
 
-.card-header {
+#card-header {
   width: 100%;
   padding: 0px;
   padding-left: 0px;
 }
 
-.card-header table {
+#card-header table {
   width: 100%;
 }
 
-.card-header td {
+#card-header td {
   padding-left: 15px;
 }
 
-.card-header .card-header-right {
+#card-header .card-header-right {
   text-align: right;
   padding-right: 15px;
   cursor: pointer;
@@ -156,25 +156,14 @@ tr {
   height: 100%;
 }
 
-#drawing-panel {
-  pointer-events: all;
-  width: 25%;
-  max-width: 260px;
-  margin: 0px;
-  padding: 0px;
-  height: 100%;
-}
-
 #overlay-target {
-  visibility: hidden;
   pointer-events: none;
-  position: absolute;
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 5;
 }
 
 #about-button {
@@ -213,28 +202,30 @@ tr {
 #list-container {
   background: white;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 10px;
+  left: 10px;
   pointer-events: none;
   display: inline-block;
   vertical-align: top;
   width: 18%;
   padding: 0px;
-  height: 100vh;
-  z-index: 2;
+  height: calc(100vh - 20px);
+  overflow: hidden;
+  z-index: 0;
 }
 
 #drawing-container {
-  position: absolute;
+  position: fixed;
   top: 0px;
-  right: 0px;
+  left: 0px;
   pointer-events: none;
   display: inline-block;
   vertical-align: top;
   margin: 0px;
   padding: 0px;
   height: 100%;
-  width: 82%;
+  width: 100%;
+  z-index: -1;
 }
 
 #hide-details-button {
@@ -268,6 +259,7 @@ tr {
   overflow: hidden;
   background: white;
   font-size: 0.9em;
+  z-index: 4;
 }
 
 #detail-control {
@@ -333,8 +325,7 @@ h1 {
   margin: 0;
   margin-top: 0.25em;
   margin-bottom: 0.5em;
-  font-size: 1.6em;
-  font-weight: 700;
+  font-size: 1.8em;
 }
 
 h2 {
@@ -417,9 +408,10 @@ h3 {
 }
 
 .legend-item {
-  font-size: 0.8em;
+  cursor: pointer;
+  font-size: 0.7em;
   margin-bottom: 5px;
-  display: inline-block;
+  display: block;
 }
 
 
@@ -448,15 +440,14 @@ h3 {
 /* ~~~ range slider ~~~ */
 
 #listlegend-target {
-  pointer-events: all;
+    pointer-events: all;
     padding: 10px;
+    padding-bottom: 0px;
     padding-top: 0px;
-    border-bottom: 1px solid #cccccc;
 }
 
 
 #listlegend-target p {
-
   color: #888888;
   margin-bottom: 3px;
 }
@@ -536,7 +527,8 @@ h3 {
 
 .leaflet-control-zoomhome-in,
 .leaflet-control-zoomhome-out {
-  color: #888888!important;
+  color: #cccccc!important;
+  background: none;
 }
 
 #map-controls {
@@ -545,8 +537,11 @@ h3 {
 
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
+  margin: 0px;
+  padding: 0px;
   border-radius: 0px;
-  border: 1px solid #888888!important;
+  border: 1px solid #cccccc!important;
+  color: #888888;
 }
 
 .leaflet-container {
@@ -627,17 +622,16 @@ h3 {
   display: block;
 }
 
-.mapsymbol-hidden {
+.map-hidden {
   visibility: hidden;
+}
+
+.map-unhighlight {
+  fill-opacity: 0.5;
 }
 
 .nbd-selected {
   fill: rgba(100,100,100,0.5);
-}
-
-.maplang-hidden {
-  fill: white;
-  stroke: rgba(0,0,0,0.1);
 }
 
 .listlang-hidden {
@@ -702,6 +696,7 @@ h3 {
   background: white;
   width: calc(100% - 20px);
   margin: 10px;
+  margin-top: 5px;
   padding: 5px;
   border: 1px solid #888888;
   color: #888888;
@@ -713,4 +708,15 @@ h3 {
 .button-fullwidth:hover{
   border: 1px solid black;
   color: black;
+}
+
+.leaflet-control-container {
+  position: absolute;
+  bottom: 75px;
+  left: 15px;
+  background: none;
+}
+
+.leaflet-control-zoom .leaflet-bar .leaflet-control {
+  background: none;
 }

@@ -1,3 +1,30 @@
+function connect(langid) {
+  d3.select('#overlay-target').selectAll('*').remove();
+
+  var dataItem = state.langGroup.find( (item) => {
+    return item._id == langid
+  });
+  // console.log(dataItem);
+
+  var listBox = d3.select(`.list.lang-${langid}`).node().getBoundingClientRect(); // should be just one, will get it
+  var mapBox = d3.select(`.map.lang-${langid}`).node().getBoundingClientRect(); // will get just one if there are many
+  var detailBox = d3.select(`#card-header`).node().getBoundingClientRect(); // will get the same thing every time
+  //console.log(mapBox)
+  //  console.log(listBox)
+  //    console.log(detailBox)
+
+  var overlay = d3.select('#overlay-target').append('svg').attr('height', window.innerHeight).attr('width', window.innerWidth)
+
+  var lineOne = [[listBox.right, listBox.bottom], [mapBox.left, mapBox.bottom], [mapBox.left, mapBox.top], [listBox.right, listBox.top]];
+  var lineTwo = [[detailBox.left, detailBox.top], [mapBox.right, mapBox.top], [mapBox.right, mapBox.bottom], [detailBox.left, detailBox.bottom]];
+
+  var line = d3.line()
+
+  overlay.append('path').attr('d', () => {return line(lineOne)}).attr('fill', () => {return dataItem.color}).attr('fill-opacity', 0.4);
+  overlay.append('path').attr('d', () => {return line(lineTwo)}).attr('fill', () => {return dataItem.color}).attr('fill-opacity', 0.4);
+
+}
+
 function clearCard() {
   // clear card (hide globe)
   d3.select('#globe-target').classed('hidden', 'true');
@@ -33,7 +60,7 @@ function updateInstitutionCard(id, callback) {
       callback(null)
     })
     .await( (err) => {
-      console.log(dataItem);
+      //console.log(dataItem);
       card.append('h2').text(() => {return dataItem.properties.institution})
       //card.append('p').text(() => {return dataItem.properties.type})
       card.append('p').text(() => {return dataItem.properties.description})
@@ -90,7 +117,7 @@ function updateCountryCard(id, callback) {
         })
         dataItem.properties.language_objs = dataItem.properties.languages.map( (item) => {
           return state.langAll.find( (langitem) => {
-            console.log('full languages ready')
+            //console.log('full languages ready')
             return langitem._id == item;
           })
         })
@@ -98,7 +125,7 @@ function updateCountryCard(id, callback) {
     })
     .await( (err) => {
       if (err) throw err;
-      console.log(dataItem);
+      //console.log(dataItem);
 
       // write country name
       card.append('h2').text(() => {return dataItem.properties.ADMIN})
@@ -160,12 +187,21 @@ function updateContinentCard(id, callback) {
 }
 
 function updateAboutCard() {
+  // basic setup
   clearCard();
   setCardVisible(true);
-  var card = d3.select('#lang-content').append('div').classed('padded', true);
-  card.append('h2').text('About')
-  card.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
-  card.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
+  var card = d3.select('#lang-content');
+
+  let cardheader = card.append('div').attr('id', 'card-header')
+    .style('background', (d) => {return '#a7a7a7'})
+    .style('color', (d) => {return '#343434'})
+    .append('table').append('tbody').append('tr')
+  cardheader.append('td').append('h2').text('About');
+  cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
+
+  let cardbody = card.append('div').classed('card-body', true)
+  cardbody.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
+  cardbody.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
 }
 
 function updateNeighborhoodCard(id, callback) {
@@ -189,13 +225,13 @@ function updateNeighborhoodCard(id, callback) {
     })
     .await( (err) => {
       if (err) throw err;
-      console.log(dataItem);
+      //console.log(dataItem);
 
       // write country name
       card.append('span')
         .classed('card-label')
         .style('background', (d) => {
-          console.log(d);
+          //console.log(d);
           return d.color;
         })
       card.append('h2').text(() => {return dataItem.properties.NTAName})
@@ -273,13 +309,12 @@ function updateLanguageCard( id, callback ) {
   //}).join(", ")
 
   // write name and description
-  let cardheader = card.append('div').classed('card-header', true)
-    .style('background', (d) => {console.log(dataItem); return dataItem.color})
+  let cardheader = card.append('div').attr('id', 'card-header')
+    .style('background', (d) => {return dataItem.color})
     .style('color', (d) => {return dataItem.color.darker().darker()})
     .append('table').append('tbody').append('tr')
   cardheader.append('td').append('h2').text(() => {return dataItem.language});
   cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
-
 
   let cardbody = card.append('div').classed('card-body', true)
   cardbody.append('p').text( () => {return dataItem.description})
@@ -301,7 +336,7 @@ function updateLanguageCard( id, callback ) {
 
   if (dataItem.countries) {
     dataItem.countries.forEach( (country) => {
-      console.log(country)
+      //console.log(country)
       placesGroup.append('span').text(() => {return country.properties.ADMIN })
         //.on('click', () => { updateCountryCard(country._id) })
         ;

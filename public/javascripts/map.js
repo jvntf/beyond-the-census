@@ -14,11 +14,25 @@ var path,
   nbdGroups,
   nbdOtlns;
 
-
-function showSelected() {
+function mapShowSelected() { // hide everything not in the selection group list
+  d3.selectAll('.map.lang').classed('map-hidden', true);
   state.langGroup.forEach( (item) => {
-
+    let langId = item._id;
+    d3.selectAll(`.map.lang-${langId}`).classed('map-hidden', false);
   })
+}
+
+function mapHighlightSingle(langid) {
+  d3.selectAll('.map.lang').classed('map-unhighlight', true);
+  d3.selectAll(`.map.lang-${langid}`).classed('map-unhighlight', false);
+}
+
+function mapUnHighlight() {
+  d3.selectAll('.map.lang').classed('map-unhighlight', false);
+}
+
+function mapShowAll() {
+  d3.selectAll('.map.lang').classed('map-hidden', false);
 }
 
 function drawDotMap() {
@@ -107,7 +121,7 @@ function drawDotMap() {
 
 
         // builds up text, broken into lines, in reverse order from top of bar chart
-      var institutionTextGroup = institutionGroups.append('g')
+  /*    var institutionTextGroup = institutionGroups.append('g')
         institutionTextGroup.append('text')
         .attr('class', 'institution label')
         .attr('fill', 'rgba(150,150,150,0.7)')
@@ -122,10 +136,7 @@ function drawDotMap() {
             return d3.wordwrap(d.properties.institution, 15).reverse();
           }, -9)
         .style('cursor', 'pointer')
-        .on('click', (d) => {
-            console.log(d.parent._id)
-            updateInstitutionCard(d.parent._id);
-          })
+
 
         institutionTextGroup.on('mouseover', (d, i, n) => {
                     var group = d3.select(n[i])
@@ -138,7 +149,7 @@ function drawDotMap() {
 
                     group.selectAll('text').attr('fill', 'rgba(150,150,150,0.7)')
                   });
-
+*/
 
 
         //.on('click', (d) => {
@@ -150,12 +161,12 @@ function drawDotMap() {
       //  })
 
 
-      var barChartLeader = institutionGroups.append('line')
+    /*  var barChartLeader = institutionGroups.append('line')
         .attr('x1', 0)
         .attr('y1', 0)
         .attr('x2', 0)
         .attr('y2', 5)
-        .attr('stroke', 'rgba(150,150,150,0.7)')
+        .attr('stroke', 'rgba(150,150,150,0.7)') */
 
       // bar chart bounding rectangle
       /*var barChartRect = institutionGroups.append('rect')
@@ -175,9 +186,6 @@ function drawDotMap() {
         .attr('y', (d, i) => {return i*-6-6})
         .attr('width', '6')
         .attr('height', '6')
-        .on('mouseover', (d, i, n) => {
-          //d3.select(n[i]).attr('stroke', 'black')
-         })
 
         //.attr('cy', (d, i) => { return i*4 })
         //.attr('r', () => { return map.getZoom() * 0.25
@@ -197,45 +205,12 @@ function drawDotMap() {
             return lang.color
           })
         .on('click', (d) => {
-          let lang = state.langAll.find( (item) => {
-            return item._id == d
-          })
-          scrollList(lang._id, () => {})
-          //console.log(lang)
-          d3.selectAll('.list.lang').classed('listlang-hidden', true)
-          d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
-          //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
-
-          d3.selectAll('.map.lang').classed('maplang-hidden', true)
-          d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
-          d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
-          //showNarrativePanel();
-          updateLanguageCard(lang._id);
-
-          updateGlobe(lang);
-          d3.selectAll('.globe.country').classed('globe-hidden', true)
-          d3.selectAll('.globe.lang').classed('globe-hidden', true)
-
-          lang.countries.forEach( (item) => {
-            d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
-          })
-
-          d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
-
+          //let lang = state.langAll.find( (item) => {
+          //  return item._id == d
+          //})
+          selectSingleLang(d);
         })
-        .on('mouseover', (d, i, n) => {
-        var box = d3.select(n[i]).attr('stroke', (d) => {
-          let lang = state.langAll.find( (item) => {
-            return item._id == d
-          })
-          return lang.color.darker()
-        })
-        .attr('stroke-width', '2px')
-        .raise()
-      })
-        .on('mouseout', (d, i, n) => {
-          var box = d3.select(n[i]).attr('stroke', 'none')
-        });
+        .style('cursor', 'pointer')
 
       callback(null);
     }
@@ -337,44 +312,11 @@ function drawDotMap() {
               return lang.color
             })
             .on('click', (d) => {
-              let lang = state.langAll.find( (item) => {
-                return item._id == d
+              scrollList(d, () => {
+                selectSingleLang(d);
               })
-              scrollList(lang._id, () => {})
-              //console.log(lang)
-              d3.selectAll('.list.lang').classed('listlang-hidden', true)
-              d3.selectAll(`.list.lang-${lang._id}`).classed('listlang-hidden', false)
-              //d3.selectAll(`.list.lang-${d._id}`).select(this.parentNode).select(this.parentNode).raise();
-
-              d3.selectAll('.map.lang').classed('maplang-hidden', true)
-              d3.selectAll(`.map.lang-${lang._id}`).classed('maplang-hidden', false)
-              d3.selectAll(`.map.lang-${lang._id}`).select(this.parentNode).select(this.parentNode).raise();
-              //showNarrativePanel();
-              updateLanguageCard(lang._id);
-
-              updateGlobe(lang);
-              d3.selectAll('.globe.country').classed('globe-hidden', true)
-              d3.selectAll('.globe.lang').classed('globe-hidden', true)
-
-              lang.countries.forEach( (item) => {
-                d3.select(`.globe.country-${item._id}`).classed('globe-hidden', false).attr('stroke', () => {return lang.color})
-              })
-
-              d3.selectAll(`.globe.lang-${lang._id}`).classed('globe-hidden', false)
             })
-            .on('mouseover', (d, i, n) => {
-            var box = d3.select(n[i]).attr('stroke', (d) => {
-              let lang = state.langAll.find( (item) => {
-                return item._id == d
-              })
-              return lang.color.darker()
-            })
-            //.attr('stroke-width', '2px')
-            .raise()
-            })
-            .on('mouseout', (d, i, n) => {
-              var box = d3.select(n[i]).attr('stroke', 'none')
-            });
+            .style('cursor', 'pointer');
 
         neighborhoodSymbol.attr('transform', (d) => {return `translate( ${-6*Math.round(d.properties.languages.length/2)/2} -6 )`})
 
@@ -404,7 +346,7 @@ function drawDotMap() {
               var d3bounds = d3.geoBounds(d.parent);
               var padCalc = window.innerWidth * 0.25
               var flipped = [ d3bounds[0].reverse(), d3bounds[1].reverse() ] // need to reorder array bc d3 and leaflet use lon, lat and lat, lon respectively
-              map.flyToBounds(flipped, {paddingTopLeft: [10,10 ], paddingBottomRight: [ padCalc,10 ]} );
+              map.flyToBounds(flipped, {paddingTopLeft: [ padCalc,10 ], paddingBottomRight: [ padCalc,10 ]} );
 
               //updateNeighborhoodCard(d.parent._id)
 
