@@ -31,6 +31,7 @@ function clearCard() {
   d3.select('#lang-content').selectAll('*').remove();
   d3.select('#story-content').classed('hidden', 'true');
   d3.select('#underlay-control').classed('hidden', 'true');
+
 }
 
 function setCardVisible(bool) {
@@ -64,6 +65,10 @@ function updateInstitutionCard(id, callback) {
       card.append('h2').text(() => {return dataItem.properties.institution})
       //card.append('p').text(() => {return dataItem.properties.type})
       card.append('p').text(() => {return dataItem.properties.description})
+      console.log(dataItem);
+
+
+
       card.append('p').text(() => {return dataItem.properties.address})
       // write language list
       card.append('h3').text('Languages Spoken:')
@@ -192,6 +197,7 @@ function updateAboutCard() {
   setCardVisible(true);
   var card = d3.select('#lang-content');
 
+
   let cardheader = card.append('div').attr('id', 'card-header')
     .style('background', (d) => {return '#a7a7a7'})
     .style('color', (d) => {return '#343434'})
@@ -200,8 +206,19 @@ function updateAboutCard() {
   cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
 
   let cardbody = card.append('div').classed('card-body', true)
-  cardbody.append('p').text('Each colored square on the map represents a place where a particular language is spoken. A place might be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop).')
-  cardbody.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank`">here</a></p>')
+  cardbody.append('div').html('<p>The data for this map was obtained by <a href="http://elalliance.org/" target="blank">The Endangered Language Alliance</a> (ELA), an independent non-profit based in New York City focused on the immense linguistic diversity of urban areas. Founded in 2010, the ELA documents and describes underdescribed and endangered languages, educating a larger public and collaborating with communities.</p>')
+
+  cardbody.append('div').html('<p>The data for this map was obtained by <a href="http://elalliance.org/">The Endangered Language Alliance</a> (ELA), an independent non-profit based in New York City focused on the immense linguistic diversity of urban areas. Founded in 2010, the ELA documents and describes underdescribed and endangered languages, educating a larger public and collaborating with communities.</p>');
+
+
+  cardbody.append('p').html('<p>Each colored square represents a place where a particular language is spoken. A place may be a general area (a neighborhood or a street) or a specific point (a community center, mosque or shop). A language\'s endangerment status and continent of origin are visualized in color on the left, and its place of origin on the right, both data points are drawn from <a href="http://glottolog.org/">Glottolog</a>.</p>')
+  cardbody.append('div').html('<p>To learn more about this project, click <a href="http://c4sr.columbia.edu/projects" target="blank">here</a></p>')
+
+  cardbody.append('div').html('<img src = "../data/img/ela.png" width="100%">')
+  cardbody.append('div').html('<img src = "../data/img/CSR_Logo-ColumbiaBlue.png" width="100%">')
+  
+  cardbody.style('height', (d) => {return '500px'});
+  cardbody.style('overflow', (d) => {return 'auto'})
 }
 
 function updateNeighborhoodCard(id, callback) {
@@ -318,6 +335,7 @@ function updateLanguageCard( id, callback ) {
 
   let cardbody = card.append('div').classed('card-body', true)
   cardbody.append('p').text( () => {return dataItem.description})
+  console.log(dataItem);
 
   // deal with story content, if present
   if ( dataItem.story !== undefined ) {

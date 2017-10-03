@@ -60,7 +60,7 @@ tr {
 
   #map-title {
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left: calc(10px + 18% + 10px);
   }
 
@@ -72,12 +72,12 @@ tr {
   #about-link {
     pointer-events: all;
     position: absolute;
-    bottom: 0px;
+    top: 10px;
     right: 0px;
     padding: 10px;
-    text-align: right;
     text-decoration: underline;
     color: #888888;
+    font-size: 20px;
     cursor: pointer;
   }
 
@@ -319,6 +319,7 @@ input:focus {
 #lang-content {
   margin: 0px;
   padding: 0px;
+  overflow: scroll;
 }
 
 h1 {
