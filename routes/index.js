@@ -5,7 +5,8 @@ var request = require('request');
 var storyhelper = require('./helpers/storyhelper');
 
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
-var mongoDB = 'mongodb://localhost/ELAdata';
+var mongoDB = 'mongodb://c4sr:languages@ds149974.mlab.com:49974/heroku_bz30p5qb'
+// var mongoDB = 'mongodb://localhost/ELAdata';
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
