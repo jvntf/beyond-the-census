@@ -48,7 +48,7 @@ NOCODE_GOTTSCHEERISCH,NOCODE_GOTTSCHEERISCH
 gug,para1311
 guj,guja1252
 gvr,guru1261
-,kyir1235
+kgy,kyir1235
 cnh,haka1240
 heb,hebr1245
 hin,hind1269
@@ -176,7 +176,6 @@ hsn,xian1251
 yih,west2361
 yua,yuca1254
 zai,isth1244
-,
 swh,swah1253
 hae,east2652
 som,soma1255
@@ -188,7 +187,7 @@ aka,akan1250
 hau,haus1257
 xho,xhos1239
 NOCODE_AAE,NOCODE_AAE
-,bart1238
+NOCODE_BART1238,bart1238
 bhh,bukh1238
 chx,chan1310
 cnh,haka1240
@@ -214,7 +213,7 @@ kte,nubr1241
 pag,pang1290
 pms,piem1239
 por,port1283
-,rosh1238
+NO_CODE_ROSH1238,rosh1238
 sas,sasa1249
 xsr,sher1255
 scn,sici1248

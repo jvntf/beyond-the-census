@@ -8,7 +8,7 @@ var sourcePath = '../../data/glottoQueens_reExport.csv';  // path to file with u
 
 // Connection URL
 // var url = 'mongodb://localhost:27017/ELAdata'; // change last part of path to db name
-var url = 'mongodb://c4sr:languages@ds149974.mlab.com:49974/heroku_bz30p5qb'
+var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
 var targetcollection = 'new_languages'; // name of collection to add to witin the database
 
 // Use connect method to connect to the server

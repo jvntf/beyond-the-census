@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient
 
 // Connection URL
 // var url = 'mongodb://localhost:27017/ELAdata';
-var url = 'mongodb://c4sr:languages@ds149974.mlab.com:49974/heroku_bz30p5qb';
+var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2';
 var csvPath = '../../data/glottoQueens_reExport.csv';  // path to file with utf8 encoding
 
 // var csvPath = '../data/170807_censuslanguages.csv';
