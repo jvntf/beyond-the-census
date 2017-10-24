@@ -66,7 +66,7 @@ MongoClient.connect(url, function(err, db) {
       
     }
     if(typeof script !== 'undefined') {
-      var update = { $set: {['script_name'] : script.substring(0, script.length-5)}};
+      var update = { $set: {['script_name'] : script.substring(0, script.length-4)}};
       updateDocs(db, targetcollection, id, update )
       
     }
