@@ -7,8 +7,6 @@ var storyhelper = require('./helpers/storyhelper');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 var mongoDB = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
 
-console.log('rgwrgwg');
-
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
       if (err) {console.log(err)};
