@@ -361,6 +361,12 @@ function updateLanguageCard( id, callback ) {
     })
   }
 
+  cardbody.append('h3').text('Alternative Scripts');
+  var altScripts_group = cardbody.append('div').attr('class','scripts-list');
+  if (dataItem.en_name){
+    altScripts_group.append('span').text(() => {return dataItem.en_name})
+  }
+
 
   if (callback) {callback(null)}
 }
