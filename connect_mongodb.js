@@ -3,7 +3,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 
 
-var url = 'mongodb://c4sr:languages@ds149974.mlab.com:49974/heroku_bz30p5qb';
+var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2';
 
 
 MongoClient.connect(url, function (err, db) {
