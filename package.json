@@ -16,6 +16,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "*",
+    "merge-descriptors": "^1.0.1",
     "mongodb": "*",
     "mongoose": "*",
     "morgan": "~1.8.1",

@@ -361,6 +361,21 @@ function updateLanguageCard( id, callback ) {
     })
   }
 
+  cardbody.append('h3').text('Alternative Scripts');
+  var altScripts_group = cardbody.append('div').attr('class','scripts-list');
+  if (dataItem.en_name){
+    altScripts_group.append('p').text(() => {return 'English: ' +dataItem.en_name})
+  }
+  if (dataItem.es_name){
+    altScripts_group.append('p').text(() => {return 'Spanish: '+dataItem.es_name})
+  }
+  if (dataItem.script_name){
+    altScripts_group.append('p').text(() => {return 'Native Script: '+ dataItem.script_name})
+  }
+  if (dataItem.country_name){
+    altScripts_group.append('p').text(() => {return 'Regional Name: ' +dataItem.country_name})
+  }
+
 
   if (callback) {callback(null)}
 }
