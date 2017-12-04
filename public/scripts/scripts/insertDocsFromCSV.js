@@ -56,25 +56,29 @@ MongoClient.connect(url, function(err, db) {
         }
       }
 
-    if(typeof en !== 'undefined') {
-      var update = { $set: {['en_name'] : en.substring(0, en.length-5)}};
-      updateDocs(db, targetcollection, id, update )
-    }
-    if(typeof es !== 'undefined') {
-      var update = { $set: {['es_name'] : es.substring(0, es.length-5)}};
-      updateDocs(db, targetcollection, id, update )
+    // if(typeof en !== 'undefined') {
+    //   var update = { $set: {['en_name'] : en.substring(0, en.length-5)}};
+    //   updateDocs(db, targetcollection, id, update )
+    // }
+    // if(typeof es !== 'undefined') {
+    //   var update = { $set: {['es_name'] : es.substring(0, es.length-5)}};
+    //   updateDocs(db, targetcollection, id, update )
       
-    }
+    // }
     if(typeof script !== 'undefined') {
-      var update = { $set: {['script_name'] : script.substring(0, script.length-4)}};
+      var update = { $set: {['script'] : script.substring(0, script.length-4)}};
       updateDocs(db, targetcollection, id, update )
       
     }
-    if(typeof country !== 'undefined') {
-      var update = { $set: {['country_name'] : country.substring(0, country.length-5)}};
+    else if(typeof country !== 'undefined') {
+      var update = { $set: {['script'] : country.substring(0, country.length-5)}};
       updateDocs(db, targetcollection, id, update )
       
     }
+    // 
+    // 
+      // var update = { $unset: {['es_name'] : ""}};
+      // updateDocs(db, targetcollection, id, update )
 
     });
 
@@ -107,6 +111,18 @@ function updateDocs(db, collections, id, update) {
   console.log(update);
   // console.log(id);
   
+  collection.update(query, update, function(err, result) {
+  
+    if (err) throw err;
+  //   // callback(result);
+
+  });
+}
+
+function removeDocs(db, collections, id, update) {
+  var collection = db.collection(targetcollection);
+
+  var query = {'id':id};
   collection.update(query, update, function(err, result) {
   
     if (err) throw err;

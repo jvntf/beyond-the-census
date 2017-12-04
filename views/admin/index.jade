@@ -1,0 +1,24 @@
+block content
+
+    h1= title
+
+
+    h2 Search to Edit
+
+
+    form#searchLanguage(name="editlang",method="get",action="/editlang")
+        select(id="selector", name="query")
+            option(value="hid") HID
+            option(value="id") GlottoCode
+            option(value="language") LANGUAGE
+        input#inputValue(type="text", placeholder="value",name="value")
+        button#btnSearch(type="submit") search
+
+
+
+    h2 Add a new Entry 
+    form#formAddLanguage(name="adduser",method="get",action="/newlanguage")
+        button#btnAddnew(type="submit") new language
+
+    form#formAddInstitution(name="adduser",method="get",action="/newinstitution")
+        button#btnAddnew(type="submit") new institution
