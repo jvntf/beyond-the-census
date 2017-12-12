@@ -1,0 +1,257 @@
+Searching 3688 files for "noUiSlider"
+
+/Users/jeevanfarias/Documents/columbia/center_for_spatial_research/beyond-the-census/public/javascripts/ui/nouislider.js:
+    1: /*! nouislider - 10.0.0 - 2017-05-28 14:52:48 */
+    2  
+    3  (function (factory) {
+    .
+   16  
+   17          // Browser globals
+   18:         window.noUiSlider = factory();
+   19      }
+   20  
+   ..
+  307  		// Reject any invalid input, by testing whether value is an array.
+  308  		if ( Object.prototype.toString.call( value ) !== '[object Array]' ){
+  309: 			throw new Error("noUiSlider (" + VERSION + "): 'range' contains invalid value.");
+  310  		}
+  311  
+  ...
+  321  		// Check for correct input.
+  322  		if ( !isNumeric( percentage ) || !isNumeric( value[0] ) ) {
+  323: 			throw new Error("noUiSlider (" + VERSION + "): 'range' value isn't numeric.");
+  324  		}
+  325  
+  ...
+  414  
+  415  		if ( step && ((value / step) % 1) !== 0 ) {
+  416: 			throw new Error("noUiSlider (" + VERSION + "): 'limit', 'margin' and 'padding' must be divisible by step.");
+  417  		}
+  418  
+  ...
+  484  		}
+  485  
+  486: 		throw new Error("noUiSlider (" + VERSION + "): 'format' requires 'to' and 'from' methods.");
+  487  	}
+  488  
+  ...
+  490  
+  491  		if ( !isNumeric( entry ) ) {
+  492: 			throw new Error("noUiSlider (" + VERSION + "): 'step' is not numeric.");
+  493  		}
+  494  
+  ...
+  502  		// Filter incorrect input.
+  503  		if ( typeof entry !== 'object' || Array.isArray(entry) ) {
+  504: 			throw new Error("noUiSlider (" + VERSION + "): 'range' is not an object.");
+  505  		}
+  506  
+  507  		// Catch missing start or end.
+  508  		if ( entry.min === undefined || entry.max === undefined ) {
+  509: 			throw new Error("noUiSlider (" + VERSION + "): Missing 'min' or 'max' in 'range'.");
+  510  		}
+  511  
+  512  		// Catch equal start or end.
+  513  		if ( entry.min === entry.max ) {
+  514: 			throw new Error("noUiSlider (" + VERSION + "): 'range' 'min' and 'max' cannot be equal.");
+  515  		}
+  516  
+  ...
+  525  		// will always provide a valid location.
+  526  		if ( !Array.isArray( entry ) || !entry.length ) {
+  527: 			throw new Error("noUiSlider (" + VERSION + "): 'start' option is incorrect.");
+  528  		}
+  529  
+  ...
+  542  
+  543  		if ( typeof entry !== 'boolean' ){
+  544: 			throw new Error("noUiSlider (" + VERSION + "): 'snap' option must be a boolean.");
+  545  		}
+  546  	}
+  ...
+  552  
+  553  		if ( typeof entry !== 'boolean' ){
+  554: 			throw new Error("noUiSlider (" + VERSION + "): 'animate' option must be a boolean.");
+  555  		}
+  556  	}
+  ...
+  561  
+  562  		if ( typeof entry !== 'number' ){
+  563: 			throw new Error("noUiSlider (" + VERSION + "): 'animationDuration' option must be a number.");
+  564  		}
+  565  	}
+  ...
+  591  		// Reject invalid input
+  592  		else if ( !Array.isArray( entry ) || !entry.length || entry.length !== parsed.handles + 1 ) {
+  593: 			throw new Error("noUiSlider (" + VERSION + "): 'connect' option doesn't match handle count.");
+  594  		}
+  595  
+  ...
+  613  			break;
+  614  		  default:
+  615: 			throw new Error("noUiSlider (" + VERSION + "): 'orientation' option is invalid.");
+  616  		}
+  617  	}
+  ...
+  620  
+  621  		if ( !isNumeric(entry) ){
+  622: 			throw new Error("noUiSlider (" + VERSION + "): 'margin' option must be numeric.");
+  623  		}
+  624  
+  ...
+  631  
+  632  		if ( !parsed.margin ) {
+  633: 			throw new Error("noUiSlider (" + VERSION + "): 'margin' option is only supported on linear sliders.");
+  634  		}
+  635  	}
+  ...
+  638  
+  639  		if ( !isNumeric(entry) ){
+  640: 			throw new Error("noUiSlider (" + VERSION + "): 'limit' option must be numeric.");
+  641  		}
+  642  
+  ...
+  644  
+  645  		if ( !parsed.limit || parsed.handles < 2 ) {
+  646: 			throw new Error("noUiSlider (" + VERSION + "): 'limit' option is only supported on linear sliders with 2 or more handles.");
+  647  		}
+  648  	}
+  ...
+  651  
+  652  		if ( !isNumeric(entry) ){
+  653: 			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be numeric.");
+  654  		}
+  655  
+  ...
+  661  
+  662  		if ( !parsed.padding ) {
+  663: 			throw new Error("noUiSlider (" + VERSION + "): 'padding' option is only supported on linear sliders.");
+  664  		}
+  665  
+  666  		if ( parsed.padding < 0 ) {
+  667: 			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be a positive number.");
+  668  		}
+  669  
+  670  		if ( parsed.padding >= 50 ) {
+  671: 			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be less than half the range.");
+  672  		}
+  673  	}
+  ...
+  686  			break;
+  687  		  default:
+  688: 			throw new Error("noUiSlider (" + VERSION + "): 'direction' option was not recognized.");
+  689  		}
+  690  	}
+  ...
+  694  		// Make sure the input is a string.
+  695  		if ( typeof entry !== 'string' ) {
+  696: 			throw new Error("noUiSlider (" + VERSION + "): 'behaviour' must be a string containing options.");
+  697  		}
+  698  
+  ...
+  708  
+  709  			if ( parsed.handles !== 2 ) {
+  710: 				throw new Error("noUiSlider (" + VERSION + "): 'fixed' behaviour must be used with 2 handles");
+  711  			}
+  712  
+  ...
+  744  
+  745  			if ( parsed.tooltips.length !== parsed.handles ) {
+  746: 				throw new Error("noUiSlider (" + VERSION + "): must pass a formatter for all handles.");
+  747  			}
+  748  
+  749  			parsed.tooltips.forEach(function(formatter){
+  750  				if ( typeof formatter !== 'boolean' && (typeof formatter !== 'object' || typeof formatter.to !== 'function') ) {
+  751: 					throw new Error("noUiSlider (" + VERSION + "): 'tooltips' must be passed a formatter or 'false'.");
+  752  				}
+  753  			});
+  ...
+  768  
+  769  		if ( entry !== undefined && typeof entry !== 'string' && entry !== false ) {
+  770: 			throw new Error("noUiSlider (" + VERSION + "): 'cssPrefix' must be a string or `false`.");
+  771  		}
+  772  
+  ...
+  777  
+  778  		if ( entry !== undefined && typeof entry !== 'object' ) {
+  779: 			throw new Error("noUiSlider (" + VERSION + "): 'cssClasses' must be an object.");
+  780  		}
+  781  
+  ...
+  797  			parsed.useRequestAnimationFrame = entry;
+  798  		} else {
+  799: 			throw new Error("noUiSlider (" + VERSION + "): 'useRequestAnimationFrame' option should be true (default) or false.");
+  800  		}
+  801  	}
+  ...
+  898  
+  899  				if ( tests[name].r ) {
+  900: 					throw new Error("noUiSlider (" + VERSION + "): '" + name + "' is required.");
+  901  				}
+  902  
+  ...
+ 1101  
+ 1102  			if ( !values ) {
+ 1103: 				throw new Error("noUiSlider (" + VERSION + "): 'values' required for mode 'count'.");
+ 1104  			}
+ 1105  
+ ....
+ 1448  			}
+ 1449  
+ 1450: 			// noUiSlider supports one movement at a time,
+ 1451  			// so we can select the first 'changedTouch'.
+ 1452  			x = e.changedTouches[0].pageX;
+ ....
+ 1698  
+ 1699  			// Prevent text selection when dragging the handles.
+ 1700: 			// In noUiSlider <= 9.2.0, this was handled by calling preventDefault on mouse/touch start/move,
+ 1701  			// which is scroll blocking. The selectstart event is supported by FireFox starting from version 52,
+ 1702  			// meaning the only holdout is iOS Safari. This doesn't matter: text selection isn't triggered there.
+ ....
+ 2047  		}
+ 2048  
+ 2049: 		delete scope_Target.noUiSlider;
+ 2050  	}
+ 2051  
+ ....
+ 2185  
+ 2186  	// Throw an error if the slider was already initialized.
+ 2187: 	if ( scope_Target.noUiSlider ) {
+ 2188: 		throw new Error("noUiSlider (" + VERSION + "): Slider was already initialized.");
+ 2189  	}
+ 2190  
+ ....
+ 2236  
+ 2237  		if ( !target || !target.nodeName ) {
+ 2238: 			throw new Error("noUiSlider (" + VERSION + "): create requires a single element, got: " + target);
+ 2239  		}
+ 2240  
+ ....
+ 2243  		var api = closure( target, options, originalOptions );
+ 2244  
+ 2245: 		target.noUiSlider = api;
+ 2246  
+ 2247  		return api;
+
+/Users/jeevanfarias/Documents/columbia/center_for_spatial_research/beyond-the-census/public/stylesheets/nouislider.css:
+    1: /*! nouislider - 10.0.0 - 2017-05-28 14:52:48 */
+    2  /* Functional styling;
+    3:  * These styles are required for noUiSlider to function.
+    4   * You don't need to change these rules to apply your design.
+    5   */
+
+/Users/jeevanfarias/Documents/columbia/center_for_spatial_research/beyond-the-census/views/index.jade:
+  122          function init() {
+  123            // build slider
+  124:           state.ui.endangermentSlider = noUiSlider.create(document.getElementById('slider-range'), {
+  125              start: [ 0, 10 ],
+  126              connect: true,
+
+/Users/jeevanfarias/Documents/columbia/center_for_spatial_research/beyond-the-census/views/layout.jade:
+   50          // local css
+   51          link(rel='stylesheet', href='/stylesheets/style.css')  
+   52:         link(rel='stylesheet', href='/stylesheets/nouislider.css')
+   53  
+   54      body    
+
+45 matches across 4 files
