@@ -89,7 +89,6 @@ html
                 form#formUpdateEndangermentNum(name="editlang",method="post",action="/updateEntry")     
                     input#input_ID(type="hidden",value=_id,name="_id",)
                     input#inputEndangerment(type="text", value="endangermentNum", name="query", readonly)
-                    // input#inputEndangerment(type="text", placeholder=endangermentNum,value=endangermentNum, name="value")
                     select(id="endangermentList", name="value")
                         option(id="end1", value="1") 1
                         option(id="end2", value="2") 2
@@ -116,6 +115,10 @@ html
 
                 form#formReturn(name="return",method="get",action="/admin")                
                     button#btnSave(type="submit") Return
+
+                form#formReturn(name="return",method="post",action="/removeLang")
+                    input#input_ID(type="hidden",value=_id,name="_id",)                
+                    button#btnSave(type="submit") Delete This Entry
 
 
 
