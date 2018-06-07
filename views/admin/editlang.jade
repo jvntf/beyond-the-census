@@ -34,27 +34,27 @@ html
                 else if endangermentNum == "2"
                     script.
                         $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
+                            $("#end2").attr("selected","selected");
                         });
                 else if endangermentNum == "3"
                     script.
                         $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
+                            $("#end3").attr("selected","selected");
                         });
                 else if endangermentNum == "4"
                     script.
                         $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
+                            $("#end4").attr("selected","selected");
                         });
                 else if endangermentNum == "5"
                     script.
                         $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
+                            $("#end5").attr("selected","selected");
                         });
                 else if endangermentNum == "6"
                     script.
                         $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
+                            $("#end6").attr("selected","selected");
                         });
 
             div#languageForm
@@ -96,8 +96,8 @@ html
                         option(id="end4", value="4") 4
                         option(id="end5", value="5") 5
                         option(id="end6", value="6") 6
-                    button.endangerment#btnSubmit(type="submit") update
-                    span.endangerment#idstatus updating...
+                    button.endangermentNum#btnSubmit(type="submit") update
+                    span.endangermentNum#idstatus updating...
                     
                 form#formUpdateStatus(name="editlang",method="post",action="/updateEntry")     
                     input#input_ID(type="hidden",value=_id,name="_id",)

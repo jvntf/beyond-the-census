@@ -8,9 +8,10 @@ var https = require('https');
 
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
-// var mongoDB = 'mongodb://c4sr:languages@ds149974.mlab.com:49974/heroku_bz30p5qb'
-// var mongoDB = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
+//live db
 var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+//test db
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -56,7 +57,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
     language: String,
     description: String,
     region: String,
-    endangermentNum: String,
+    endangermentNum: Number,
     sttus: String,
     latitude: String,
     longitude: String,
@@ -398,16 +399,16 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 
 
 router.get('/editlang', function(req, res){
-  console.log(req.query.query);
+
+
   Language.findOne({[req.query.query]: req.query.value}, function(err, obj){
-  // Test.findOne({[req.query.query]: req.query.value}, function(err, obj){
     if (err){
       res.send(err);
     }
     if(obj){
       obj = obj.toObject();
 
-      console.log("endangermentNum "+ obj.endangermentNum);
+  
       res.render('admin/editlang', {title: "Language",
                               _id: obj._id,
                               hid: obj.hid,
@@ -831,6 +832,8 @@ router.get('/editinst', function(req, res){
     }
   });
   router.post('/updateEntry', function(req, res) {
+   console.log("update entry " + req.body.query + ' ' + req.body.value);
+
     if (req.body.query == "ntacode_1"){
       Neighborhood.findOne({"properties.NTACode": req.body.value}, function(err,obj){
         if(err) {
@@ -940,8 +943,11 @@ router.get('/editinst', function(req, res){
       })
 
     } else {
-      Language.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: req.body.value}}, {upsert:true}, function(err,result){
 
+      var val = req.body.query == "endangermentNum" ? Number(req.body.value) : req.body.value
+      console.log("val " + val + ' ' + typeof val);
+      Language.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: val}}, {upsert:true}, function(err,result){
+        console.log("947 update entry " + req.body.query + ' ' + req.body.value);
       // Test.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: req.body.value}}, {upsert:true}, function(err,result){
         if (err)
           throw err
