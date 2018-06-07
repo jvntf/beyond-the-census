@@ -1,0 +1,15 @@
+
+institutions.distinct('properties.type', {})
+
+[
+    "zone",
+    "shop",
+    "school",
+    "religious",
+    "restaurant",
+    "community center",
+    "club",
+    null
+]
+
+update({"properties.type": "store"}, {$set: {"properties.type": "shop"}}, {multi: true})

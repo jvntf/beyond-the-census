@@ -16,6 +16,19 @@ tr {
   padding: 0px;
 }
 
+#formAddUser{
+  font-family: inherit;
+  font-size: 1.2em;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  width: 20%;
+  focus: blue;
+  z-index: 999;
+  clear:both;
+}
+
 #body-table {
   width: 100%;
   margin: 0px;
@@ -37,6 +50,7 @@ tr {
   padding-left: 5px;
   width: 85%;
 }
+
 
   /* -- header -- */
   #header {
@@ -81,17 +95,17 @@ tr {
     cursor: pointer;
   }
 
-#card-header {
+#card-header, #script{
   width: 100%;
   padding: 0px;
   padding-left: 0px;
 }
 
-#card-header table {
+#card-header table, #script table{
   width: 100%;
 }
 
-#card-header td {
+#card-header td, #script td {
   padding-left: 15px;
 }
 

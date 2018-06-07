@@ -1,28 +1,6 @@
 extends layout
 block content
 
-    //#person-container.card.padded.hidden
-    //  #person-content
-    //  #controls
-    //    label(for"hideUSborn") Hide Born in the US
-    // input(id="hideUSborn" type="checkbox")
-    //    label(for"hideEnglish") Hide English Speakers  
-    //      input(id="hideEnglish" type="checkbox")
-    //    label(for"hideSpanish") Hide Spanish Speakers  
-    //      input(id="hideSpanish" type="checkbox")
-    //    input(id="loadStory" type="button" value="get a story")
-
-
-    
-    //#header.shadow
-    //  table
-    //    tbody
-    //      tr
-    //        td
-    //          h1 Languages of Queens
-    //        td.about-link
-    //          a(onClick="updateAboutCard()") About        
-    
     #container-main
 
       #list-container.shadow
@@ -34,56 +12,39 @@ block content
                   span(id="search-icon" class="fa fa-search" aria-hidden="true")
                 td
                   input(id="searchString-input" type='text' autofocus)
-                //td.table-right-icon
-                  //span(id="clearform-icon") X
-        
+
           div.filter-inputs
-            //p Grouping:
-            //input(id="filter-string" type='text')
-            //select(name="select-sortby" id="select-sortby")
-            //  option by Continent
             #input-slider
               #slider-range-container
                 #slider-range
               #slider-labels
                 #slider-label-left extinct
                 #slider-label-right healthy
-            #listlegend-target    
-                
-            //input(type="button"  class="lang-toggle-button" onClick="hideAllLangs()" id="hideall-langs-button" value="Hide All")
+            #listlegend-target
         #langlist-status.shadow
           #langlist-status-texttarget
           input(type="button" onClick="resetFilters()" value="reset").button-fullwidth
         #langlist-target
-      // #map-title
-      //   h1 Languages of Queens
 
-      
+
       #overlay-target
 
       #drawing-container.drawing-wide
         #about-link
-          a(onClick="updateAboutCard()") about            
+          a(onClick="updateAboutCard()") about
         #map-title
           h1 Beyond the Census: Languages of Queens
 
         #map-target
-        //#map-controls
-          //label(for"showNeighborhoods") Show Neighborhoods
-          //  input(id="showNeighborhoods" type="checkbox" checked)
-          //label(for"showInstitutions") Show Institutions
-          //  input(id="showInstitutions" type="checkbox" checked)  
-          //label(for"showLabels") Show Labels
-          //  input(id="showLabels" type="checkbox" checked)
+
         #detail-container.hidden.shadow
-          //a(id="hide-details-button" onClick="hideDetails()") x
           #lang-content
           svg(id="globe-target" viewBox="0 0 240 240" class="hidden")
-                      
-  
+
+
     // script starts here
     script(type='text/javascript').
-        
+
         // main state variable
         // contains entire dataset loaded from DB, filtered group, single highlighted language
         var state = {
@@ -109,9 +70,9 @@ block content
           // old: from pums person
           basequery: '../individual',
           queryarray: [false, false, false],
-          querystring: './individual/false/false/false'          
+          querystring: './individual/false/false/false'
         }
-        
+
         var input = {
             'filterstring': '',
             'filtertype': 'langname',
@@ -126,14 +87,14 @@ block content
             countries: [],
             neighborhoods: [],
             selected: {}
-          }, 
+          },
           zoomInitial = 11.75,
           mapCenter = [40.68658, -73.8099],
           queensBounds = [[40.35,-74.33],[40.85,-73.2]]
           ;
-          //path, 
+          //path,
           //transform;
-  
+
         var map = new L.Map('map-target', {
             center: mapCenter,
             zoom: zoomInitial,
@@ -141,39 +102,29 @@ block content
             maxZoom: 18,
             maxBounds: queensBounds,
             maxBoundsViscosity: 0.2,
-            zoomSnap: 0.25, 
-            zoomControl: true, 
+            zoomSnap: 0.25,
+            zoomControl: true,
             attributionControl: false
           })
-          //.fitBounds( queensBounds, {paddingTopLeft: [ 0.5, 0.5 ], paddingBottomRight: [ 0.5, 0.5 ], duration: 0})//.setView([40.67, -73.84], zoomInitial);
-        Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
+
+        // Commenting out Tangram layer due to Mapzen shutdown
+        // Tangram.leafletLayer({ scene: '../scene.yaml' }).addTo(map); // adds tangram basemap layer for leaflet
+
+        // Add custom basemap from mapbox
+        var light = L.tileLayer('https://api.mapbox.com/styles/v1/sidl/cjcumjncp0slx2smuxth9rexq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2lkbCIsImEiOiJkOGM1ZDc0ZTc5NGY0ZGM4MmNkNWIyMmIzNDBkMmZkNiJ9.Qn36nbIqgMc4V0KEhb4iEw'
+                    ).addTo(map);
+                    
         L.svg({ padding: 0 }).addTo(map); // makes the overlay layer for the map
-        
-        // add zoom to home control to map
-        //var zoomHome = L.Control.zoomHome();
-        //zoomHome.addTo(map);
-          
+
+
         // initialize main d3 map layer
         var mapLayer = d3.select('#map-target').select('svg');
         mapLayer.attr("id", "map-svg-main")
           .raise()
-          .attr('pointer-events', 'auto'); 
-        
-        //d3.select('#map-target').attr('pointer-events', 'none');  
-        
-        //map.fitBounds( [] ) use fitBounds to scale map to fit window  
-        
-        //var overlayTarget = d3.select('#overlay-target')
-        
-        //var overlaySVG = overlayTarget.append('svg').attr('id', 'overlay-svg-main')
-        //  .attr('width', window.innerWidth)
-        //  .attr('height', window.innerHeight)
-        //  .attr('pointer-events', 'none')
-          
-        //overlaySVG.append('g').attr('id', 'leader-lines');
-          
+          .attr('pointer-events', 'auto');
+
         init();
-        
+
         // runs once on page load
         function init() {
           // build slider
@@ -185,8 +136,8 @@ block content
               'min': [ 0 ],
               'max': [ 10 ]
             }
-          }); 
-          
+          });
+
           updateData( input.filtertype, input.filterstring, state.filters.endangermentRange, () => {
             applyFilters();
             drawQueensOutline();
@@ -194,140 +145,109 @@ block content
             drawDotMap();
           });
         }
-        
+
         d3.select('#loading')
           .classed('hidden', true);
-        
+
         // event listeners
         d3.select('#searchString-input')
           .on('input', function () {
             state.filters.searchString = d3.select(this).property('value');
             applyFilters();
-            //console.log(state.filters.searchString);
           });
-          
+
         d3.select('#filter-endangerment')
           .on('input', function() {
             input.endangerment = d3.select(this).property('value'); // update endangerment value
-            //console.log(input.endangerment)
-            //main(); // call main function, (fetch data and rerender)
           })
-                
-        
+
+
         d3.select('#underlay-dropdown')
           .on('input', function() {
             input.underlay = d3.select(this).property('value');
             console.log(input.underlay);
-            //update();
             drawUnderlay();
           })
-          
+
         d3.select('#show-about-content')
           .on('click', function() {
             d3.select('#about-content')
               .classed('hidden', false);
             d3.select('#show-about-content')
-              .classed('hidden', true);            
+              .classed('hidden', true);
           })
-          
+
         d3.select('#hide-about-content')
           .on('click', function() {
             d3.select('#about-content')
               .classed('hidden', true);
             d3.select('#show-about-content')
-              .classed('hidden', false);            
+              .classed('hidden', false);
           })
-          
+
         var showNeighborhoodsBox = d3.select('#showNeighborhoods')
           .on('click', function() {
             let status = showNeighborhoodsBox.node().checked;
-            d3.selectAll('.map.nbd').classed('hidden', !status);                          
+            d3.selectAll('.map.nbd').classed('hidden', !status);
           })
-          
+
         var showInstitutionsBox = d3.select('#showInstitutions')
           .on('click', function() {
             let status = showInstitutionsBox.node().checked;
-            d3.selectAll('.map.inst').classed('hidden', !status);      
+            d3.selectAll('.map.inst').classed('hidden', !status);
           })
-          
+
         var showLabelsBox = d3.select('#showLabels')
           .on('click', function() {
             let status = showLabelsBox.node().checked;
             d3.selectAll('text').classed('hidden', !status)
-          })                     
-        
+          })
+
         d3.select('#langlist-target').on('scroll', () => {
           clearOverlay();
         })
-              
-                       
+
+
         window.addEventListener('resize', () => {
           clearOverlay();
-          //console.log('window resize')
-          //overlayTarget.attr('width', window.innerWidth)
-          //  .attr('height', window.innerHeight)
-          //  .select('svg').attr('width', window.innerWidth)
-          //    .attr('height', window.innerHeight)
+
         })
-        
+
         d3.select(window)
           .on('scroll', () => {
-            //var leaderLines = d3.select('#leader-lines').selectAll('*').remove();
-           })   
-        //map.on('click', (e) => { clearOverlay(); })
-        //console.log(e) });
-        // filter UI element event handlers
-        // endangerment slider: set endangermentRange, call applyFilters (rebuild data),
+           })
+
         state.ui.endangermentSlider.on('set', function(){
           state.filters.endangermentRange = [10 - this.get()[1], 10 - this.get()[0]];
           applyFilters();
-
-          //console.log(state.filters.endangermentRange)
-
-          /*// hide everything
-          d3.selectAll('.lang').classed('listlang-hidden', true).classed('maplang-hidden', true)
-
-          //console.state.langAll
-
-          // get language ids in range
-          let langsFiltered = state.langAll.filter( (language) => {
-            return language.endangermentNum > state.filters.endangermentRange[0] && language.endangermentNum < state.filters.endangermentRange[1]
-          })
-
-
-          langsFiltered.forEach( (item) => {
-            let selector = `.lang-${item._id}`;
-            //console.log(selector)
-            d3.selectAll(selector).classed('listlang-hidden', false).classed('maplang-hidden', false)
-          });*/
         });
-        function resetMap() {      
+        function resetMap() {
             map.flyTo(mapCenter, zoomInitial);
-            d3.selectAll('.nbd-otln').attr('stroke', 'transparent')   
+            d3.selectAll('.nbd-otln').attr('stroke', 'transparent')
             removeUnderlay()
         }
-        
+
         function showAllLangs() {
           d3.selectAll('.lang').classed('maplang-hidden', false).classed('listlang-hidden', false)
         }
         function hideAllLangs() {
           d3.selectAll('.lang').classed('maplang-hidden', true).classed('listlang-hidden', true)
         }
-        
+
         function hideDetails() {
           d3.select('#detail-container').classed('hidden', true)
           clearOverlay();
           mapUnHighlight();
         }
-        
 
-        
+
+
         updateStory(state.querystring);
-        
+
         d3.select('#loadStory').on('click', () => {
           updateStory(state.querystring);
         })
-        
+
         var hideUSbornCheckBox = d3.select('#hideUSborn').on('click', () => {
           updateQueryString( hideUSbornCheckBox.node().checked, 0 )
         })
@@ -338,9 +258,9 @@ block content
           updateQueryString( hideSpanishCheckBox.node().checked, 2 )
         })
         var hideLabelsCheckBox = d3.select('#hideCheckbox').on('click', () => {
-          
+
         })
-        
+
         function updateStory(q) {
           d3.json(q, (json) => {
             var person = d3.select('#person-content')
@@ -351,27 +271,27 @@ block content
               .data(json.story)
               .enter()
               .append('p')
-              .text((d, i) => {return d})    
+              .text((d, i) => {return d})
           })
         }
-        
+
         function updateQueryString(value, position) {
           state.queryarray[position] = value;
           state.querystring = state.basequery + '/' + state.queryarray.toString().replace(/,/g , '/');
         }
-        
+
         // reset all UI elements
         function resetUI() {
           state.ui.endangermentSlider.reset();
           clearSearchForm();
           hideDetails();
         }
-        
+
         function clearSearchForm() {
           var e = document.getElementById("searchString-input");
           e.value = '';
         }
-        
+
         function clearOverlay() {
           d3.select('#overlay-target').selectAll('*').remove();
         }

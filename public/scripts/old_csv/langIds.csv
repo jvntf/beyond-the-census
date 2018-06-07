@@ -1,0 +1,223 @@
+language,id
+Acehnese,achi1257
+Albanian,gheg1238
+Algerian Arabic,alge1239
+Amdo Tibetan,amdo1237
+American Sign Language,amer1248
+Amharic,amha1245
+Amuzgo,guer1243
+Armenian,nucl1235
+Asturian,astu1245
+Aymara,sout2996
+Bahing,bahi1252
+Bambara,bamb1269
+Bantawa,bant1281
+Batak,bata1301
+Bavarian,bava1246
+Bengali,beng1280
+Bishnupriya Manipuri,bish1244
+Bolivian Quechua,nort2976
+Bosnian,bosn1245
+Brazilian Portuguese,braz1246
+Breton,bret1244
+Buginese,bugi1244
+Bukhori,bukh1238
+Burmese,nucl1310
+Calabrese,neap1235
+Cantonese,yuec1235
+Caribbean Hindustani,cari1275
+Cebuano,cebu1242
+Chantyal,chan1310
+Chavacano,chav1241
+Chin,haka1240
+Coptic,copt1239
+Cretan,cret1243
+Croatian,croa1245
+Cypriot Greek ,cypr1249
+Czech,czec1258
+Dari,dari1249
+Dolpo,dolp1239
+Dutch,dutc1256
+Dzongkha,dzon1239
+Egyptian Arabic,egyp1253
+Friulian,friu1240
+Galician,gali1258
+German,stan1295
+Ghale,sout2715
+Gottscheerisch,NOCODE_GOTTSCHEERISCH
+Guarani,para1311
+Gujarati,guja1252
+Gurung,guru1261
+Gyalsumdo,kyir1235
+Hakka,haka1240
+Hebrew,hebr1245
+Hindi,hind1269
+Hokkien (Fujianese),minn1241
+Hyolmo,hela1238
+Ibaloi,ibal1244
+Ibanag,iban1267
+Igbo,nucl1417
+Ilokano,ilok1237
+Indonesian,indo1316
+Iraqi Judeo-Arabic,jude1266
+Irish,iris1253
+Istrioto,istr1244
+Istro-Veneto,vene1258
+Ixil,ixil1251
+Japanese,nucl1643
+Javanese,java1254
+Jordanian Arabic,sout3123
+Kachin,kach1280
+Kapampangan,pamp1243
+Karen,sgaw1245
+Kham Tibetan,kham1281
+K'iche',kich1262
+Kinaray-a,kina1250
+Konkani,konk1267
+Korean,kore1280
+Kyirong,kyer1238
+Lebanese Arabic,nort3139
+Lhasa Tibetan,tibe1272
+Ligurian,ligu1248
+Limbu,limb1266
+Limi,limi1243
+Lithuanian,lith1251
+Lombard,lomb1257
+Macedonian,mace1250
+Madurese,nucl1460
+Magar,east2352
+Makassar,maka1305
+Malayalam,mala1464
+Maltese,malt1254
+Mam,mamm1241
+Mamuju,mamu1255
+Manang,mana1288
+Mandarin,mand1415
+Mandinka,mand1436
+Maranao,mara1404
+Marathi,mara1378
+Matinecock,algo1255
+Mazatec,huau1238
+Minangkabau,mina1268
+Mixe,maza1292
+Mixtec,metl1238
+Moldavian,balk1252
+Mon,monn1252
+Mongolian,halh1238
+Mugom,mugo1238
+Mustangi (Loke),lowa1242
+Nahuatl,high1278
+Neapolitan,neap1235
+Nepali,nepa1254
+Newari,newa1246
+Nones,ladi1250
+Nubri,nubr1241
+Oriya,oriy1255
+Otomi ,mezq1235
+Pangasinan,pang1290
+Pashto,nort2646
+Patois (Trinidad),trin1276
+Persian,west2369
+Peruvian Quechua,huay1240
+Piedmontese,piem1238
+Polish,poli1260
+Pontic Greek,pont1253
+Portuguese,port1283
+Punjabi,panj1256
+Roma,vlax1238
+Romanian,roma1327
+Russian,russ1263
+Sanskrit,sans1269
+Sasak,sasa1249
+Serbian,serb1264
+Shanghainese,wuch1236
+Sherpa,sher1255
+Shuar,shua1257
+Sichuanese,sich1238
+Sicilian,sici1248
+Sindhi,sind1272
+Slovak,slov1269
+Slovenian,slov1268
+Sranan Tongo,sran1240
+Standard Greek,mode1248
+Sundanese,sund1252
+Syro-Malabar Syriac,clas1252
+Tagalog,taga1270
+Taishanese,yuec1235
+Taiwanese,minn1241
+Tajik,taji1245
+Tamang,east2347
+Tamil,tami1289
+Tedim Chin,tedi1235
+Telugu,telu1262
+Tepehua,sout2976
+Thai,thai1261
+Thakali,thak1245
+Tibetan,tibe1272
+Tlapanec (Malinaltepec),tlac1237
+Tontemboan,tont1239
+Topke Gola,walu1241
+Trique,copa1237
+Tshangla,tsha1245
+Tsum,tsum1240
+Turkish,nucl1301
+Tuscan,ital1282
+Tzotzil,tzot1259
+Uighur,uigh1240
+Ukrainian,ukra1253
+Urdu,urdu1245
+Uzbek,nort2690
+Vietnamese,viet1252
+Vlashki,istr1245
+Walung,walu1241
+Waray-Waray,wara1300
+Wenzhounese,wuch1236
+Xiang (Hunanese),xian1251
+Yiddish,west2361
+Yucatec Maya,yuca1254
+Zapotec,isth1244
+Rikers Island Prison Languages,
+Swahili,swah1253
+Oromo,east2652
+Somali,soma1255
+Berber,cent2194
+Wolof,nucl1347
+Yoruba,yoru1246
+Fulani,pula1262
+Akan (Twi),akan1250
+Hausa,haus1257
+Xhosa,xhos1239
+African-American English,NOCODE_AAE
+Bartangi,bart1238
+Bukhori,bukh1238
+Chantyal,chan1310
+Chin,haka1240
+Coptic,copt1239
+Czech,czec1258
+Egyptian Arabic,egyp1253
+French,stan1290
+Galician,gali1258
+Gan,ganc1239
+Gurung,guru1261
+Guyanese Creole,creo1235
+Gyalsumdo,west2415
+Ibanag,iban1267
+Javanese,java1254
+K'iche',kich1262
+Kabyle,kaby1243
+Karen,sgaw1245
+Kinaray-a,kina1250
+Matinecock,algo1255
+Nahuatl,high1278
+Nepali,nepa1254
+Nubri,nubr1241
+Pangasinan,pang1290
+Piedmontese,piem1239
+Portuguese,port1283
+Roshani,rosh1238
+Sasak,sasa1249
+Sherpa,sher1255
+Sicilian,sici1248
+Sindhi,sind1272
+Taiwanese,minn1241
+Ukrainian,ukra1253

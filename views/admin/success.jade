@@ -1,0 +1,19 @@
+
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/backend.css') 
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+
+
+    body
+        block content
+            h1= title
+
+            div
+                p collection was updated
+                p click below to return to admin pade
+            form#formReturn(name="return",method="get",action="/admin")                
+                button#btnSave(type="submit") Return

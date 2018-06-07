@@ -1,0 +1,3716 @@
+{
+	"type": "FeatureCollection",
+	"crs": {
+		"type": "name",
+		"properties": {
+			"name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+		}
+	},
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 1,
+				"nta": "Astoria",
+				"language": "Egyptian Arabic",
+				"wikilink": "https://en.wikipedia.org/wiki/Egyptian_Arabic",
+				"ethnolink": "https://www.ethnologue.com/country/eg/languages",
+				"country": "Egypt",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Also called Masri and the language often is at the center of political debates about national identity",
+				"status": "3 (Wider communication)",
+				"location": "Little Egypt (28th Ave and Astoria Blvd)",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 2,
+				"nta": "Astoria",
+				"language": "Algerian Arabic",
+				"wikilink": "https://en.wikipedia.org/wiki/Algerian_Arabic",
+				"ethnolink": "https://www.ethnologue.com/language/aao",
+				"country": "Algeria",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Algerian Arabic is the native language of 75\\% to 80\\% of Algerians. It is essentially a spoken language used in daily communication and entertainment while Classical Arabic is generally reserved for official use and education.",
+				"status": "3 (Wider communication)",
+				"location": "Caffe Borbone - Algerian-managed gathering spot for Algerian World Cup games",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 3,
+				"nta": "Astoria",
+				"language": "Bosnian",
+				"wikilink": "https://en.wikipedia.org/wiki/Bosnian_language",
+				"ethnolink": "https://www.ethnologue.com/language/bos",
+				"country": "Bosnia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "The name Bosnian language is a controversial issue. It is also referred to as the Bosniak language since Bosnian implies that it is the language of all Bosnians which Bosnian Croats and Serbs do not often speak as a native language. ",
+				"status": "1 (National)",
+				"location": "Islamic Unity & Cultural Center of Plav-Gusinje",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 4,
+				"nta": "Astoria",
+				"language": "Standard Greek",
+				"wikilink": "https://en.wikipedia.org/wiki/Greek_language",
+				"ethnolink": "https://www.ethnologue.com/language/pnt",
+				"country": "Greece",
+				"country2": "Ukraine; Cyprus; Albania; Macedonia; Montenegro",
+				"region": "NULL",
+				"notes": "Greek has the longest documented history of any living language spanning 34 centuries of written records.",
+				"status": "1 (National)",
+				"location": "Federation of Hellenic Societies of Greater New York Inc.",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 5,
+				"nta": "Astoria",
+				"language": "Pontic Greek",
+				"wikilink": "https://en.wikipedia.org/wiki/Pontic_Greek",
+				"ethnolink": "https://www.ethnologue.com/language/pnt",
+				"country": "Greece",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Ethnologue reports that speakers in N. America may use Pontic Greek more zealously than in other places.",
+				"status": "6a (Vigorous)",
+				"location": "Pontion Society Komninoi of N.Y. located at 31-25 23rd Ave Astoria N.Y",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 6,
+				"nta": "Astoria",
+				"language": "Cretan",
+				"wikilink": "https://en.wikipedia.org/wiki/Cretan_Greek",
+				"ethnolink": "NA",
+				"country": "Greece",
+				"country2": "NULL",
+				"region": "Crete",
+				"notes": "Dialect of Greek spoken in Crete in very little danger of endangerment as speakers use it frequently between each other. ",
+				"status": "Unknown",
+				"location": "Minos Cretan Society",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 7,
+				"nta": "Astoria",
+				"language": "Cypriot Greek ",
+				"wikilink": "https://en.wikipedia.org/wiki/Cypriot_Greek",
+				"ethnolink": "https://www.ethnologue.com/language/ell",
+				"country": "Greece",
+				"country2": "NULL",
+				"region": "Cyprus",
+				"notes": "Cypriot Greek is spoken by the majority of the Cypriot populace and Greek Cypriot diaspora. Because of contact and geographic isolation it is a markedly different than Standard Modern Greek",
+				"status": "1 (National)",
+				"location": "Zenon Taverna",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 8,
+				"nta": "Astoria",
+				"language": "Brazilian Portuguese",
+				"wikilink": "https://en.wikipedia.org/wiki/Brazilian_Portuguese",
+				"ethnolink": "https://www.ethnologue.com/language/por",
+				"country": "Brazil",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Nearly everyone in Brazil speaks Brazilian Portuguese as a native language (often in addition to other languages)",
+				"status": "1 (National)",
+				"location": "36th Ave (Rio Market)",
+				"loctype": "shop",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 9,
+				"nta": "Astoria",
+				"language": "Croatian",
+				"wikilink": "https://en.wikipedia.org/wiki/Croatian_language",
+				"ethnolink": "https://www.ethnologue.com/language/hrv",
+				"country": "Croatia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Coratian has its own festival: Days of the Croatian Language an annual week-long cultural event established by Matica hrvatska which celebrates the Croatian language.",
+				"status": "1 (National)",
+				"location": "Rudar",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 10,
+				"nta": "Astoria",
+				"language": "Serbian",
+				"wikilink": "https://en.wikipedia.org/wiki/Serbian_language",
+				"ethnolink": "https://www.ethnologue.com/language/srp",
+				"country": "Serbia",
+				"country2": "Bosnia and Herzegovina; Montenegro; Croatia",
+				"region": "Serbia and neighborhing regions",
+				"notes": "Serbian is recognized minority language in many countries surrounding Serbia.",
+				"status": "1 (National)",
+				"location": "Cevabdzinica Sarajevo",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 11,
+				"nta": "Astoria",
+				"language": "Istro-Veneto",
+				"wikilink": "https://en.wikipedia.org/wiki/Venetian_language",
+				"ethnolink": "https://www.ethnologue.com/language/vec",
+				"country": "Italy",
+				"country2": "Croatia",
+				"region": "Veneto",
+				"notes": "Istro-Veneto is considered a dialect of Venetian",
+				"status": "5 (Developing)",
+				"location": "Istria Sports Club",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 12,
+				"nta": "Astoria",
+				"language": "Istrioto",
+				"wikilink": "https://en.wikipedia.org/wiki/Istriot_language",
+				"ethnolink": "https://www.ethnologue.com/language/ist",
+				"country": "Croatia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "There are approximately 400 Istrioto speakers in Croatia though the language shares a lot with Italian. In each village where it is spoken it goes by another name.",
+				"status": "7 (Shifting)",
+				"location": "Istria Sports Club",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 13,
+				"nta": "Astoria",
+				"language": "Maltese",
+				"wikilink": "https://en.wikipedia.org/wiki/Maltese_language",
+				"ethnolink": "https://www.ethnologue.com/language/mlt",
+				"country": "Malta",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Maltese is a variety of Arabic that evolved independently of literary Arabic it was heavily influenced by Italian and Sicilian and written in Latin script",
+				"status": "1 (National)",
+				"location": "Maltese Center 2720 Hoyt Ave S Astoria NY 11102",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 14,
+				"nta": "Astoria",
+				"language": "Vlashki",
+				"wikilink": "https://en.wikipedia.org/wiki/Vlach_language_in_Serbia",
+				"ethnolink": "NA",
+				"country": "Croatia",
+				"country2": "Serbia; Italy",
+				"region": "Istrian Peninsula",
+				"notes": "Vlashki is a descendant of the language spoken by the Vlachs nomadic shepherds who migrated from the area around present-day Romania. Queens is home to the largest community of Vlashki speakers outside Croatia.",
+				"status": "Unknown",
+				"location": "Istria Sports Club",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 15,
+				"nta": "Astoria",
+				"language": "Czech",
+				"wikilink": "https://en.wikipedia.org/wiki/Czech_language",
+				"ethnolink": "https://www.ethnologue.com/language/ces",
+				"country": "Czech Republic",
+				"country2": "Slovakia; Poland",
+				"region": "NULL",
+				"notes": "The region where Czech is spoken is traditionally called Bohemia and was named after the Boii tribe who according to Roman sources have inhabited the area since at least the 1st century AD. ",
+				"status": "1 (National)",
+				"location": "Bohemian Beer Hall",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 16,
+				"nta": "Astoria",
+				"language": "Slovak",
+				"wikilink": "https://en.wikipedia.org/wiki/Slovak_language",
+				"ethnolink": "https://www.ethnologue.com/language/slk",
+				"country": "Slovakia",
+				"country2": "Czech Republic; Poland; Hungary",
+				"region": "NULL",
+				"notes": "Slovak is the official language of Slovakia where it is spoken by approximately 5.51 million people though there is a large diasporic community as well.",
+				"status": "1 (National)",
+				"location": "Bohemian Beer Hall",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 17,
+				"nta": "Astoria",
+				"language": "Galician",
+				"wikilink": "https://en.wikipedia.org/wiki/Galician_language",
+				"ethnolink": "https://www.ethnologue.com/language/glg",
+				"country": "Spain",
+				"country2": "NULL",
+				"region": "galicia",
+				"notes": "Galician has a long history in relationship to Portuguese which has influenced its classification as well as its writing system.",
+				"status": "2 (Provincial)",
+				"location": "Casa Galicia",
+				"loctype": "restuarant/club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 18,
+				"nta": "Astoria",
+				"language": "Asturian",
+				"wikilink": "https://en.wikipedia.org/wiki/Asturian_language#Education",
+				"ethnolink": "https://www.ethnologue.com/language/ast",
+				"country": "Spain",
+				"country2": "NULL",
+				"region": "asturias",
+				"notes": "Usiung Asturian language is protected in the University of Oviedo charter The Asturian Language will be treated appropriately in accordance with legislation. Nobody will be discriminated against for using it",
+				"status": "6b (Threatened)",
+				"location": "Centro Asturiano de Nueva York Centro EspaÃ±ol de Queens 4101 Broadway Astoria NY. 11103",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 19,
+				"nta": "Astoria",
+				"language": "Breton",
+				"wikilink": "https://en.wikipedia.org/wiki/Breton_language",
+				"ethnolink": "https://www.ethnologue.com/language/bre",
+				"country": "France",
+				"country2": "NULL",
+				"region": "Brittany",
+				"notes": "There has been a recent push for children to attend bilingual Breton classes coinciding with efforts to revitalize Breton language use.",
+				"status": "7 (Shifting)",
+				"location": "Cafe Triskell",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 20,
+				"nta": "Astoria",
+				"language": "Jordanian Arabic",
+				"wikilink": "https://en.wikipedia.org/wiki/Jordanian_Arabic",
+				"ethnolink": "https://www.ethnologue.com/language/ajp",
+				"country": "Jordan",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Jordanian Arabic has been influenced by languages in contact such as French and English and has incorporated very many loanwords making it very different from Modern Standard Arabic. ",
+				"status": "1 (National)",
+				"location": "Laziza",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 21,
+				"nta": "Astoria",
+				"language": "Lebanese Arabic",
+				"wikilink": "https://en.wikipedia.org/wiki/Lebanese_Arabic",
+				"ethnolink": "https://www.ethnologue.com/language/apc",
+				"country": "Lebanon",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Due to multilingualism among Lebanese people (the vast majority of the Lebanese people are trilingual - Lebanese Arabic French English) it is not uncommon for Lebanese people to mix Lebanese Arabic French and English languages into their daily speech.",
+				"status": "1 (National)",
+				"location": "Rawsheh",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 22,
+				"nta": "Corona",
+				"language": "Amuzgo",
+				"wikilink": "https://en.wikipedia.org/wiki/Amuzgo_language",
+				"ethnolink": "https://www.ethnologue.com/language/amu",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Guerrero Oaxaca",
+				"notes": "Amuzgo-language programming is carried by the CDI's radio station XEJAM based in Santiago Jamiltepec Oaxaca and by the community radio station Radio Ã‘omndaa in Xochistlahuaca-Suljaa.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 23,
+				"nta": "Corona",
+				"language": "Ixil",
+				"wikilink": "https://en.wikipedia.org/wiki/Ixil_language",
+				"ethnolink": "https://www.ethnologue.com/language/ixl",
+				"country": "Guatemala",
+				"country2": "NULL",
+				"region": "Ixil area",
+				"notes": "Because of how it is situated  in the Cuchumatanes mountains Ixil speakers have remained largely isolated. ",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 24,
+				"nta": "Corona",
+				"language": "Mixe",
+				"wikilink": "https://en.wikipedia.org/wiki/Mixe_languages",
+				"ethnolink": "https://www.ethnologue.com/subgroups/mixean",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Oaxaca",
+				"notes": "Mixe is a language group rather than one individual language.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 25,
+				"nta": "Corona",
+				"language": "Mixtec",
+				"wikilink": "https://en.wikipedia.org/wiki/Mixtec_language",
+				"ethnolink": "https://www.ethnologue.com/language/miy",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Guerrero Oaxaca Puebla",
+				"notes": "There has been widespread migration across Mexico of Mixtec speakers resulting in large diasporic communities.",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 26,
+				"nta": "Corona",
+				"language": "Mam",
+				"wikilink": "https://en.wikipedia.org/wiki/Mam_language",
+				"ethnolink": "https://www.ethnologue.com/language/mam",
+				"country": "Guatemala Mexico",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Because of Spanish colonial policy which enforced a harsh penalty upon the written use of indigenous languages and geographic isolation in the mountains the language can vary widely from village to village. ",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 27,
+				"nta": "Corona",
+				"language": "Otomi ",
+				"wikilink": "https://en.wikipedia.org/wiki/Otomi_language",
+				"ethnolink": "https://www.ethnologue.com/language/otm",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Among the Aztecs the Otomi were well known for their songs and a specific genre of Nahuatl songs called otoncuicatl Otomi Song are believed to be translations or reinterpretations of songs originally composed in Otomi",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 28,
+				"nta": "Corona",
+				"language": "Peruvian Quechua",
+				"wikilink": "https://en.wikipedia.org/wiki/Quechuan_languages",
+				"ethnolink": "https://www.ethnologue.com/subgroups/quechuan",
+				"country": "Peru",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Approximately 13\\% of Peruvians speak Quechua and was the main language of the Inca Empire.",
+				"status": "3 (Wider communication)",
+				"location": "Terraza 7",
+				"loctype": "performance group",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 29,
+				"nta": "Corona",
+				"language": "Tlapanec (Malinaltepec)",
+				"wikilink": "https://en.wikipedia.org/wiki/Tlapanec_language",
+				"ethnolink": "https://www.ethnologue.com/subgroups/tlapanec-subtiaba",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Guerrero",
+				"notes": "Tlapanec is generally considered a group of related languages",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 30,
+				"nta": "Corona",
+				"language": "Trique",
+				"wikilink": "https://en.wikipedia.org/wiki/Trique_language",
+				"ethnolink": "https://www.ethnologue.com/subgroups/trique",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Oaxaca",
+				"notes": "There are large Trique communities in both Claifornia and New York.",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 31,
+				"nta": "Corona",
+				"language": "Zapotec",
+				"wikilink": "https://en.wikipedia.org/wiki/Zapotec_languages",
+				"ethnolink": "https://www.ethnologue.com/language/yua",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Oaxaca Veracruz Guerrero Puebla",
+				"notes": "Zapotec is generally considered a group of related languages",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 32,
+				"nta": "Corona",
+				"language": "Nahuatl",
+				"wikilink": "https://en.wikipedia.org/wiki/Nahuatl",
+				"ethnolink": "https://www.ethnologue.com/language/nhn",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Nahuatl is an early Aztec Language",
+				"status": "6b (Threatened)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 33,
+				"nta": "Corona",
+				"language": "Shuar",
+				"wikilink": "https://en.wikipedia.org/wiki/Shuar_language",
+				"ethnolink": "https://www.ethnologue.com/language/jiv",
+				"country": "Ecuador",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "The geographical remoteness within the Ecuadorian rainforest isolates the Shuar and has widely scattered the people from one another. As a result in the late 1960s radio schools were formed to promote communication and education in both Spanish and Shuar. This inadvertently transformed into a language revitalization initiative for Shuar. Radio schools were shut down in 2001 and replaced with formal bilingual in-class teaching.",
+				"status": "5 (Developing)",
+				"location": "Botanica San Miguel",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 34,
+				"nta": "Corona",
+				"language": "Mazatec",
+				"wikilink": "https://en.wikipedia.org/wiki/Mazatecan_languages",
+				"ethnolink": "https://www.ethnologue.com/language/mau",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Oaxaca Puebla Veracruz",
+				"notes": "Most Mazatec communities employ forms of whistle speech in which linguistic utterances are produced by whistling the tonal contours of words and phrases. Mazatec languages lend themselves very well to becoming whistling languages because of the high functional load of tone in Mazatec grammar and semantics.",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 35,
+				"nta": "Corona",
+				"language": "Yucatec Maya",
+				"wikilink": "https://en.wikipedia.org/wiki/Yucatec_Maya_language",
+				"ethnolink": "https://www.ethnologue.com/language/yua",
+				"country": "Belize",
+				"country2": "Mexico",
+				"region": "NULL",
+				"notes": "Yucatec Maya is an early Mayan Language",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 36,
+				"nta": "Corona",
+				"language": "Tepehua",
+				"wikilink": "https://en.wikipedia.org/wiki/Tepehua_languages",
+				"ethnolink": "https://www.ethnologue.com/subgroups/totonacan",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Western Central",
+				"notes": "NULL",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 37,
+				"nta": "Corona",
+				"language": "Tzotzil",
+				"wikilink": "https://en.wikipedia.org/wiki/Tzotzil_language",
+				"ethnolink": "https://www.ethnologue.com/language/tzo",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Tzotzil is an early Mayan Language",
+				"status": "6b (Threatened)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 38,
+				"nta": "Corona",
+				"language": "Kâ€™icheâ€™",
+				"wikilink": "https://en.wikipedia.org/wiki/K%27iche%27_language",
+				"ethnolink": "https://www.ethnologue.com/language/quc",
+				"country": "Guatemala",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "K'iche' is the second-most widely spoken language in Guatemala after Spanish. Most speakers of K'iche' languages also have at least a working knowledge of Spanish.",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 39,
+				"nta": "Elmhurst",
+				"language": "Bolivian Quechua",
+				"wikilink": "https://en.wikipedia.org/wiki/South_Bolivian_Quechua",
+				"ethnolink": "https://www.ethnologue.com/language/quh",
+				"country": "Bolivia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Southern Bolivian Quechua is the most widely spoken indigenous language in Bolivia.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 40,
+				"nta": "Elmhurst",
+				"language": "Thai",
+				"wikilink": "https://en.wikipedia.org/wiki/Thai_language",
+				"ethnolink": "https://www.ethnologue.com/language/tha",
+				"country": "Thailand",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Nearly all Thai people speak at least one variety of Thai though the written language is based largely on the dominant dialect spoken in Bangkok.",
+				"status": "1 (National)",
+				"location": "Wat Buddha Thai Thavorn Vanaram",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 41,
+				"nta": "Elmhurst",
+				"language": "Indonesian",
+				"wikilink": "https://en.wikipedia.org/wiki/Indonesian_language",
+				"ethnolink": "https://www.ethnologue.com/language/ind",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Indonesia is the fourth most populated country in the world and nearly all Indonesians speak Indonesian (also called Bahasa Indonesia) making it one of the most commonly spoken languages in the world. ",
+				"status": "1 (National)",
+				"location": "Upi Jaya",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 42,
+				"nta": "Elmhurst",
+				"language": "Javanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Javanese_language",
+				"ethnolink": "https://www.ethnologue.com/language/jav",
+				"country": "Indonesia",
+				"country2": "Malasia; Singapore",
+				"region": "Java",
+				"notes": "Javanese is the 10th largest spoken language in the world but the largest without official status. Javanese is written with the Latin script Javanese script and Arabic script and althrough the Latin script is currently most popular the Javanese script is taught as part of the compulsory education in Yogyakarta Central and East Java.",
+				"status": "4 (Educational)",
+				"location": "Sky Cafe 8620 Whitney Ave Queens NY",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 43,
+				"nta": "Elmhurst",
+				"language": "Batak",
+				"wikilink": "https://en.wikipedia.org/wiki/Batak#Language",
+				"ethnolink": "https://www.ethnologue.com/language/bya",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Northern Sumatra",
+				"notes": "The Batak possess their own script known as the Surat Batak which because it is primarily used only in religious and ceremonial settings has remained relatively unchanged since it was inherited from Southern Sumatra",
+				"status": "7 (Shifting)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 44,
+				"nta": "Elmhurst",
+				"language": "Makassar",
+				"wikilink": "https://en.wikipedia.org/wiki/Makassarese_language",
+				"ethnolink": "https://www.ethnologue.com/language/mak",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Sulawese",
+				"notes": "Makassarese",
+				"status": "6b (Threatened)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 66,
+				"nta": "Flushing",
+				"language": "Taiwanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Taiwanese_Hokkien",
+				"ethnolink": "https://www.ethnologue.com/language/nan",
+				"country": "Taiwan",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "NULL",
+				"status": "1 (National)",
+				"location": "Taiwan Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 45,
+				"nta": "Elmhurst",
+				"language": "Tontemboan",
+				"wikilink": "https://en.wikipedia.org/wiki/Tontemboan_language",
+				"ethnolink": "https://www.ethnologue.com/language/tnt",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Sulawese",
+				"notes": "There have been a series of Tontemboan language events in New York City since 2013 though in Indonesia the language is not being passed on the children. ",
+				"status": "6b (Threatened)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 46,
+				"nta": "Elmhurst",
+				"language": "Sasak",
+				"wikilink": "https://en.wikipedia.org/wiki/Sasak_people#Language",
+				"ethnolink": "https://www.ethnologue.com/language/sas",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Lombak",
+				"notes": "Sasak has a system of speech levels in which different words are used depending on the social level of the addressee relative to the speaker, similar to neighbouring Javanese and Balinese.",
+				"status": "5 (Developing)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 47,
+				"nta": "Elmhurst",
+				"language": "Sundanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Sundanese_language",
+				"ethnolink": "https://www.ethnologue.com/subgroups/sundanese",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Western Java",
+				"notes": "Sundanese is the native language of about 39 million people from the western third of Java or about 15\\% of the Indonesian population.",
+				"status": "5 (Developing)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 48,
+				"nta": "Elmhurst",
+				"language": "Minangkabau",
+				"wikilink": "https://en.wikipedia.org/wiki/Minangkabau_language",
+				"ethnolink": "https://www.ethnologue.com/language/min",
+				"country": "Indonesia",
+				"country2": "Sumatra; Malaysia",
+				"region": "NULL",
+				"notes": "Minangkabau is a lingua franca along the western coastal region of the province of North Sumatra and is even used in parts of Aceh where the language is also called Aneuk Jamee.",
+				"status": "5 (Developing)",
+				"location": "Upi Jaya",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 49,
+				"nta": "Elmhurst",
+				"language": "Madurese",
+				"wikilink": "https://en.wikipedia.org/wiki/Madurese_language",
+				"ethnolink": "https://www.ethnologue.com/language/mad",
+				"country": "Indonesia",
+				"country2": "Java; Bali",
+				"region": "NULL",
+				"notes": "\rMadurese was traditionally written in the Javanese script but the Latin script and the Pegon script (based on Arabic script) is now more commonly used. The number of speakers though shrinking is estimated to be 8â€“13 million making it one of the most widely spoken languages in Indonesia.",
+				"status": "5 (Developing)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 50,
+				"nta": "Elmhurst",
+				"language": "Buginese",
+				"wikilink": "https://en.wikipedia.org/wiki/Buginese_language",
+				"ethnolink": "https://www.ethnologue.com/language/bug",
+				"country": "Indonesia",
+				"country2": "Malaysia",
+				"region": "NULL",
+				"notes": "Upon colonization by the Dutch of Indonesia many Bugis fled from their home area of South Sulawesi seeking a better life resulting in small groups of Buginese speakers throughout Maritime Southeast Asia.",
+				"status": "3 (Wider communication).",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 51,
+				"nta": "Elmhurst",
+				"language": "Acehnese",
+				"wikilink": "https://en.wikipedia.org/wiki/Acehnese_language",
+				"ethnolink": "https://www.ethnologue.com/language/ace",
+				"country": "Indonesia",
+				"country2": "Sumatra",
+				"region": "NULL",
+				"notes": "Formerly Acehnese  was written in an Arabic script called JawoÃ« or Jawi in Malay. Since colonization by the Dutch Acehnese has been written in the Latin script with the addition of supplementary letters. ",
+				"status": "6b (Threatened)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 52,
+				"nta": "Elmhurst",
+				"language": "Limi",
+				"wikilink": "https://en.wikipedia.org/wiki/Limi#Language_.26_Speach",
+				"ethnolink": "https://www.ethnologue.com/language/ylm",
+				"country": "China",
+				"country2": "Nepal",
+				"region": "Southwestern",
+				"notes": "Limi is the recognized language of the Li people in China and Nepal and many speakers are bilingual in Limi and Nepali",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 53,
+				"nta": "Elmhurst",
+				"language": "Tamang",
+				"wikilink": "https://en.wikipedia.org/wiki/Tamang_people",
+				"ethnolink": "https://www.ethnologue.com/language/taj",
+				"country": "Nepal",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Tamang is the recognized language of Tamang national group",
+				"status": "6a (Vigorous)",
+				"location": "Tamang Society of America 43-14 60th St",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 54,
+				"nta": "Elmhurst",
+				"language": "Dolpo",
+				"wikilink": "https://en.wikipedia.org/wiki/Dolpo",
+				"ethnolink": "https://www.ethnologue.com/language/dre",
+				"country": "Nepal",
+				"country2": "NULL",
+				"region": "Western",
+				"notes": "Dolpo literacy classes are being planned in Nepal. Most Dolpo speakers read Nepali before they read Dolpo.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 55,
+				"nta": "Elmhurst",
+				"language": "Kham Tibetan",
+				"wikilink": "https://en.wikipedia.org/wiki/Khams_Tibetan",
+				"ethnolink": "https://www.ethnologue.com/language/khg",
+				"country": "Nepal",
+				"country2": "China; Bhutan",
+				"region": "NULL",
+				"notes": "Khampa Tibetan is also spoken by about 1000 people in two enclaves in eastern Bhutan the descendants of pastoral yak-herding communities",
+				"status": "6a (Vigorous)",
+				"location": "restaurant near Elmhurst Hospital",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 56,
+				"nta": "Elmhurst",
+				"language": "American Sign Language",
+				"wikilink": "https://en.wikipedia.org/wiki/American_Sign_Language",
+				"ethnolink": "https://www.ethnologue.com/language/ase",
+				"country": "United States",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "ASL originated in the early 19th century in the American School for the Deaf (ASD) in Hartford Connecticut from a situation of language contact. Contrary to popular belief American Sign Language is not based on oral English. Rather it is a distinct language and sign languages globally show they same types of variety as spoken languages do. ",
+				"status": "5 (Developing)",
+				"location": "Lexington School for the Deaf",
+				"loctype": "school",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 57,
+				"nta": "Elmhurst",
+				"language": "Syro-Malabar Syriac",
+				"wikilink": "https://en.wikipedia.org/wiki/Syriac_language",
+				"ethnolink": "https://www.ethnologue.com/language/suz",
+				"country": "Nepal",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Syro-Malabar Syriac is predominately used for religious ceremonies",
+				"status": "6b (Threatened)",
+				"location": "Sunwar Organization of America 40-08 76St\rElmhurst New York",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 58,
+				"nta": "Elmhurst",
+				"language": "Gurung",
+				"wikilink": "https://en.wikipedia.org/wiki/Gurung_language",
+				"ethnolink": "https://www.ethnologue.com/language/gvr",
+				"country": "Western Nepal",
+				"country2": "India",
+				"region": "NULL",
+				"notes": "Gurung is closely associated with the Gurung ethnic identity. Nearly everyone who speaks Gurung identifies as Gurung.",
+				"status": "6b (Threatened)",
+				"location": "Gurung Tamu Society 3224 71st St\rEast Elmhurst New York",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 59,
+				"nta": "Elmhurst",
+				"language": "Nubri",
+				"wikilink": "https://en.wikipedia.org/wiki/Central_Tibetan_language",
+				"ethnolink": "https://www.ethnologue.com/language/KTE/***EDITION***",
+				"country": "Nepal",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "NULL",
+				"status": "6a (Vigorous)",
+				"location": "Nubri Association 8342 Dongan Ave",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 60,
+				"nta": "Elmhurst",
+				"language": "Mamuju",
+				"wikilink": "https://en.wikipedia.org/wiki/Mamuju_language",
+				"ethnolink": "https://www.ethnologue.com/language/mqx",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Sulawesi",
+				"notes": "NULL",
+				"status": "6b (Threatened)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 61,
+				"nta": "Far Rockaway-Bayswater",
+				"language": "Amharic",
+				"wikilink": "https://en.wikipedia.org/wiki/Amharic",
+				"ethnolink": "https://www.ethnologue.com/language/amh",
+				"country": "Ethiopia",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Amharic is widely spoken in Washington DC and was one of six non-English languages in the Language Access Act of 2004 which allows government services and education in Amharic. Amharic is also considered a holy language by the Rastafari (áˆ«áˆµ á‰°áçˆáˆª).",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 62,
+				"nta": "Floral Park",
+				"language": "Marathi",
+				"wikilink": "https://en.wikipedia.org/wiki/Marathi_language#Marathi_Language_Day",
+				"ethnolink": "https://www.ethnologue.com/language/mar",
+				"country": "India",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Marathi Language Day (Marathi Din Marathi Diwas : à_®à_°à__à_ à¥€ à__à_¿à_¨ à_®à_°à__à_ à¥€ à__à_¿à_µà_¸ is celebrated on February 27 every year across the Indian states of Maharashtra and Goa. This day is regulated by the State Government. It is celebrated on Birthday of eminent Marathi Poet Vi. Va. Shirwadkar.[62][63]",
+				"status": "2 (Provincial)",
+				"location": "Mumbai Xpress",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 63,
+				"nta": "Floral Park",
+				"language": "Malayalam",
+				"wikilink": "https://en.wikipedia.org/wiki/Malayalam",
+				"ethnolink": "https://www.ethnologue.com/language/mal",
+				"country": "India",
+				"country2": "NULL",
+				"region": "Kerala",
+				"notes": "Malayalam speakers tend to be highly multilingual as per the 1991 census data 28.85\\% of all Malayalam speakers in India spoke a second language and 19.64\\% of the total knew three or more languages.",
+				"status": "2 (Provincial)",
+				"location": "Hillsdale Ave. and Little Neck Parkway",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 64,
+				"nta": "Floral Park",
+				"language": "Syro-Malabar Syriac",
+				"wikilink": "https://en.wikipedia.org/wiki/Syriac_language",
+				"ethnolink": "https://www.ethnologue.com/language/syc",
+				"country": "Turkey",
+				"country2": "Iraq; Syria",
+				"region": "NULL",
+				"notes": "Syro-Malabar Syriac is considered extinct except for religious purposes.",
+				"status": "9 (Dormant)",
+				"location": "Our Lady of the Snows Church",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 65,
+				"nta": "Flushing",
+				"language": "Mandarin",
+				"wikilink": "https://en.wikipedia.org/wiki/Mandarin_Chinese",
+				"ethnolink": "https://www.ethnologue.com/language/cmn",
+				"country": "China",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "The capital of China has been within the Mandarin area for most of the last millennium making these dialects very influential. Some form of Mandarin has served as a national lingua franca since the 14th century.",
+				"status": "1 (National)",
+				"location": "Flushing Main St",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 67,
+				"nta": "Flushing",
+				"language": "Hokkien (Fujianese)",
+				"wikilink": "https://en.wikipedia.org/wiki/Hokkien",
+				"ethnolink": "https://www.ethnologue.com/language/nan",
+				"country": "China",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Historically the lingua franca of diasporic Chinese",
+				"status": "6a (Vigorous)",
+				"location": "Flushing Main St",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 68,
+				"nta": "Flushing",
+				"language": "Cantonese",
+				"wikilink": "https://en.wikipedia.org/wiki/Cantonese",
+				"ethnolink": "https://www.ethnologue.com/language/yue",
+				"country": "China",
+				"country2": "NULL",
+				"region": "Hong Kong Macau",
+				"notes": "Also called Yue unintelligible to Mandarin",
+				"status": "2 (Provincial)",
+				"location": "Flushing Main St",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 69,
+				"nta": "Flushing",
+				"language": "Sichuanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Sichuanese_dialects",
+				"ethnolink": "https://www.ethnologue.com/language/iii",
+				"country": "China",
+				"country2": "NULL",
+				"region": "Sichuan Yunan",
+				"notes": "Also called Yuosu",
+				"status": "4 (Educational)",
+				"location": "Chinese Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 70,
+				"nta": "Flushing",
+				"language": "Hakka",
+				"wikilink": "https://en.wikipedia.org/wiki/Hakka_Chinese",
+				"ethnolink": "https://www.ethnologue.com/language/hak",
+				"country": "China",
+				"country2": "Cambodia; Taiwan",
+				"region": "Southwest",
+				"notes": "Due to its primary usage in scattered isolated regions where communication is limited to the local area Hakka has developed numerous varieties or dialects spoken in different provinces",
+				"status": "5 (Developing)",
+				"location": "Hakka Alliance 133-51 37Th Avenue 4th Floor Flushing New York 11354",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 71,
+				"nta": "Flushing",
+				"language": "Wenzhounese",
+				"wikilink": "https://en.wikipedia.org/wiki/Wenzhounese",
+				"ethnolink": "NA",
+				"country": "China",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Due to its long history and the isolation of the region in which it is spoken Wenzhounese is so unusual in its phonology that it has the reputation of being the least comprehensible dialect for an average Mandarin speaker",
+				"status": "5 (Developing)",
+				"location": "Faith Bible Church of Flushing133-20 41st Ave. ",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 72,
+				"nta": "Flushing",
+				"language": "Shanghainese",
+				"wikilink": "https://en.wikipedia.org/wiki/Shanghainese",
+				"ethnolink": "https://www.ethnologue.com/language/wuu",
+				"country": "China",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "In English Shanghainese sometimes refers to all Wu languages variants and dialects although they are only partially intelligible with one another.",
+				"status": "5 (Developing)",
+				"location": "Chinese Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 73,
+				"nta": "Flushing",
+				"language": "Taishanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Taishanese",
+				"ethnolink": "https://www.ethnologue.com/language/yue",
+				"country": "China",
+				"country2": "https://en.wikipedia.org/wiki/Taishanese",
+				"region": "Taishan",
+				"notes": "The Taishan region was a major source of Chinese immigrants in the Americas from the mid-19th and late-20th centuries.",
+				"status": "2 (Provincial)",
+				"location": "Chinese Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 74,
+				"nta": "Flushing",
+				"language": "Xiang (Hunanese)",
+				"wikilink": "https://en.wikipedia.org/wiki/Xiang_Chinese",
+				"ethnolink": "https://www.ethnologue.com/language/hsn",
+				"country": "China",
+				"country2": "NULL",
+				"region": "Hunan",
+				"notes": "Xiang is considered to be a group of 5 languages",
+				"status": "6a (Vigorous)",
+				"location": "Chinese Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 75,
+				"nta": "Flushing",
+				"language": "Uighur",
+				"wikilink": "https://en.wikipedia.org/wiki/Uyghurs#Language",
+				"ethnolink": "https://www.ethnologue.com/language/uig",
+				"country": "China",
+				"country2": "Kazakhstan",
+				"region": "NULL",
+				"notes": "Modern Uighur has been written in  Arabic Cyrilic and Latin-based scripts reflecting political changes in the region where it is spoken. ",
+				"status": "2 (Provincial)",
+				"location": "Xinjiang BBQ Cart",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 76,
+				"nta": "Flushing",
+				"language": "Sanskrit",
+				"wikilink": "https://en.wikipedia.org/wiki/Sanskrit",
+				"ethnolink": "https://www.ethnologue.com/language/san",
+				"country": "India",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Sanskrit is the primary liturgical language of Hinduism; a philosophical language of Hinduism Buddhism and Jainism; and a literary language and lingua franca of ancient and medieval South Asia.",
+				"status": "4 (Educational)",
+				"location": "Hindu Temple Society of North America",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 77,
+				"nta": "Flushing",
+				"language": "Oriya",
+				"wikilink": "https://en.wikipedia.org/wiki/Odia_language",
+				"ethnolink": "https://www.ethnologue.com/language/ori",
+				"country": "India",
+				"country2": "India",
+				"region": "Eastern India Bangladesh Indonesia",
+				"notes": "Oriya is mainly spoken in the state of Odisha but there are sizable populations throughout India and Southeast Asia including Burma and Fiji.",
+				"status": "2 (Provincial)",
+				"location": "Hindu Temple Society of North America",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 78,
+				"nta": "Flushing",
+				"language": "Korean",
+				"wikilink": "https://en.wikipedia.org/wiki/Korean_language",
+				"ethnolink": "https://www.ethnologue.com/language/kor",
+				"country": "Republic of Korea",
+				"country2": "Democratic People's Republic of Korea",
+				"region": "Korean Peninsula Southeast Asia parts of China Japan Russia and the United States",
+				"notes": "Since the Korean War 70 years of separation of created North-South differences in Standard Korean.",
+				"status": "1 (National)",
+				"location": "Northern Boulevard",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 79,
+				"nta": "Flushing",
+				"language": "Pashto",
+				"wikilink": "https://en.wikipedia.org/wiki/Pashto",
+				"ethnolink": "https://www.ethnologue.com/language/pbt",
+				"country": "Afghanistan",
+				"country2": "Pakistan; Iran",
+				"region": "Large parts of Afghanistan and neighboring areas in Pakistan and Iran",
+				"notes": "There are three main varieties of Pashto: Northern Pashto spoken mainly in Pakistan; Southern Pashto spoken mainly in Afghanistan; and Central Pashto spoken mainly in Pakistan.",
+				"status": "1 (National)",
+				"location": "Hazrat-I-Abubaker Sadiq mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 80,
+				"nta": "Flushing",
+				"language": "Dari",
+				"wikilink": "https://en.wikipedia.org/wiki/Dari_language",
+				"ethnolink": "https://www.ethnologue.com/language/prs",
+				"country": "Afghanistan",
+				"country2": "Afghanistan",
+				"region": "Northern western and central areas of Afghanistan",
+				"notes": "Dari is the most widely spoken language in Afghanistan with 25-50\\% of the population speaking it.",
+				"status": "1 (National)",
+				"location": "Hazrat-I-Abubaker Sadiq mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 81,
+				"nta": "Flushing",
+				"language": "Konkani",
+				"wikilink": "https://en.wikipedia.org/wiki/Konkani_language",
+				"ethnolink": "https://www.ethnologue.com/language/knn",
+				"country": "India",
+				"country2": "Pakistan ",
+				"region": "Konkan Kerala and Daman and Diu",
+				"notes": "During Portuguese rule many Konkani speakers migrated to Uganda Kenya Persian Gulf Portugal and Pakistan.",
+				"status": "2 (Provincial)",
+				"location": "Goan Association of New York",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 82,
+				"nta": "Forest Hills",
+				"language": "Mongolian",
+				"wikilink": "https://en.wikipedia.org/wiki/Mongolian_language",
+				"ethnolink": "https://www.ethnologue.com/language/mon",
+				"country": "Mongolia",
+				"country2": "Inner Mongolia; certain provinces in China",
+				"region": "East Asia particularly Mongolia and China",
+				"notes": "Mongolian has co-official language status in the People's Republic of China notably in the Inner Mongolian Autonomous Region",
+				"status": "1 (National)",
+				"location": "Southern Mongolian Human Rights Information Center: 104-70 Queens Blvd Ste 312 Forest Hills New York 11375.",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 83,
+				"nta": "Forest Hills",
+				"language": "Japanese",
+				"wikilink": "https://en.wikipedia.org/wiki/Japanese_language",
+				"ethnolink": "https://www.ethnologue.com/language/jpn",
+				"country": "Japan",
+				"country2": "Brazil; United States; 24 other countries",
+				"region": "Japan",
+				"notes": "Japan has no official language status but it is the de facto national language of Japan.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 84,
+				"nta": "Forest Hills",
+				"language": "Bukhori",
+				"wikilink": "https://en.wikipedia.org/wiki/Bukhori_dialect",
+				"ethnolink": "https://www.ethnologue.com/language/bhh",
+				"country": "Israel",
+				"country2": "Uzbekistan; Tajikistan; United States; Afghanistan",
+				"region": "Central Asia and throughout the diaspora by Bukharan Jews",
+				"notes": "Spoken by Bukharan Jews considered one of the oldest ethno-religious groups in Central Asia",
+				"status": "7 (Shifting)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 85,
+				"nta": "Fresh Meadows-Utopia",
+				"language": "Gujarati",
+				"wikilink": "https://en.wikipedia.org/wiki/Gujarati_language",
+				"ethnolink": "https://www.ethnologue.com/language/guj",
+				"country": "India",
+				"country2": "Pakistan",
+				"region": "Gujarat",
+				"notes": "Gujarati was the first language of Mahatma Gandhi and Muhammad Ali Jinnah and is spoken by approximately 4.5\\% of the Indian population.",
+				"status": "2 (Provincial)",
+				"location": "Gujarati Samaj 173-15 Horace Harding Expy Fresh Meadows NY 11365",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 86,
+				"nta": "Glendale",
+				"language": "Chin",
+				"wikilink": "https://en.wikipedia.org/wiki/Hakha_Chin_language",
+				"ethnolink": "https://www.ethnologue.com/language/cnh",
+				"country": "Myanmar",
+				"country2": "India; Bangladesh",
+				"region": "Chin State",
+				"notes": "Chin is used as the lingua franca in most parts of the Chin state (Myanmar) despite the fact that there is no official language",
+				"status": "3 (Wider Communication)",
+				"location": "Myanmar Baptist Church 7927 78th Ave Glendale NY 11385",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 87,
+				"nta": "Glendale",
+				"language": "Karen",
+				"wikilink": "https://en.wikipedia.org/wiki/Karen_languages",
+				"ethnolink": "https://www.ethnologue.com/language/ksw",
+				"country": "Myanmar",
+				"country2": "Myanmar and across the border into Thailand",
+				"region": "Myanmar Western Thailand",
+				"notes": "The three main branches of Karen are Sgaw Pwo and Pa'o",
+				"status": "3 (Wider communication)",
+				"location": "Myanmar Baptist Church 7927 78th Ave Glendale NY 11386",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 110,
+				"nta": "Jackson Heights",
+				"language": "Urdu",
+				"wikilink": "https://en.wikipedia.org/wiki/Urdu",
+				"ethnolink": "https://www.ethnologue.com/language/urd",
+				"country": "Pakistan",
+				"country2": "India",
+				"region": "Pakistan and India",
+				"notes": "Urdu is the official language of Pakistan and an official langauge of six states in India",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 88,
+				"nta": "Glendale",
+				"language": "Kachin",
+				"wikilink": "https://en.wikipedia.org/wiki/Jingpho_language",
+				"ethnolink": "https://www.ethnologue.com/language/kac",
+				"country": "Myanmar",
+				"country2": "China; India",
+				"region": "Kachin State Yingjiang County",
+				"notes": "Kachin language can refer to the Jingpho language or a cluster of languages spoken by the various ethnic groups in the same region as Jingpo`",
+				"status": "3 (Wider communication)",
+				"location": "Myanmar Baptist Church 7927 78th Ave Glendale NY 11387",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 89,
+				"nta": "Glendale",
+				"language": "Mon",
+				"wikilink": "https://en.wikipedia.org/wiki/Mon_language",
+				"ethnolink": "https://www.ethnologue.com/language/mnw",
+				"country": "Myanmar",
+				"country2": "Thailand",
+				"region": "Irrawaddy Delta and east",
+				"notes": "Though Mon is still passed on to the younger generation few young Mon speakers are about to read and write in the language. ",
+				"status": "5 (Developing)",
+				"location": "Myanmar Baptist Church 7927 78th Ave Glendale NY 11388",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 90,
+				"nta": "Glendale",
+				"language": "Bavarian",
+				"wikilink": "https://en.wikipedia.org/wiki/Bavarian_language",
+				"ethnolink": "https://www.ethnologue.com/language/bar",
+				"country": "Bavaria (Germany)",
+				"country2": "Austria; South Tyrol",
+				"region": "Austria Bavaria South Tyrol",
+				"notes": "Reading and writing in Bavarian is generally not taught at schools so almost all speakers of the language use Standard German for writing.",
+				"status": "5 (Developing)",
+				"location": "Zum Stammtisch",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 91,
+				"nta": "Hollis",
+				"language": "African-American English",
+				"wikilink": "https://en.wikipedia.org/wiki/African_American_Vernacular_English",
+				"ethnolink": "NULL",
+				"country": "United States",
+				"country2": "United States",
+				"region": "Parts of the United States with a signficant African-American population",
+				"notes": "Most speakers of AAE are bidialectal with General American English dialect",
+				"status": "Unknown",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 92,
+				"nta": "Jackson Heights",
+				"language": "Aymara",
+				"wikilink": "https://en.wikipedia.org/wiki/Aymara_language",
+				"ethnolink": "https://www.ethnologue.com/language/aym",
+				"country": "Bolivia",
+				"country2": "Peru; Chile",
+				"region": "Western Bolivia bordering areas in Chile and Peru",
+				"notes": "At the time of Spanish conquest in the 16th Aymara had a much wider geographic distribution than it does today. Over time it gradually lost speakers to Quechua and Spanish",
+				"status": "6b (Threatened)",
+				"location": "Kullawara Rebeldes",
+				"loctype": "performance group",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 93,
+				"nta": "Woodside",
+				"language": "Sindhi",
+				"wikilink": "https://en.wikipedia.org/wiki/Sindhi_language",
+				"ethnolink": "https://www.ethnologue.com/language/snd",
+				"country": "Pakistan",
+				"country2": "India",
+				"region": "Sindh province other provinces in Pakistan and India",
+				"notes": "The Sindhi language is especially noted for its extremely rich body of folk literature.",
+				"status": "2 (Provincial)",
+				"location": "Satya Narayan Mandir",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 94,
+				"nta": "Jackson Heights",
+				"language": "Thakali",
+				"wikilink": "https://en.wikipedia.org/wiki/Thakali_language",
+				"ethnolink": "https://www.ethnologue.com/language/ths",
+				"country": "Nepal",
+				"country2": "Nepal",
+				"region": "Myagdi and Mustang districts",
+				"notes": "Thakali is one of the 61 languages spoken in Nepal.",
+				"status": "7 (Shifting)",
+				"location": "Thakali Kitchen",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 95,
+				"nta": "Jackson Heights",
+				"language": "Chantyal",
+				"wikilink": "https://en.wikipedia.org/wiki/Chantyal_language",
+				"ethnolink": "https://www.ethnologue.com/language/chx",
+				"country": "Nepal",
+				"country2": "Nepal",
+				"region": "Baglung and Myagdi districts",
+				"notes": "The Chantyal language is spoken by approximately 2000 of the 10000 ethnic Chantyal",
+				"status": "6b (Threatened)",
+				"location": "AJ Yellow Taxi Tutors",
+				"loctype": "school",
+				"other": "http://www.nytimes.com/2012/02/19/nyregion/at-this-school-the-tutor-speaks-cabby.html"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 96,
+				"nta": "Jackson Heights",
+				"language": "Ghale",
+				"wikilink": "https://en.wikipedia.org/wiki/Ghale_language",
+				"ethnolink": "https://www.ethnologue.com/language/ghh",
+				"country": "Nepal",
+				"country2": "Nepal",
+				"region": "GorkhÄÅ and DhÄÅdiá_… districts",
+				"notes": "There are two varieties of Ghale Northern and Southern Southern has about 4 times as many speakers as Northern",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 97,
+				"nta": "Jackson Heights",
+				"language": "Topke Gola",
+				"wikilink": "NA",
+				"ethnolink": "https://www.ethnologue.com/language/ola",
+				"country": "Nepal",
+				"country2": "India",
+				"region": "Eastern",
+				"notes": "NULL",
+				"status": "6b (Threatened)",
+				"location": "Himalayan Yak",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 98,
+				"nta": "Jackson Heights",
+				"language": "Newari",
+				"wikilink": "https://en.wikipedia.org/wiki/Newar_language",
+				"ethnolink": "https://www.ethnologue.com/language/new",
+				"country": "Tibet",
+				"country2": "Nepal",
+				"region": "Kathmandu Valley",
+				"notes": "An increase in emigration has lead to Newar-speaking populations in the US the UK Australia and Japan",
+				"status": "4 (Educational)",
+				"location": "New York Newa Guthi 3719 74th St\rJackson Heights NY 11372",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 99,
+				"nta": "Jackson Heights",
+				"language": "Mustangi (Loke)",
+				"wikilink": "https://www.ethnologue.com/language/loy",
+				"ethnolink": "https://www.ethnologue.com/language/loy/18",
+				"country": "Nepal",
+				"country2": "n/a",
+				"region": "Western Nepal",
+				"notes": " Population of 3000 speakers in the district (Western Nepal) and can be divided into two major varieties: Upper and Lower Mustang",
+				"status": "6a (Vigorous)",
+				"location": "Mustang Kyidug 40-08 76th St\rJackson Heights New York",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 100,
+				"nta": "Jackson Heights",
+				"language": "Amdo Tibetan",
+				"wikilink": "https://en.wikipedia.org/wiki/Amdo_Tibetan",
+				"ethnolink": "https://www.ethnologue.com/language/adx",
+				"country": "China",
+				"country2": "Tibet",
+				"region": "South-central China",
+				"notes": "Language of recognized nationality native to China. Speaking population of ~1.8 million",
+				"status": "6a (Vigorous)",
+				"location": "Amdo Kitchen",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 101,
+				"nta": "Jackson Heights",
+				"language": "Nepali",
+				"wikilink": "https://en.wikipedia.org/wiki/Nepali_language",
+				"ethnolink": "https://www.ethnologue.com/language/npi",
+				"country": "Nepal",
+				"country2": "Bhutan; India; Myanmar",
+				"region": "East and adjacent south central regions",
+				"notes": "Nepali is composed of many dialects and taught at all levels of education.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 102,
+				"nta": "Jackson Heights",
+				"language": "Lhasa Tibetan",
+				"wikilink": "https://en.wikipedia.org/wiki/Standard_Tibetan",
+				"ethnolink": "https://www.ethnologue.com/language/bod",
+				"country": "Tibet",
+				"country2": "China; Nepal; India",
+				"region": "Tibet Autonomous Region Upper Mustang (Nepal)",
+				"notes": "Lhasa Tibetan is also known as Standard Tibetan and is the most widely spoken form of the Tibetic languages with approximately 6 million speakers",
+				"status": "1 (National)",
+				"location": "Lhasa Fast Food",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 103,
+				"nta": "Jackson Heights",
+				"language": "Bahing",
+				"wikilink": "https://en.wikipedia.org/wiki/Bahing_language",
+				"ethnolink": "https://www.ethnologue.com/language/bhj",
+				"country": "Nepal",
+				"country2": "n/a",
+				"region": "Eastern Nepal Okhaldhunga district Khotang District",
+				"notes": "Spoken by about 12000 speakers it belongs to the family of Kiranti languages which is a subset of Sino-Tibetan",
+				"status": "6a (Vigorous)",
+				"location": "Kirat Manghim Mangkhim Community Center - 77th and Roosevelt Ave",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 104,
+				"nta": "Jackson Heights",
+				"language": "Bantawa",
+				"wikilink": "https://en.wikipedia.org/wiki/Bantawa_language",
+				"ethnolink": "https://www.ethnologue.com/language/bap",
+				"country": "Nepal",
+				"country2": "n/a",
+				"region": "Eastern Himalayan Hills of eastern Nepal",
+				"notes": "1.63\\% of Nepal population speaks Bantawa (approximately 170000 people).",
+				"status": "6b (Threatened)",
+				"location": "Kirat Manghim Mangkhim Community Center - 77th and Roosevelt Ave",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 105,
+				"nta": "Jackson Heights",
+				"language": "Limbu",
+				"wikilink": "https://en.wikipedia.org/wiki/Limbu_language",
+				"ethnolink": "https://www.ethnologue.com/language/lif",
+				"country": "Nepal",
+				"country2": "India; Bhutan; Burma; Thailand",
+				"region": "Eastern Nepal Darjeeling district of India",
+				"notes": "In Nepal Limbu language is taught on private inititative. It is spoken by about 380000 people worldwide",
+				"status": "5 (Developing)",
+				"location": "Kirat Manghim Mangkhim Community Center - 77th and Roosevelt Ave",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 106,
+				"nta": "Jackson Heights",
+				"language": "Sherpa",
+				"wikilink": "https://en.wikipedia.org/wiki/Sherpa_language",
+				"ethnolink": "https://www.ethnologue.com/language/xsr",
+				"country": "Nepal",
+				"country2": "China; India",
+				"region": "Solukhumbu district and around Mt Everest Sikkim (northeastern state of India)",
+				"notes": "There are around 200000 Sherpa speakers in Nepal with around 20000 in India and less than 1000 in China",
+				"status": "5 (Developing)",
+				"location": "United Sherpa Association",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 107,
+				"nta": "Jackson Heights",
+				"language": "Kyirong",
+				"wikilink": "https://en.wikipedia.org/wiki/Kyirong-Kagate_language",
+				"ethnolink": "https://www.ethnologue.com/language/kgy",
+				"country": "Nepal",
+				"country2": "Tibet",
+				"region": "Where Nepal borders Tibet",
+				"notes": "Kyirong is a variety of Kyirong-Kagate which is a subgroup of Tibetic languages spoken primarily in Nepal with a hundred or so speakers across the border in Tibet.",
+				"status": "6a (Vigorous)",
+				"location": "Kyirong Kyidug (75th and Northern Boulevard)",
+				"loctype": "unknown",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 108,
+				"nta": "Jackson Heights",
+				"language": "Tsum",
+				"wikilink": "https://en.wikipedia.org/wiki/Kyirong-Kagate_language",
+				"ethnolink": "https://www.ethnologue.com/language/ttz",
+				"country": "Nepal",
+				"country2": "n/a",
+				"region": "NULL",
+				"notes": "Tsum is a variety of Kyirong-Kagate spoken in Nepal",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 109,
+				"nta": "Jackson Heights",
+				"language": "Bengali",
+				"wikilink": "https://en.wikipedia.org/wiki/Bengali_language",
+				"ethnolink": "https://www.ethnologue.com/language/ben",
+				"country": "Bangladesh",
+				"country2": "India",
+				"region": "West Bengal Barak Valley Tripura",
+				"notes": "Bengali literature is one of the most diverse and prominent literary traditions in Asia. Language continues to be an important element of Bengali identity. Bengali is also the seventh most commonly spoken langauge worldwide.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 111,
+				"nta": "Jackson Heights",
+				"language": "Hindi",
+				"wikilink": "https://en.wikipedia.org/wiki/Hindi",
+				"ethnolink": "https://www.ethnologue.com/language/hin",
+				"country": "India",
+				"country2": "Fiji; Mauritius; Suriname",
+				"region": "Native to northern India",
+				"notes": "Hindi is often considered to be a descendent of Sanskrit. There are roughly 10 million Hindi speakers outside of India",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 112,
+				"nta": "Jackson Heights",
+				"language": "Mugom",
+				"wikilink": "https://en.wikipedia.org/wiki/Mugom_dialect",
+				"ethnolink": "https://www.ethnologue.com/language/mou",
+				"country": "Nepal",
+				"country2": "India",
+				"region": "Karneli Zone Muga district Jumla district",
+				"notes": "Mugom is a variety of Tibetic spoken by approximately 6000 in Nepal and 500 in India",
+				"status": "6a (Vigorous)",
+				"location": "Mugum Welfare Association Inc. 74-22 37th Avenue B-1",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 113,
+				"nta": "Jackson Heights",
+				"language": "Tibetan",
+				"wikilink": "https://en.wikipedia.org/wiki/Standard_Tibetan#Scholarship",
+				"ethnolink": "https://www.ethnologue.com/language/bod",
+				"country": "Tibet",
+				"country2": "Nepal; India; China",
+				"region": "China (Tibet Autonomous Region) Nepal (Upper Mustang)",
+				"notes": "Tibetan is based on Lhasa a Central Tibetan dialect. In Tibet primary education is almost entirely conducted in Tibetan whereas Chinese is more common in secondary education",
+				"status": "2 (Provincial)",
+				"location": "NY/NJ Tibetan Association (Northern Boulevard)",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 114,
+				"nta": "Jamaica",
+				"language": "Bishnupriya Manipuri",
+				"wikilink": "https://en.wikipedia.org/wiki/Bishnupriya_Manipuri_language#Speakers",
+				"ethnolink": "https://www.ethnologue.com/language/bpy",
+				"country": "India",
+				"country2": "Bangladesh; Burma; other countries",
+				"region": "Assam (Indian state) northeast India Sylhet region of Bangladesh Burma",
+				"notes": "Bishnupriya Manipuri uses the Bengali alphabet as its writing system. There are two primarily dialects (Rajar Gang and Madai Gang) that are geographically intertwined.",
+				"status": "4 (Educational)",
+				"location": "Pouri International Publishing 170-06 88th Ave \rJamaica NY 11432",
+				"loctype": "store",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 115,
+				"nta": "Jamaica",
+				"language": "Portuguese",
+				"wikilink": "https://en.wikipedia.org/wiki/Portuguese_language",
+				"ethnolink": "https://www.ethnologue.com/language/por",
+				"country": "Portugual",
+				"country2": "Brazil; Cape Verde; Angola; Mozambique; other Lusophone countries",
+				"region": "Portugal islands on the west coast of Africa parts of southern Africa South America",
+				"notes": "As a result of colonial expansion Portuguese is an official language of countries on five continents.",
+				"status": "1 (National)",
+				"location": "Portuguese Recreation Club 147-25 Liberty Ave; Jamaica New York 11435",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 116,
+				"nta": "Jamaica",
+				"language": "Tedim Chin",
+				"wikilink": "https://en.wikipedia.org/wiki/Tedim_language",
+				"ethnolink": "https://www.ethnologue.com/language/ctd",
+				"country": "Burma",
+				"country2": "India",
+				"region": "Northern Myanmar India Central Myanmar",
+				"notes": "Tedim Chin was the primary language of Pau Cin Hau (a religious leader) who made a simplified alphabetic script for writing in Chin languages like Tedim",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 117,
+				"nta": "Jamaica Estates-Holliswood",
+				"language": "Iraqi Judeo-Arabic",
+				"wikilink": "https://en.wikipedia.org/wiki/Judeo-Iraqi_Arabic",
+				"ethnolink": "https://www.ethnologue.com/language/yhd",
+				"country": "Israel",
+				"country2": "India; Iraq",
+				"region": "Israel India Iraq",
+				"notes": "As of 1992 only 100 to 150 older speakers remain in Iraq",
+				"status": "7 (Shifting)",
+				"location": "Congregation Bene Nahharayim ",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 118,
+				"nta": "Kew Gardens",
+				"language": "Persian",
+				"wikilink": "https://en.wikipedia.org/wiki/Persian_language",
+				"ethnolink": "https://www.ethnologue.com/language/pes",
+				"country": "Iran",
+				"country2": "Afghanistan (known as Dari); Tajikistan (known as Tajik); Uzbekistan; Iraq; Russia; Azerbaijan",
+				"region": "Western Asia Central Asia",
+				"notes": "Historically Persian has had a considerable influence on neighboring languages including the Turkic languages in Central Asia Caucusus and Anantolia",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 119,
+				"nta": "Kew Gardens Hills",
+				"language": "Yiddish",
+				"wikilink": "https://en.wikipedia.org/wiki/Yiddish",
+				"ethnolink": "https://www.ethnologue.com/language/ydd",
+				"country": "Israel",
+				"country2": "Central; Eastern and Western Europe; North America",
+				"region": "Central Eastern and Western Europe Israel North America",
+				"notes": "Yiddish originates in the 9th century in Central Europe and has elements taken from Hebrew and Aramaic as well as Slavic and Romance languages",
+				"status": "4 (Educational)",
+				"location": "Main St. near 73rd Ave.",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 120,
+				"nta": "Kew Gardens Hills",
+				"language": "Hebrew",
+				"wikilink": "https://en.wikipedia.org/wiki/Hebrew_language",
+				"ethnolink": "https://www.ethnologue.com/language/heb",
+				"country": "Israel",
+				"country2": "UK; USA; Argentina other countries",
+				"region": "Israel",
+				"notes": "Revival of Hebrew as a mother tongue was inititated in the late 19th century",
+				"status": "1 (National)",
+				"location": "Main St. near 73rd Ave.",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 121,
+				"nta": "Little Neck",
+				"language": "Matinecock",
+				"wikilink": "https://en.wikipedia.org/wiki/Metoac",
+				"ethnolink": "NULL",
+				"country": "Long Island NY",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Native American Language from Long Island. The village is named for this tribe. Surely thousands of people who spoke this language are buried at Zion Church though there are only 13 names listed.",
+				"status": "Unknown",
+				"location": "Zion Episcopal Church",
+				"loctype": "religious",
+				"other": "https://www.facebook.com/MatinecockTribe/"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 122,
+				"nta": "Queensbridge-Ravenswood-Long Island City",
+				"language": "Irish",
+				"wikilink": "https://en.wikipedia.org/wiki/Irish_language",
+				"ethnolink": "https://www.ethnologue.com/language/gle",
+				"country": "Ireland",
+				"country2": "Ireland",
+				"region": "Ireland mainly Gaeltacht",
+				"notes": "It has the oldest vernacular language in Western Europe. The active Irish language scene comprises ~5-10\\% of Ireland's population",
+				"status": "1 (National)",
+				"location": "New York Irish Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 123,
+				"nta": "Maspeth",
+				"language": "Polish",
+				"wikilink": "https://en.wikipedia.org/wiki/Polish_language",
+				"ethnolink": "https://www.ethnologue.com/language/pol",
+				"country": "Poland",
+				"country2": "Slovakia; Czech Republic; Germany; Hungary; elsewhere in Central Europe",
+				"region": "Central Europe (in and around Poland)",
+				"notes": "Polish has become more homogenous in the second half of the 20th century",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 124,
+				"nta": "Maspeth",
+				"language": "Tamil",
+				"wikilink": "https://en.wikipedia.org/wiki/Tamil_language",
+				"ethnolink": "https://www.ethnologue.com/language/tam",
+				"country": "India",
+				"country2": "Sri Lanka",
+				"region": "Southeastern India close to Sri Lanka and Sri Lanka",
+				"notes": "A recorded Tamil literature has been documented for over 2000 years. There are also sizable Tamil speaking populations in Southeast Asia",
+				"status": "2 (Provincial)",
+				"location": "Christhava Tamil Koil",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 125,
+				"nta": "Maspeth",
+				"language": "Lithuanian",
+				"wikilink": "https://en.wikipedia.org/wiki/Lithuanian_language",
+				"ethnolink": "https://www.ethnologue.com/language/lit",
+				"country": "Lithuanian",
+				"country2": "Poland",
+				"region": "Lithuania and surrounding border",
+				"notes": "Lithuanian is characterized by being an old Baltic language as well as being conservative in structure",
+				"status": "1 (National)",
+				"location": "Transfiguration church (64-14 Clinton Avenue)",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 126,
+				"nta": "Rego Park",
+				"language": "Russian",
+				"wikilink": "https://en.wikipedia.org/wiki/Russian_language",
+				"ethnolink": "https://www.ethnologue.com/language/rus",
+				"country": "Russia",
+				"country2": "Belarus; Kazakhstan; Kyrgyzstan; Ukraine",
+				"region": "Eastern Europe Central Asia and Western Asia",
+				"notes": "Russian is often considered the second most widespread language on the Internet after English",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 127,
+				"nta": "Ozone Park",
+				"language": "Ukrainian",
+				"wikilink": "https://en.wikipedia.org/wiki/Ukrainian_language",
+				"ethnolink": "https://www.ethnologue.com/language/ukr",
+				"country": "Ukraine",
+				"country2": "Ukraine",
+				"region": "Ukraine",
+				"notes": "Since 1991 Ukrainian has been the national language in Ukraine",
+				"status": "1 (National)",
+				"location": "St Mary's Ukrainian Church",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 128,
+				"nta": "Rego Park",
+				"language": "Tajik",
+				"wikilink": "https://en.wikipedia.org/wiki/Tajik_language",
+				"ethnolink": "https://www.ethnologue.com/language/tgk",
+				"country": "Tajikistan",
+				"country2": "Afghanistan; Uzbekistan; Kyrgyzstan; Kazakhstan; Pakistan",
+				"region": "Central Asia",
+				"notes": "After the fall of the Soviet Union and Tajikistan's independence in 1991 the government of Tajikistan has made substantial efforts to promote the use of Tajik in all spheres of public and private life.",
+				"status": "1 (National)",
+				"location": "108th St",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 129,
+				"nta": "Rego Park",
+				"language": "Uzbek",
+				"wikilink": "https://en.wikipedia.org/wiki/Uzbek_language",
+				"ethnolink": "https://www.ethnologue.com/language/uzb",
+				"country": "Uzbekistan",
+				"country2": "Uzbekistan; Kyrgyzstan; Afghanistan; Kazakhstan; Turkey; Turkmenistan; Tajikistan; Russia; China",
+				"region": "Central Asia",
+				"notes": "External influences on Uzbek include Persian Arabic and Russian",
+				"status": "1 (National)",
+				"location": "108th St",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 130,
+				"nta": "Richmond Hill",
+				"language": "Punjabi",
+				"wikilink": "https://en.wikipedia.org/wiki/Punjabi_language",
+				"ethnolink": "https://www.ethnologue.com/language/pan",
+				"country": "Pakistan",
+				"country2": "India; UK; USA; UAE; other countries",
+				"region": "Punjab region (northern part of South Asia) other parts of the world",
+				"notes": "Punjabi is the most widely spoken language in Pakistan and the third-most spoken native language in the Indian Subcontinent.",
+				"status": "2 (Provincial)",
+				"location": "Gurdwara Sikh Cultural Society",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 131,
+				"nta": "Richmond Hill",
+				"language": "Sranan Tongo",
+				"wikilink": "https://en.wikipedia.org/wiki/Sranan_Tongo",
+				"ethnolink": "https://www.ethnologue.com/language/srn",
+				"country": "Suriname",
+				"country2": "French Guiana and Suriname",
+				"region": "Northeastern coast of South America",
+				"notes": "Sranan Tongo evolved as a Creole language incorporating influences of West and Central African languages as well as Dutch and English. ",
+				"status": "3 (Wider communication)",
+				"location": "Liberty Avenue and 128th St. Also Radio Fawaka in Jamaica Sranan Dei in Roy Wilkins Park",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 132,
+				"nta": "Richmond Hill",
+				"language": "Dutch",
+				"wikilink": "https://en.wikipedia.org/wiki/Dutch_language",
+				"ethnolink": "https://www.ethnologue.com/language/nld",
+				"country": "Netherlands",
+				"country2": "Belgium and Suriname; some Caribbean islands",
+				"region": "Low Countries southern tip of Africa Indonesia",
+				"notes": "Dutch is taught in about 175 universities in 40 countries. ",
+				"status": "1 (National)",
+				"location": "Liberty Avenue and 128th St.",
+				"loctype": "neighborhood",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 133,
+				"nta": "Richmond Hill",
+				"language": "Caribbean Hindustani",
+				"wikilink": "https://en.wikipedia.org/wiki/Caribbean_Hindustani",
+				"ethnolink": "https://www.ethnologue.com/language/hns",
+				"country": "Trinidad and Tobago",
+				"country2": "Suriname; Guyana",
+				"region": "Parts of the Caribbean",
+				"notes": "Caribbean Hindustani is the lingua franca of most Indo-Caribbeans.",
+				"status": "5 (Developing)",
+				"location": "The Rajkumari Cultural Center Inc. 122-09 Liberty Ave 2nd Fl Richmond Hill NY 11419",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 134,
+				"nta": "Ridgewood",
+				"language": "Coptic",
+				"wikilink": "https://en.wikipedia.org/wiki/Coptic_language",
+				"ethnolink": "https://www.ethnologue.com/language/cop",
+				"country": "Egypt",
+				"country2": "Egypt",
+				"region": "Only in Egypt",
+				"notes": "The Coptic language survives as the liturgical language of the Coptic Orthodox Church of Alexandria with sporadic attempts at revival.",
+				"status": "9 (Dormant)",
+				"location": "St. Mary and St. Antonious' Coptic Church",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 135,
+				"nta": "Ridgewood",
+				"language": "Nones",
+				"wikilink": "https://en.wikipedia.org/wiki/Nones_dialect",
+				"ethnolink": "https://www.ethnologue.com/language/lld",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Non Valley northern Italy",
+				"notes": "It is estimated that around 30000 persons speak Nones living in the Non Valley Rabbi Valley and the low Sole Valley.",
+				"status": "6b (Threatened)",
+				"location": "Club Trentino",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 136,
+				"nta": "Ridgewood",
+				"language": "Sicilian",
+				"wikilink": "https://en.wikipedia.org/wiki/Sicilian_language",
+				"ethnolink": "https://www.ethnologue.com/language/scn",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Sicily Calabria Campania Apulia",
+				"notes": "Sicily has been a meeting place trading post and site of conquest and interaction for many different cultures and languages. As a result it has a diverse set of linguistic influences",
+				"status": "5 (Developing)",
+				"location": "Societa Concordia Partanna",
+				"loctype": "club",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 137,
+				"nta": "Ridgewood",
+				"language": "Gottscheerisch",
+				"wikilink": "https://en.wikipedia.org/wiki/Gottscheerish",
+				"ethnolink": "NA",
+				"country": "Slovenia",
+				"country2": "Scattered around the world",
+				"region": "Orignally in Gottschee region of southern Slovenia now around the world",
+				"notes": "Majority of its speakers live in the U.S. with a signficant community in Queens N.Y.",
+				"status": "8a (Moribund)",
+				"location": "Gottscheer Hall",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 138,
+				"nta": "Ridgewood",
+				"language": "Albanian",
+				"wikilink": "https://en.wikipedia.org/wiki/Albanian_language",
+				"ethnolink": "https://www.ethnologue.com/language/sqi",
+				"country": "Albania",
+				"country2": "Kosovo; Macedonia; Montenegro; Serbia and Greece",
+				"region": "Area surrounding Albania and Greece",
+				"notes": "There is a large Albanian speaking diasporic community.",
+				"status": "1 (National)",
+				"location": "Pravue",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 139,
+				"nta": "Ridgewood",
+				"language": "Roma",
+				"wikilink": "https://en.wikipedia.org/wiki/Romani_language",
+				"ethnolink": "https://www.ethnologue.com/language/rmm",
+				"country": "Romania",
+				"country2": "Throughout Europe",
+				"region": "Exclusively in Europe",
+				"notes": "The number of Romani speakers is difficult to determine but it is likely the largest minority language in the EU",
+				"status": "6a (Vigorous)",
+				"location": "Teaven Bahtale (former)",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 140,
+				"nta": "Ridgewood",
+				"language": "Neapolitan",
+				"wikilink": "https://en.wikipedia.org/wiki/Neapolitan_language ",
+				"ethnolink": "https://www.ethnologue.com/language/nap",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Southern continental Italy",
+				"notes": "Largely due to massive southern Italian migration in the 20th century there are also numbers of speakers in Italian diaspora communities",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 141,
+				"nta": "Ridgewood",
+				"language": "Tuscan",
+				"wikilink": "https://en.wikipedia.org/wiki/Tuscan_dialect",
+				"ethnolink": "https://www.ethnologue.com/language/ita",
+				"country": "Italy",
+				"country2": "France",
+				"region": "Tuscany and bordering areas",
+				"notes": "Became the official language of all the Italian states and of the Kingdom of Italy when it was formed.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 142,
+				"nta": "Ridgewood",
+				"language": "Macedonian",
+				"wikilink": "https://en.wikipedia.org/wiki/Macedonian_language",
+				"ethnolink": "https://www.ethnologue.com/language/mkd",
+				"country": "Republic of Macedonia",
+				"country2": "Albania; Bulgaria; Greece; Serbia; Romania",
+				"region": "Balkans",
+				"notes": "Total number of Macedonian speakers is highly disputed though general estimate is around 2 million.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 143,
+				"nta": "Ridgewood",
+				"language": "Serbian",
+				"wikilink": "https://en.wikipedia.org/wiki/Serbian_language",
+				"ethnolink": "https://www.ethnologue.com/language/srp",
+				"country": "Serbia",
+				"country2": "Bosnia and Herzegovina; Montenegro; Croatia",
+				"region": "Serbia and neighborhing regions",
+				"notes": "Serbian is recognized minority language in many countries surrounding Serbia.",
+				"status": "1 (National)",
+				"location": "Etno Restaurant",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 144,
+				"nta": "Ridgewood",
+				"language": "Romanian",
+				"wikilink": "https://en.wikipedia.org/wiki/Romanian_language",
+				"ethnolink": "https://www.ethnologue.com/language/ron",
+				"country": "Romania",
+				"country2": "Moldova",
+				"region": "Romania and bordering area",
+				"notes": "There is a very large Romanian diasporic community globally",
+				"status": "1 (National)",
+				"location": "Romanian Center NYC 59-15 Catalpa Avenue",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 145,
+				"nta": "Ridgewood",
+				"language": "Slovenian",
+				"wikilink": "https://en.wikipedia.org/wiki/Slovene_language",
+				"ethnolink": "https://www.ethnologue.com/language/slv",
+				"country": "Slovenia",
+				"country2": "Italy; Austria; Croatia; Hungary",
+				"region": "Slovenia and bordering area",
+				"notes": "National independence has revitalized the language: since 1991 when Slovenia gained independence Slovene has been used as an official language in all areas of public life.",
+				"status": "1 (National)",
+				"location": "Gottscheer Hall",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 146,
+				"nta": "Ridgewood",
+				"language": "Lombard",
+				"wikilink": "https://en.wikipedia.org/wiki/Lombard_language",
+				"ethnolink": "https://www.ethnologue.com/language/lmo",
+				"country": "Italy",
+				"country2": "Switzerland",
+				"region": "Northern Italy",
+				"notes": "Standard Lombard is widely used in Lombard-speaking areas to the point that Switzerland is seen by some as the current stronghold of Lombard.",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 147,
+				"nta": "Ridgewood",
+				"language": "German",
+				"wikilink": "https://en.wikipedia.org/wiki/German_language",
+				"ethnolink": "https://www.ethnologue.com/language/deu",
+				"country": "Germany",
+				"country2": "Austria; Switzerland; Liechtenstein",
+				"region": "Germany and bordering areas Namibia German diaspora",
+				"notes": "Most widely spoken native language in the European Union",
+				"status": "1 (National)",
+				"location": "German Language School (Fresh Pond)",
+				"loctype": "school",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 148,
+				"nta": "Ridgewood",
+				"language": "Piedmontese",
+				"wikilink": "https://en.wikipedia.org/wiki/Piedmontese_language",
+				"ethnolink": "https://www.ethnologue.com/language/pms",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Northwest Italy",
+				"notes": "In 2004 Piedmontese was recognized as Piedmont's regional language by the regional parliament but Italy has not recognized it.",
+				"status": "7 (Shifting)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 149,
+				"nta": "Ridgewood",
+				"language": "Calabrese",
+				"wikilink": "https://en.wikipedia.org/wiki/Languages_of_Calabria#Calabrian_.28Calabrese.29",
+				"ethnolink": "https://www.ethnologue.com/language/nap",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Calabria Italy",
+				"notes": "Calabrian dialects have a strong Greek influence as a result there is a sizable population of Calabrian Greek speakers",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 150,
+				"nta": "Ridgewood",
+				"language": "Friulian",
+				"wikilink": "https://en.wikipedia.org/wiki/Friulian_language",
+				"ethnolink": "https://www.ethnologue.com/language/fur",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Friuli (Northeast Italy)",
+				"notes": "Friulian has around 600000 speakers the vast majority of whom also speak Italian.",
+				"status": "4 (Eduational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 151,
+				"nta": "Ridgewood",
+				"language": "Ligurian",
+				"wikilink": "https://en.wikipedia.org/wiki/Ligurian_(Romance_language)",
+				"ethnolink": "https://www.ethnologue.com/language/lij",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Liguria (Northern Italy)",
+				"notes": "There are several groups dedicated to the preservation of the langauge. There is also a long literary tradition in the language dating back to the 13th century up to the present",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 152,
+				"nta": "Ridgewood",
+				"language": "Vietnamese",
+				"wikilink": "https://en.wikipedia.org/wiki/Vietnamese_language",
+				"ethnolink": "https://www.ethnologue.com/language/vie",
+				"country": "Vietnam",
+				"country2": "United States; Czech Republic; Australia",
+				"region": "Vietnam (the South and eastern coast)",
+				"notes": "In the United States Vietnamese is the sixth most spoken language with over 1.5 million speakers who are concentrated in a handful of states.",
+				"status": "1 (National)",
+				"location": "New Land Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 153,
+				"nta": "South Ozone Park",
+				"language": "Telugu",
+				"wikilink": "https://en.wikipedia.org/wiki/Telugu_language",
+				"ethnolink": "https://www.ethnologue.com/language/tel",
+				"country": "India",
+				"country2": "India",
+				"region": "Andhra Pradesh Telangana Yanam",
+				"notes": "The highest concentration of Telugu diaspora speakers is in the United States Central New Jersey",
+				"status": "2 (Provincial)",
+				"location": "Zion House of Worship",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 154,
+				"nta": "South Ozone Park",
+				"language": "Bengali",
+				"wikilink": "https://en.wikipedia.org/wiki/Bengali_language",
+				"ethnolink": "https://www.ethnologue.com/language/ben",
+				"country": "Bangladesh",
+				"country2": "India",
+				"region": "West Bengal Barak Valley Tripura",
+				"notes": "Bengali literature is one of the most diverse and prominent literary traditions in Asia. Language continues to be an important element of Bengali identity. Bengali is also the seventh most commonly spoken langauge worldwide.",
+				"status": "2 (Provincial)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 155,
+				"nta": "St. Albans",
+				"language": "Igbo",
+				"wikilink": "https://en.wikipedia.org/wiki/Igbo_language",
+				"ethnolink": "https://www.ethnologue.com/language/ibo",
+				"country": "Nigeria",
+				"country2": "Equatorial Guinea",
+				"region": "southeastern Nigeria Equatorial Guinea",
+				"notes": "Developing proficiency in Igbo entails being able to use proverbs and idiomatic expressions fluently. ",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 156,
+				"nta": "St. Albans",
+				"language": "Mandinka",
+				"wikilink": "https://en.wikipedia.org/wiki/Mandinka_language",
+				"ethnolink": "https://www.ethnologue.com/language/mnk",
+				"country": "Senegal",
+				"country2": "the Gambia; Guinea-Bissau",
+				"region": "Casamance (Senegal)",
+				"notes": "NULL",
+				"status": "5 (Developing)",
+				"location": "Obi-Igbo Community Center at 190-01 Linden Blvd",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 157,
+				"nta": "St. Albans",
+				"language": "Bambara",
+				"wikilink": "https://en.wikipedia.org/wiki/Bambara_language",
+				"ethnolink": "https://www.ethnologue.com/language/bam",
+				"country": "Mali",
+				"country2": "Mali",
+				"region": "Central southern Mali",
+				"notes": "It is estimated that about 80 percent of the population of Mali speak Bambara as a first or second language.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 158,
+				"nta": "St. Albans",
+				"language": "Patois (Trinidad)",
+				"wikilink": "https://en.wikipedia.org/wiki/Trinidadian_Creole",
+				"ethnolink": "https://www.ethnologue.com/language/acf",
+				"country": "Trinidad and Tobago",
+				"country2": "French Antilles; Dominica; Saint Lucia; Grenada",
+				"region": "Lesser Antilles",
+				"notes": "In the 19th century Patois became the lingua franca of Trinidad.",
+				"status": "7 (Shifting)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 159,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Manang",
+				"wikilink": "https://en.wikipedia.org/wiki/Manang_language",
+				"ethnolink": "https://www.ethnologue.com/language/nmm",
+				"country": "Nepal",
+				"country2": "Nepal",
+				"region": "Manang District (Nepal)",
+				"notes": "Manang use is declining quickly as parents choose to speak other Tibetic languages to their children to afford them more economic opportunities",
+				"status": "6b (Threatened)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 160,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Guarani",
+				"wikilink": "https://en.wikipedia.org/wiki/Guarani_language",
+				"ethnolink": "https://www.ethnologue.com/language/grn",
+				"country": "Paraguay",
+				"country2": "Bolivia; Brazil; Argentina; Uruguay",
+				"region": "South America especially in Paraguay and surrounding areas",
+				"notes": "Guarani is the only indigenous language of South America whose speakers include a large proportion of non-indigenous people.",
+				"status": "1 (National)",
+				"location": "Manang Samaj 51-01 39th Avenue Sunnyside NY 11104",
+				"loctype": "unknown",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 161,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Turkish",
+				"wikilink": "https://en.wikipedia.org/wiki/Turkish_language",
+				"ethnolink": "https://www.ethnologue.com/language/tur",
+				"country": "Turkey",
+				"country2": "Cyprus; Bulgaria; Macedonia; Greece; Iran; Azerbaijan; Kosovo; Romania; Iraq; Bosnia and Herzegovina. Syria",
+				"region": "Anatolia Balkans Cyprus Mesopotamia Levant Transcaucasia",
+				"notes": "Following the foundation of modern Turkey the Turkish Language Association was established to among other things initiate language reform to replace Persian and Arabic loanwords with Turkish equivalents.",
+				"status": "1 (National)",
+				"location": "I Love Paraguay",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 162,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Romanian",
+				"wikilink": "https://en.wikipedia.org/wiki/Romanian_language",
+				"ethnolink": "https://www.ethnologue.com/language/ron",
+				"country": "Romania",
+				"country2": "Moldova",
+				"region": "Romania and bordering area",
+				"notes": "There is a very large Romanian diasporic community globally",
+				"status": "2 (Provincial)",
+				"location": "Romanian Center NYC 59-15 Catalpa Avenue",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 163,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Moldavian",
+				"wikilink": "https://en.wikipedia.org/wiki/Moldovan_language",
+				"ethnolink": "NULL",
+				"country": "Moldova",
+				"country2": "Transnistria",
+				"region": "Moldova",
+				"notes": "The name Moldavian was adopted for the use of Romanian in Moldova due to years of domination by the Soviet Union.",
+				"status": "1 (National) ",
+				"location": "Turkish Cultural Center Queens",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 164,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Armenian",
+				"wikilink": "https://en.wikipedia.org/wiki/Armenian_language",
+				"ethnolink": "https://www.ethnologue.com/language/hye",
+				"country": "Armenia",
+				"country2": "Cyprus; Iraq; Hungary; Poland; Romania; Ukraine",
+				"region": "Armenian Highlands",
+				"notes": "Armenian has a long literary history with a 5th-century Bible translation as its oldest surviving text.",
+				"status": "1 (National)",
+				"location": "Romanian Garden",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 165,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Dzongkha",
+				"wikilink": "https://en.wikipedia.org/wiki/Dzongkha",
+				"ethnolink": "https://www.ethnologue.com/language/dzo",
+				"country": "Bhutan",
+				"country2": "Bhutan",
+				"region": "Western Bhutan",
+				"notes": "As of 2013 Dzongkha had 171080 native speakers and about 640000 total speakers.",
+				"status": "1 (National)",
+				"location": "Boon by Moldova",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 166,
+				"nta": "Hunters Point-Sunnyside-West Maspeth",
+				"language": "Tshangla",
+				"wikilink": "https://en.wikipedia.org/wiki/Tshangla_language",
+				"ethnolink": "https://www.ethnologue.com/language/tsj",
+				"country": "Bhutan",
+				"country2": "Arunachal Pradesh; Tibet",
+				"region": "Eastern Bhutan Southeastern Tibet Arunachal Pradesh",
+				"notes": "Despite its predominance in eastern Bhutan it is considered an unwritten language and is not officially recognized.",
+				"status": "4 (Educational)",
+				"location": "Baruir",
+				"loctype": "restuarant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 167,
+				"nta": "Woodside",
+				"language": "Walung",
+				"wikilink": "https://en.wikipedia.org/wiki/Central_Tibetan_language",
+				"ethnolink": "https://www.ethnologue.com/language/ola",
+				"country": "Nepal",
+				"country2": "Tibet",
+				"region": "TÄÅplejuá_… district near the headwaters of the Tamor river",
+				"notes": "After the Tibetan border closed in 1959 many wealthy Walung families moved to Kathmandu.",
+				"status": "6b (Threatened)",
+				"location": "Bhutan Corner (4545 47th St)",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 168,
+				"nta": "Woodside",
+				"language": "Hyolmo",
+				"wikilink": "https://en.wikipedia.org/wiki/Yolmo_language",
+				"ethnolink": "https://www.ethnologue.com/language/scp",
+				"country": "Nepal",
+				"country2": "Nepal",
+				"region": "South-central Nepal Nuwakot district Sindhupalchowk district",
+				"notes": "The language is spoken mostly by older adults with the younger generations having largely shifted to Nepali`",
+				"status": "6a (Vigorous)",
+				"location": "Bhutan Corner (4545 47th St)",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 169,
+				"nta": "Woodside",
+				"language": "Magar",
+				"wikilink": "https://en.wikipedia.org/wiki/Magar_language",
+				"ethnolink": "https://www.ethnologue.com/language/mgp",
+				"country": "Nepal",
+				"country2": "Bhutan; India",
+				"region": "PÄÅlpÄÅ SyÄÅá_…jÄÅ TanahÅ© and GorkhÄÅ districts (Nepal) Southern Bhutan Darjeeling and Sikkim India",
+				"notes": "Of the 2064000 Magar people in Nepal nearly 788530 speak a Magar language as their native language.",
+				"status": "6b (Threatened)",
+				"location": "Walung Community Of North America",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 170,
+				"nta": "Woodside",
+				"language": "Mugu",
+				"wikilink": "https://en.wikipedia.org/wiki/Mugu_District",
+				"ethnolink": "https://www.ethnologue.com/language/muk",
+				"country": "Nepal",
+				"country2": "NULL",
+				"region": "Mugu district",
+				"notes": "NULL",
+				"status": "6a (Vigorous)",
+				"location": "Hyolmo Society of America 4045 68th Street Woodside NY",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 171,
+				"nta": "Woodside",
+				"language": "Maranao",
+				"wikilink": "https://en.wikipedia.org/wiki/Maranao_language",
+				"ethnolink": "https://www.ethnologue.com/language/mrw",
+				"country": "Philippines",
+				"country2": "Malaysia",
+				"region": "Twin provinces of Lanao del Norte and Lanao del Sur Provines of Sultan Mardan other regions of Philippines",
+				"notes": "Maranao was perviously written in Arabic script though it is now written in Latin script. ",
+				"status": "4 (Educational)",
+				"location": "Magar Association USA 3432 59th St Suite 1\rWoodside",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 172,
+				"nta": "Woodside",
+				"language": "Tagalog",
+				"wikilink": "https://en.wikipedia.org/wiki/Tagalog_language",
+				"ethnolink": "https://www.ethnologue.com/language/tgl",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Central and Southern Luzon",
+				"notes": "Tagalog is spoken as a first language by a quarter of the population of the Philippines and as a second language by many more.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 173,
+				"nta": "Woodside",
+				"language": "Cebuano",
+				"wikilink": "https://en.wikipedia.org/wiki/Cebuano_language",
+				"ethnolink": "https://www.ethnologue.com/language/ceb",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Central Visayas eastern Negros Island Region western parts of Eastern Visayas southern portion of Masbate Mindanao",
+				"notes": "With 21 million speakers Cebuano is the 2nd most commonly  spoken language in the Philippines after Tagalog",
+				"status": "3 (Wider communication)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 174,
+				"nta": "Woodside",
+				"language": "Ilokano",
+				"wikilink": "https://en.wikipedia.org/wiki/Ilocano_language",
+				"ethnolink": "https://www.ethnologue.com/language/ILO",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Northern Luzon and most parts of Central Luzon",
+				"notes": "Ilokano is the 3rd most spoken language in the Philippines and it is now being used as a medium of instruction until 6th grade. ",
+				"status": "3 (Wider communication)",
+				"location": "Phil-Am Foods",
+				"loctype": "store",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 175,
+				"nta": "Woodside",
+				"language": "Kapampangan",
+				"wikilink": "https://en.wikipedia.org/wiki/Kapampangan_language",
+				"ethnolink": "https://www.ethnologue.com/language/pam",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Central Luzon",
+				"notes": "As of 2012 Kapampangan is one of the major languages of the Philippines being taught in university.",
+				"status": "3 (Wider communication)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 176,
+				"nta": "Woodside",
+				"language": "Chavacano",
+				"wikilink": "https://en.wikipedia.org/wiki/Chavacano",
+				"ethnolink": "https://www.ethnologue.com/language/cop",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Zamboanga Peninsula",
+				"notes": "Chavacano evolved as the only Spanish-based creole in Asia.",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 177,
+				"nta": "Woodside",
+				"language": "Waray-Waray",
+				"wikilink": "https://en.wikipedia.org/wiki/Waray_language",
+				"ethnolink": "https://www.ethnologue.com/language/war",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Eastern Visayas some parts of Masbate and some parts of Sorsogon",
+				"notes": "Waray-Waray is used in education as part of Philippine government's K-12 program where Kindergarten to 3rd Grade levels are taught in students' native language.",
+				"status": "3 (Wider communication)",
+				"location": "Kabayan ",
+				"loctype": "restaurant",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 178,
+				"nta": "Woodside",
+				"language": "Ibanag",
+				"wikilink": "https://en.wikipedia.org/wiki/Ibanag_language",
+				"ethnolink": "https://www.ethnologue.com/language/ibg",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Northern Luzon",
+				"notes": "Ibanag is now taught in Philippine schools as an effort to preserve indigenous cultures and promote early childhood literacy in students' native langauge.",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 179,
+				"nta": "Woodside",
+				"language": "Ibaloi",
+				"wikilink": "https://en.wikipedia.org/wiki/Ibaloi_language",
+				"ethnolink": "https://www.ethnologue.com/language/ibl",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Luzon",
+				"notes": "The Ibaloi are one of many ethno-linguistic indigenous tribes who live in the Benguet Province in Northern Luzon.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 180,
+				"nta": "Woodside",
+				"language": "Pangasinan",
+				"wikilink": "https://en.wikipedia.org/wiki/Pangasinan_language",
+				"ethnolink": "https://www.ethnologue.com/language/pag",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Ilocos Region Central Luzon",
+				"notes": "There are around 2 million Pangasinan speakers in the Phillipines most of whom live in Pangasinan and neighboring provinces.",
+				"status": "3 (Wider communication)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 181,
+				"nta": "Woodside",
+				"language": "Kinaray-a",
+				"wikilink": "https://en.wikipedia.org/wiki/Karay-a_language",
+				"ethnolink": "https://www.ethnologue.com/language/krj",
+				"country": "Philippines",
+				"country2": "Philippines",
+				"region": "Antique Iloilo and other provinces of Panay",
+				"notes": "Kinaray-a came from the word iraya which refers to a group of people residing in the mountain areas of Antique province.",
+				"status": "1 (National)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 182,
+				"nta": "Woodside",
+				"language": "Gyalsumdo",
+				"wikilink": "https://en.wikipedia.org/wiki/Kyirong-Kagate_language",
+				"ethnolink": "NULL",
+				"country": "Nepal",
+				"country2": "Tibet",
+				"region": "Lower Manang valley",
+				"notes": "Gyalsumdo is a dialect of Manang language",
+				"status": "6b (Threatened)",
+				"location": "Gyalsumdo Sewa Sanstha 39-06 62nd Street 3c\rWoodside New York 11377",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 183,
+				"nta": "Woodside",
+				"language": "Burmese",
+				"wikilink": "https://en.wikipedia.org/wiki/Burmese_language",
+				"ethnolink": "https://www.ethnologue.com/language/mya",
+				"country": "Myanmar",
+				"country2": "Burma",
+				"region": "Throughout Myanmar",
+				"notes": "Primarily spoken by the Bamar (Burman) people",
+				"status": "1 (National)",
+				"location": "Burma Point 4145 73rd St Woodside NY 11377",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 184,
+				"nta": "Elmhurst",
+				"language": "Yucatec Maya",
+				"wikilink": "https://en.wikipedia.org/wiki/Yucatec_Maya_language",
+				"ethnolink": "https://www.ethnologue.com/language/yua",
+				"country": "Belize",
+				"country2": "Mexico",
+				"region": "NULL",
+				"notes": "Mayan Language",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 185,
+				"nta": "Elmhurst",
+				"language": "Mazatec",
+				"wikilink": "https://en.wikipedia.org/wiki/Mazatecan_languages",
+				"ethnolink": "https://www.ethnologue.com/language/mau",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Oaxaca Puebla Veracruz",
+				"notes": "Most Mazatec communities employ forms of whistle speech in which linguistic utterances are produced by whistling the tonal contours of words and phrases. Mazatec languages lend themselves very well to becoming whistling languages because tone means so much in Mazatec grammar and semantics.",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 186,
+				"nta": "Elmhurst",
+				"language": "Tepehua",
+				"wikilink": "https://en.wikipedia.org/wiki/Tepehua_languages",
+				"ethnolink": "https://www.ethnologue.com/subgroups/totonacan",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "Western Central",
+				"notes": "NULL",
+				"status": "6a (Vigorous)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 187,
+				"nta": "Elmhurst",
+				"language": "Tzotzil",
+				"wikilink": "https://en.wikipedia.org/wiki/Tzotzil_language",
+				"ethnolink": "https://www.ethnologue.com/language/tzo",
+				"country": "Mexico",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Mayan Language",
+				"status": "6b (Threatened)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 188,
+				"nta": "Jackson Heights",
+				"language": "Kâ€™icheâ€™",
+				"wikilink": "https://en.wikipedia.org/wiki/K%27iche%27_language",
+				"ethnolink": "https://www.ethnologue.com/language/quc",
+				"country": "Guatemala",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "K'iche' is the second-most widely spoken language in the country after Spanish. Most speakers of K'iche' languages also have at least a working knowledge of Spanish.",
+				"status": "5 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 189,
+				"nta": "Rego Park",
+				"language": "Mamuju",
+				"wikilink": "https://en.wikipedia.org/wiki/Mamuju_language",
+				"ethnolink": "https://www.ethnologue.com/language/mqx",
+				"country": "Indonesia",
+				"country2": "NULL",
+				"region": "Sulawesi",
+				"notes": "NULL",
+				"status": "6b (Threatened)",
+				"location": "Al-Hikmah Mosque",
+				"loctype": "religious",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 190,
+				"nta": "Woodside",
+				"language": "Tibetan",
+				"wikilink": "https://en.wikipedia.org/wiki/Standard_Tibetan#Scholarship",
+				"ethnolink": "https://www.ethnologue.com/language/bod",
+				"country": "Tibet",
+				"country2": "Nepal; India; China",
+				"region": "China (Tibet Autonomous Region) Nepal (Upper Mustang)",
+				"notes": "Tibetan is based on Lhasa a Central Tibetan dialect. In Tibet primary education is almost entirely conducted in Tibetan whereas Chinese is more common in secondary education",
+				"status": "2 (Provincial)",
+				"location": "NY/NJ Tibetan Association (Northern Boulevard)",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 191,
+				"nta": "Ozone Park",
+				"language": "Vietnamese",
+				"wikilink": "https://en.wikipedia.org/wiki/Vietnamese_language",
+				"ethnolink": "https://www.ethnologue.com/language/vie",
+				"country": "Vietnam",
+				"country2": "United States",
+				"region": "Vietnam (the South and eastern coast)",
+				"notes": "In the United States Vietnamese is the sixth most spoken language with over 1.5 million speakers who are concentrated in a handful of states.",
+				"status": "2 (Provincial)",
+				"location": "New Land Community Center",
+				"loctype": "community center",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 192,
+				"nta": "Ozone Park",
+				"language": "Friulian",
+				"wikilink": "https://en.wikipedia.org/wiki/Friulian_language",
+				"ethnolink": "https://www.ethnologue.com/language/fur",
+				"country": "Italy",
+				"country2": "NULL",
+				"region": "Veneto",
+				"notes": "NULL",
+				"status": "4 (Educational)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 193,
+				"nta": "Ozone Park",
+				"language": "Calabrese",
+				"wikilink": "https://en.wikipedia.org/wiki/Languages_of_Calabria#Calabrian_.28Calabrese.29",
+				"ethnolink": "https://www.ethnologue.com/language/nap",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Calabria Italy",
+				"notes": "Calabrian dialects have a strong Greek influence as a result there is a sizable population of Calabrian Greek speakers",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 194,
+				"nta": "Ozone Park",
+				"language": "Ligurian",
+				"wikilink": "https://en.wikipedia.org/wiki/Ligurian_(Romance_language)",
+				"ethnolink": "https://www.ethnologue.com/language/lij",
+				"country": "Italy",
+				"country2": "NULL",
+				"region": "NULL",
+				"notes": "Ligurian has almost 500000 native speakers and is still widely spoken by many in Genoa and in many of the small towns and villages in the region.",
+				"status": "5 (Developing)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"id": 195,
+				"nta": "Ozone Park",
+				"language": "Piedmontese",
+				"wikilink": "https://en.wikipedia.org/wiki/Piedmontese_language",
+				"ethnolink": "https://www.ethnologue.com/language/pms",
+				"country": "Italy",
+				"country2": "Italy",
+				"region": "Northwest Italy",
+				"notes": "In 2004 Piedmontese was recognized as Piedmont's regional language by the regional parliament but Italy has not done such.",
+				"status": "7 (Shifting)",
+				"location": "NULL",
+				"loctype": "NULL",
+				"other": "NULL"
+			},
+			"geometry": null
+		}
+	]
+}

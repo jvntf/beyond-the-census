@@ -1,0 +1,128 @@
+
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/backend.css') 
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        
+        script.
+            $(document).ready(function(){
+                $("button").click(function() {
+                        var thisclass = $(this).attr("class");
+                        $('.'+thisclass).css("visibility","visible");
+                }); 
+
+                console.log(title);
+            })
+
+
+    body
+        block content
+            h1= title
+            div
+                p Use this form to edit the fields of an entry in the languages collection of the database.
+                p Click the "update" button next to the field you have edited to confirm a change.
+
+            if endangermentNum
+                if endangermentNum == "1"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "2"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "3"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "4"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "5"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "6"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+
+            div#languageForm
+                form#formUpdateHID(name="editlang",method="post",action="/updateEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputHID(type="text", value="hid", name="query", readonly)
+                    input#inputHID(type="text", value=hid, name="value")
+                    button.hid#btnSubmit(type="submit") update
+                    span.hid#idstatus updating...
+                    
+                form#formUpdateID(name="editlang",method="post",action="/updateEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputID(type="text", value="id", name="query", readonly)
+                    input#inputID(type="text", value=id, name="value")
+                    button.id#btnSubmit(type="submit") update
+                    span.id#idstatus updating...
+                
+                form#formUpdateLanguage(name="editlang",method="post",action="/updateEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputLanguage(type="text", value="language", name="query", readonly)
+                    input#inputLanguage(type="text", value=language, name="value")
+                    button.language#btnSubmit(type="submit") update
+                    span.language#idstatus updating...
+                    
+                form#formUpdateDescription(name="editlang",method="post",action="/updateEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputDescriptione(type="text", value="description", name="query", readonly)
+                    input#inputDescriptione(type="text", value=description, name="value")
+                    button.desc#btnSubmit(type="submit") update
+                    span.desc#idstatus updating...
+         
+                form#formUpdateEndangermentNum(name="editlang",method="post",action="/updateEntry")     
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputEndangerment(type="text", value="endangermentNum", name="query", readonly)
+                    select(id="endangermentList", name="value")
+                        option(id="end1", value="1") 1
+                        option(id="end2", value="2") 2
+                        option(id="end3", value="3") 3
+                        option(id="end4", value="4") 4
+                        option(id="end5", value="5") 5
+                        option(id="end6", value="6") 6
+                    button.endangerment#btnSubmit(type="submit") update
+                    span.endangerment#idstatus updating...
+                    
+                form#formUpdateStatus(name="editlang",method="post",action="/updateEntry")     
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputStatus(type="text", value="status", name="query", readonly)
+                    input#inputStatus(type="text", value=status, name="value")
+                    button.status#btnSubmit(type="submit") update
+                    span.status#idstatus updating...
+
+                form#formUpdateNTA_code(name="editlang",method="post",action="/updateEntry")     
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputNtacode_1(type="text", value="ntacode_1", name="query", readonly)
+                    input#inputNtacode_1(type="text", value=ntacode_1, name="value")
+                    button.nta#btnSubmit(type="submit") update
+                    span.nta#idstatus updating...
+
+                form#formReturn(name="return",method="get",action="/admin")                
+                    button#btnSave(type="submit") Return
+
+                form#formReturn(name="return",method="post",action="/removeLang")
+                    input#input_ID(type="hidden",value=_id,name="_id",)                
+                    button#btnSave(type="submit") Delete This Entry
+
+
+
+             
+
+
+

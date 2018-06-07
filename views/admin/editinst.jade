@@ -1,0 +1,159 @@
+
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/backend.css') 
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        
+        script.
+            $(document).ready(function(){
+                $("button").click(function() {
+                        var thisclass = $(this).attr("class");
+                        $('.'+thisclass).css("visibility","visible");
+                }); 
+
+                console.log(title);
+            })
+
+
+    body
+        block content
+            h1= title
+            div
+                p Use this form to edit the fields of an entry in the languages collection of the database.
+                p Click the "update" button next to the field you have edited to confirm a change.
+
+            if endangermentNum
+                if endangermentNum == "1"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "2"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "3"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "4"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "5"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+                else if endangermentNum == "6"
+                    script.
+                        $(document).ready(function(){
+                            $("#end1").attr("selected","selected");
+                        });
+
+
+
+                        lang_1: obj.properties.lang_1,
+                        lang_2: obj.properties.lang_2,
+                        lang_3: obj.properties.lang_3,
+                        lang_4: obj.properties.lang_4,
+                        lang_5: obj.properties.lang_5,
+                        lang_6: obj.properties.lang_6,
+                        lang_7: obj.properties.lang_7,
+                        lang_8: obj.properties.lang_8,
+                        lang_9: obj.properties.lang_9,
+                        description: obj.properties.description,
+                        address: obj.properties.address}
+
+
+            div#languageForm
+                form#formUpdatelang_1(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_1(type="text", value="lang_1", name="query", readonly)
+                    input#inputlang_1(type="text", value=lang_1, name="value")
+                    button.lang_1#btnSubmit(type="submit") update
+                    span.lang_1#idstatus updating...
+                form#formUpdatelang_2(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_2(type="text", value="lang_2", name="query", readonly)
+                    input#inputlang_2(type="text", value=lang_2, name="value")
+                    button.lang_2#btnSubmit(type="submit") update
+                    span.hid#idstatus updating...
+                form#formUpdatelang_3(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_3(type="text", value="lang_3", name="query", readonly)
+                    input#inputlang_3(type="text", value=lang_3, name="value")
+                    button.lang_3#btnSubmit(type="submit") update
+                    span.lang_3#idstatus updating...
+                form#formUpdatelang_4(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_4(type="text", value="lang_4", name="query", readonly)
+                    input#inputlang_4(type="text", value=lang_4, name="value")
+                    button.lang_4#btnSubmit(type="submit") update
+                    span.lang_4#idstatus updating...
+                form#formUpdatelang_5(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_5(type="text", value="lang_5", name="query", readonly)
+                    input#inputlang_5(type="text", value=lang_5, name="value")
+                    button.lang_5#btnSubmit(type="submit") update
+                    span.lang_5#idstatus updating...
+                form#formUpdatelang_6(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_6(type="text", value="lang_6", name="query", readonly)
+                    input#inputlang_6(type="text", value=lang_6, name="value")
+                    button.lang_6#btnSubmit(type="submit") update
+                    span.lang_6#idstatus updating...
+                form#formUpdatelang_7(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_7(type="text", value="lang_7", name="query", readonly)
+                    input#inputlang_7(type="text", value=lang_7, name="value")
+                    button.lang_7#btnSubmit(type="submit") update
+                    span.lang_7#idstatus updating...
+                form#formUpdatelang_8(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_8(type="text", value="lang_8", name="query", readonly)
+                    input#inputlang_8(type="text", value=lang_8, name="value")
+                    button.lang_8#btnSubmit(type="submit") update
+                    span.lang_8#idstatus updating...
+                form#formUpdatelang_9(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputlang_9(type="text", value="lang_9", name="query", readonly)
+                    input#inputlang_9(type="text", value=lang_9, name="value")
+                    button.lang_9#btnSubmit(type="submit") update
+                    span.lang_9#idstatus updating...
+
+                form#formUpdatedescription(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputdescription(type="text", value="description", name="query", readonly)
+                    input#inputdescription(type="text", value=description, name="value")
+                    button.description#btnSubmit(type="submit") update
+                    span.description#idstatus updating...
+
+                form#formUpdateaddress(name="editinst",method="post",action="/updateInstEntry")
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputaddress(type="text", value="address", name="query", readonly)
+                    input#inputaddress(type="text", value=address, name="value")
+                    button.address#btnSubmit(type="submit") update
+                    span.address#idstatus updating...
+                    
+                
+
+                form#formReturn(name="return",method="get",action="/admin")                
+                    button#btnSave(type="submit") Return
+
+                form#formReturn(name="return",method="post",action="/removeInst")
+                    input#input_ID(type="hidden",value=_id,name="_id",)                
+                    button#btnSave(type="submit") Delete This Entry
+
+
+
+             
+
+
+

@@ -331,8 +331,20 @@ function updateLanguageCard( id, callback ) {
     .style('color', (d) => {return dataItem.color.darker().darker()})
     .append('table').append('tbody').append('tr')
   cardheader.append('td').append('h2').text(() => {return dataItem.language});
-  cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
 
+
+
+  cardheader.append('td').attr('class', 'card-header-right').append('p').text('x').on('click', () => {hideDetails()});
+  
+  if (typeof dataItem.script !== 'undefined' && dataItem.script !== dataItem.language) {
+    let script = card.append('div').attr('id', 'script')
+      .style('background', (d) => {return dataItem.color.brighter(0.3)})
+      .style('color', (d) => {return dataItem.color.darker().darker()})
+      .append('table').append('tbody').append('tr')
+    script.append('td').append('h2').text(() => {return dataItem.script});
+  }
+
+  console.log(cardheader);
   let cardbody = card.append('div').classed('card-body', true)
   cardbody.append('p').text( () => {return dataItem.description})
   console.log(dataItem);
@@ -361,6 +373,7 @@ function updateLanguageCard( id, callback ) {
     })
   }
 
+ 
 
   if (callback) {callback(null)}
 }

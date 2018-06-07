@@ -1,0 +1,28 @@
+block content
+
+    h1= title
+
+
+    h2 Search For a Language to Edit
+    form#searchLanguage(name="editlang",method="get",action="/editlang")
+        select(id="selector", name="query")
+            option(value="hid") HID
+            option(value="id") GlottoCode
+            option(value="language") Language
+        input#inputValue(type="text", placeholder="value",name="value")
+        button#btnSearch(type="submit") search
+
+
+    h2 Search For an Institution to Edit
+    form#searchLanguage(name="editinst",method="get",action="/editinst")
+        input#input_ID(type="hidden",value="properties.institution",name="query",)
+        input#inputValue(type="text", placeholder="Institution Name",name="value")
+        button#btnSearch(type="submit") search
+
+
+    h2 Add a new Entry 
+    form#formAddLanguage(name="adduser",method="get",action="/newlanguage")
+        button#btnAddnew(type="submit") new language
+
+    form#formAddInstitution(name="adduser",method="get",action="/newinstitution")
+        button#btnAddnew(type="submit") new institution
