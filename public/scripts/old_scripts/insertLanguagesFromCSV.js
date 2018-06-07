@@ -4,12 +4,13 @@ var _ = require('lodash');
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
-var sourcePath = '../../data/glottoQueens_reExport.csv';  // path to file with utf8 encoding
+var sourcePath = '../old_csv/newEntries.csv';  // path to file with utf8 encoding
 
 // Connection URL
 // var url = 'mongodb://localhost:27017/ELAdata'; // change last part of path to db name
-var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
-var targetcollection = 'new_languages'; // name of collection to add to witin the database
+// var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
+var url = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+var targetcollection = 'languages'; // name of collection to add to witin the database
 
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, db) {

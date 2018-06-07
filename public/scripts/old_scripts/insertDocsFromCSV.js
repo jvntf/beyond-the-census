@@ -5,12 +5,13 @@ var MongoClient = require('mongodb').MongoClient
 
 // var sourcePath = '../resources/QueensLanguages.csv';  // path to file with utf8 encoding
 // var sourcePath = '../../data/glottoQueens_reExport.csv';  // path to file with utf8 encoding
-var sourcePath = '../../data/alt_scripts.csv';  // path to file with utf8 encoding
+var sourcePath = '../../data/old_data/alt_scripts.csv';  // path to file with utf8 encoding
 
 // Connection URL
 // var url = 'mongodb://localhost:27017/leaflet_test'; // change last part of path to db name
 
-var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
+// var url = 'mongodb://c4sr:languages@ds227555.mlab.com:27555/heroku_wpb27xt2'
+var url = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 var targetcollection = 'languages'; // name of collection to add to witin the database
 
 

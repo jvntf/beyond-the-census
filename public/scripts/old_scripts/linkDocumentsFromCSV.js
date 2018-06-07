@@ -10,8 +10,8 @@ var MongoClient = require('mongodb').MongoClient
 
 // var sourcePath = '../source/QueensLanguages.csv';  // path to file with utf8 encoding
 // var sourcePath = '../../data/glottoQueens_reExport.csv';  // path to file with utf8 encoding
-var sourcePath = 'newEntries.csv'
-var
+var sourcePath = '../old_csv/newEntries.csv'
+
 var errorLogPath = '../log.txt';
 
 // Connection URL
