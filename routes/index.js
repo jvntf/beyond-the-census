@@ -9,9 +9,9 @@ var https = require('https');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -58,7 +58,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
     description: String,
     region: String,
     endangermentNum: Number,
-    sttus: String,
+    status: String,
     latitude: String,
     longitude: String,
     ntacode_1: String,
@@ -500,6 +500,9 @@ router.get('/editinst', function(req, res){
     console.log(u._id);
     console.log(u.language);
 
+
+
+
     var test = "hello";
 
 
@@ -516,6 +519,7 @@ router.get('/editinst', function(req, res){
         var lat, lon;
         var countries = [];
         var continents = [];
+        var institution = req.body.institution
 
         if(u.id === "") {res.send("glottolog id is necessary");}
         else {
@@ -586,8 +590,13 @@ router.get('/editinst', function(req, res){
                                             i+=1;
                                             continue;
                                           }
-                                          console.log(textarray[i].trim());
-                                          continents.push(textarray[i].trim());
+                                          if (textarray[i].trim()=='Eurasia'){
+                                            continents.push('Europe');
+                                            continents.push('Asia');
+                                          }
+                                          else{
+                                            continents.push(textarray[i].trim());
+                                          }
                                           i+=1;
                                         }
                                       }
@@ -622,9 +631,6 @@ router.get('/editinst', function(req, res){
                                             i+=1;
                                             if (err) res.send(err);
                                             if (i == countries.length) {
-                                              // res.redirect("success")
-                                              // 
-                                              // 
                                               var j = 0;
                                               continents.forEach(function(continent){
                                                 Continent.findOne({"properties.CONTINENT": continent}, function(err,obj){
@@ -638,7 +644,20 @@ router.get('/editinst', function(req, res){
                                                         j+=1;
                                                         if (err) res.send(err);
                                                         if (j == continents.length) {
-                                                          res.redirect("success");
+
+                                                        Institution.findOneAndUpdate({"properties.institution":institution},
+                                                          {$push:{"properties.languages":u._id}},function(err,model){
+                                                            Language.findByIdAndUpdate(
+                                                              u._id,
+                                                              {$push:{"institutions":model._id}},
+                                                              function(err, model){
+                                                                if (err) res.send(err);
+                                                                else{
+                                                                  res.redirect("success")
+                                                                }
+                                                              }
+                                                            )})
+                                                         
                                                         }
                                                       }
                                                     )}
@@ -651,6 +670,16 @@ router.get('/editinst', function(req, res){
                                         }
                                       });
                                     })
+
+
+
+                                          
+                                        
+                                      
+                                    
+
+
+
                                   })
                                 }
                               })
