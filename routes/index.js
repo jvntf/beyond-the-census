@@ -476,6 +476,20 @@ router.get('/editinst', function(req, res){
   });
 })
 
+  function die(res, message, id){
+
+    Language.remove({_id : id}, function(err) {
+
+    // Test.remove({_id : req.body._id}, function(err) {
+      if(err) {
+        res.send(err);
+      }
+      else{
+      res.send(message);
+      }
+    })
+  }
+
   /* POST to Add User Service */
   router.post('/addlanguage', function(req, res) {
     // countryArray = req.body.countries.split(';');
@@ -512,9 +526,7 @@ router.get('/editinst', function(req, res){
         res.send("There was a problem adding the information to the databse")
       }
       else{ 
-
-
-        
+        console.log("else")
 
         var lat, lon;
         var countries = [];
@@ -540,171 +552,200 @@ router.get('/editinst', function(req, res){
               })
             }
             else {
-              Language.findByIdAndUpdate(
-              // Test.findByIdAndUpdate(
-                u._id,
-                {$push: {"neighborhoods": obj._id}},
-                {safe : true, upsert: true, new : true},
-                function(err, model){
-                  if (err) {
-                    res.send(err);
-                  } else {
-                    var url = "https://github.com/clld/glottolog/blob/master/languoids/languages_" + u.id[0]+'.md';
-                    request(url, function(error, response, html){
-                      if(!error){
-                        var $ = cheerio.load(html);
-                        var langUrl;
-                        var found;
-                        console.log(url);
-                        if($.html().includes(u.id)){
-                          $('.markdown-body ul li').filter(function(){
-                            var data = $(this);
-                        
-                            // console.log(data.length)
-                            var somelink = data.children().first().text();
-                            // console.log(somelink);
-                            if (somelink.indexOf(u.id)>=0){
-                              
-                              var langFileURL = "https://github.com"+ data.children().first().attr('href');
-                            
-                              request(langFileURL, function(err, response, html){
-                                if(!error){
-                                  var $ = cheerio.load(html);
-                                  $('tbody').filter(function(){
-                                    var data = $(this);
-                                    var textarray = data.children().next().text().replace(/ +(?= )/g,'').split("\n");
-                                    textarray.forEach(function(item, index){
-                                      item = item.trim();
-                                      if (item.indexOf("latitude")>=0){
-                                        lat = item.split(" = ")[1];
-                                      }
-                                      else if (item.indexOf("longitude")>=0){
-                                        lon = item.split(" = ")[1];
-                                      }
-                                      else if(item.indexOf("macroareas")>=0){
-                                        var i = index +1;
-                                        // console.log(textarray);
-                                        // console.log(textarray[i+1]);
-                                        while(textarray[i].indexOf("countries")<0){
-                                          if(textarray[i].length==1 || textarray[i].length == 0){
-                                            i+=1;
-                                            continue;
-                                          }
-                                          if (textarray[i].trim()=='Eurasia'){
-                                            continents.push('Europe');
-                                            continents.push('Asia');
-                                          }
-                                          else{
-                                            continents.push(textarray[i].trim());
-                                          }
-                                          i+=1;
-                                        }
-                                      }
-                                      else if (item.indexOf("countries")>=0){
-                                        var i = index+1;
-                                        while(textarray[i].indexOf("sources")<0){
-                              
-                                          if (textarray[i].length==1 || textarray[i].length==0){
-                                            i+=1;
-                                            continue;
-                                          }
-                                          countries.push(textarray[i].split('(')[0].trim());
-                                          i+=1; 
-                                        }
-                                      }
-                                      
-                                    })
-                                    
-                                   
+              console.log("institution |" + institution+"|");
+              // die(res, "remove this", u._id);
 
-                                    var i = 0;
-                                    countries.forEach(function(country){
-                                      Country.findOne({"properties.ADMIN": country}, function(err,obj){
-                                        if(err) {res.send(err);}
-                                        if(!obj) {res.send(country + " was not found in the Countries database. contact administrator");}
-                                        else{ Language.findByIdAndUpdate(
-                                        // Test.findByIdAndUpdate(
-                                          u._id,
-                                          {$push: {"countries": obj._id}, $set: {"latitude": lat, "longitude": lon}},
-                                          {safe : true, upsert: true, new : true},
-                                          function(err, model){
-                                            i+=1;
-                                            if (err) res.send(err);
-                                            if (i == countries.length) {
-                                              var j = 0;
-                                              continents.forEach(function(continent){
-                                                Continent.findOne({"properties.CONTINENT": continent}, function(err,obj){
-                                                  if(err) {res.send(err);}
-                                                  if(!obj) {res.send(continent + " was not found in the continent database.")}
-                                                    else{Language.findByIdAndUpdate(
-                                                      u._id,
-                                                      {$push: {"continents": obj._id}},
-                                                      {safe : true, upsert: true, new : true},
-                                                      function(err, model){
-                                                        j+=1;
-                                                        if (err) res.send(err);
-                                                        if (j == continents.length) {
-
-                                                        Institution.findOneAndUpdate({"properties.institution":institution},
-                                                          {$push:{"properties.languages":u._id}},function(err,model){
-                                                            Language.findByIdAndUpdate(
-                                                              u._id,
-                                                              {$push:{"institutions":model._id}},
-                                                              function(err, model){
-                                                                if (err) res.send(err);
-                                                                else{
-                                                                  res.redirect("success")
-                                                                }
-                                                              }
-                                                            )})
-                                                         
-                                                        }
-                                                      }
-                                                    )}
-                                                })
-                                              })
-                                            }
-                                            // console.log(test);
-                                          }
-                                        );
-                                        }
-                                      });
-                                    })
-
-
-
-                                          
-                                        
-                                      
-                                    
-
-
-
-                                  })
-                                }
-                              })
-                            }
-                          })
-                        }
-                        else {
-                          Language.remove({_id : u._id}, function(err) {
-
-                          // Test.remove({_id : req.body._id}, function(err) {
-                            if(err) {
-                              res.send(err);
-                            }
-                            else{
-                            res.send("code not found on glottolog. please contact admin.");
-                            
-                            }
-                          })
-                        }
-
-                      }
-                    })
+              if (1){
+                Institution.findOne({"properties.institution":institution}, function(err, obj){
+                  if (!obj){
+                    // Language.remove({_id : u._id}, function(err){
+                    //   if (err) {
+                    //     res.send(err);
+                    //   }
+                    //   else{
+                    //     res.send("Institution not found. Go back and re-submit");
+                    //   }
+                    // })
+                    die(res,"institution not found", u._id)
                   }
-                }
-              );
+                  else{
+
+
+
+                    Language.findByIdAndUpdate(
+                    // Test.findByIdAndUpdate(
+                      u._id,
+                      {$push: {"neighborhoods": obj._id}},
+                      {safe : true, upsert: true, new : true},
+                      function(err, model){
+                        if (err) {
+                          res.send(err);
+                        } else {
+                          var url = "https://github.com/clld/glottolog/blob/master/languoids/languages_" + u.id[0]+'.md';
+                          request(url, function(error, response, html){
+                            if(!error){
+                              var $ = cheerio.load(html);
+                              var langUrl;
+                              var found;
+                              console.log(url);
+                              if ($.html().includes(u.id)===false){die(res, "code not found on glottolog", u._id);}
+                              else if($.html().includes(u.id)){
+                                $('.markdown-body ul li').filter(function(){
+                                  var data = $(this);
+                              
+                                  // console.log(data.length)
+                                  var somelink = data.children().first().text();
+                                  // console.log(somelink);
+                                  if (somelink.indexOf(u.id)>=0){
+                                    
+                                    var langFileURL = "https://github.com"+ data.children().first().attr('href');
+                                  
+                                    request(langFileURL, function(err, response, html){
+                                      if(!err){
+                                        var $ = cheerio.load(html);
+                                        $('tbody').filter(function(){
+                                          var data = $(this);
+                                          var textarray = data.children().next().text().replace(/ +(?= )/g,'').split("\n");
+                                          textarray.forEach(function(item, index){
+                                            item = item.trim();
+                                            if (item.indexOf("latitude")>=0){
+                                              lat = item.split(" = ")[1];
+                                            }
+                                            else if (item.indexOf("longitude")>=0){
+                                              lon = item.split(" = ")[1];
+                                            }
+                                            else if(item.indexOf("macroareas")>=0){
+                                              var i = index +1;
+                                              // console.log(textarray);
+                                              // console.log(textarray[i+1]);
+                                              while(textarray[i].indexOf("countries")<0){
+                                                if(textarray[i].length==1 || textarray[i].length == 0){
+                                                  i+=1;
+                                                  continue;
+                                                }
+                                                if (textarray[i].trim()=='Eurasia'){
+                                                  continents.push('Europe');
+                                                  continents.push('Asia');
+                                                }
+                                                else{
+                                                  continents.push(textarray[i].trim());
+                                                }
+                                                i+=1;
+                                              }
+                                            }
+                                            else if (item.indexOf("countries")>=0){
+                                              var i = index+1;
+                                              while(textarray[i].indexOf("sources")<0){
+                                    
+                                                if (textarray[i].length==1 || textarray[i].length==0){
+                                                  i+=1;
+                                                  continue;
+                                                }
+                                                countries.push(textarray[i].split('(')[0].trim());
+                                                i+=1; 
+                                              }
+                                            }
+                                            
+                                          })
+                                          
+                                         
+
+                                          var i = 0;
+                                          countries.forEach(function(country){
+                                            Country.findOne({"properties.ADMIN": country}, function(err,obj){
+                                              if(err) {res.send(err);}
+                                              if(!obj) {res.send(country + " was not found in the Countries database. contact administrator");}
+                                              else{ Language.findByIdAndUpdate(
+                                              // Test.findByIdAndUpdate(
+                                                u._id,
+                                                {$push: {"countries": obj._id}, $set: {"latitude": lat, "longitude": lon}},
+                                                {safe : true, upsert: true, new : true},
+                                                function(err, model){
+                                                  i+=1;
+                                                  if (err) res.send(err);
+                                                  if (i == countries.length) {
+                                                    var j = 0;
+                                                    continents.forEach(function(continent){
+                                                      Continent.findOne({"properties.CONTINENT": continent}, function(err,obj){
+                                                        if(err) {res.send(err);}
+                                                        if(!obj) {res.send(continent + " was not found in the continent database.")}
+                                                          else{Language.findByIdAndUpdate(
+                                                            u._id,
+                                                            {$push: {"continents": obj._id}},
+                                                            {safe : true, upsert: true, new : true},
+                                                            function(err, model){
+                                                              j+=1;
+                                                              if (err) res.send(err);
+                                                              if (j == continents.length) {
+
+                                                              Institution.findOneAndUpdate({"properties.institution":institution},
+                                                                {$push:{"properties.languages":u._id}},function(err,model){
+                                                                  Language.findByIdAndUpdate(
+                                                                    u._id,
+                                                                    {$push:{"institutions":model._id}},
+                                                                    function(err, model){
+                                                                      if (err) res.send(err);
+                                                                      else{
+                                                                        res.redirect("success")
+                                                                      }
+                                                                    }
+                                                                  )})
+                                                               
+                                                              }
+                                                            }
+                                                          )}
+                                                      })
+                                                    })
+                                                  }
+                                                  // console.log(test);
+                                                }
+                                              );
+                                              }
+                                            });
+                                          })
+
+
+
+                                                
+                                              
+                                            
+                                          
+
+
+
+                                        })
+                                      }
+                                    })
+                                  }
+                                })
+                              }
+                              else {
+                                Language.remove({_id : u._id}, function(err) {
+
+                                // Test.remove({_id : req.body._id}, function(err) {
+                                  if(err) {
+                                    res.send(err);
+                                  }
+                                  else{
+                                  res.send("code not found on glottolog. please contact admin.");
+                                  
+                                  }
+                                })
+                              }
+
+                            }
+                          })
+                        }
+                      }
+                    );
+
+
+                  }
+                })
+              }
+
+
+
             }
           });
 
