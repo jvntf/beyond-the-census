@@ -25,14 +25,8 @@ Mapping diversity of languages in Queens, NY based on data from the Endangered L
     
 
 3. Updating Database
-    _Adding New Entries_
-
-    Run `node insertLanguagesFromCSV.js [path_to_file]` to upload new languages to the databse. The target CSV should be correctly prepared, and should match the format of the languages collection. This script does not have error checking.
-    Then, run `node linkDocumentsFromCSV.js [path_to_file]` with the same CSV file to add the correct object IDs into the new entries in the databse.
-
-    OR
-
-    Add new entries or update old ones via the [admin page](beyond-the-census.herokuapp.com)
+    Add new entries or update old ones via the [admin page](beyond-the-census.herokuapp.com/admin)
+    Very important to be precise with your entries! Language name needs to match, glottocode needs to be correct, Institution name needs to be correct..etc
 
     OR
 
