@@ -9,9 +9,9 @@ var https = require('https');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -70,29 +70,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
     iso_country6: String,
   });
 
-  var TestSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    hid: String,
-    id: String,
-    language: String,
-    description: String,
-    region: String,
-    endangermentNum: String,
-    status: String,
-    latitude: String,
-    longitude: String,
-    ntacode_1: String,
-    iso_country1: String,
-    iso_country2: String,
-    iso_country3: String,
-    iso_country4: String,
-    iso_country5: String,
-    iso_country6: String,
-    countries: [{type: Schema.Types.ObjectId, ref: 'Country'}],
-    continents: [{type: Schema.Types.ObjectId, ref: 'Continent'}],
-    neighborhoods: [{type: Schema.Types.ObjectId, ref: 'Neighborhood'}],
-    institutions: [{type: Schema.Types.ObjectId, ref: 'Institution'}]
-  });
+  
 
 
   var InstitutionSchema = new Schema({
@@ -122,34 +100,6 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
   });
 
 
-  var InstitutiontestSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    type : String,
-    properties: {
-      // lang_1 : String,
-      // lang_2 : String,
-      // lang_3 : String,
-      // lang_4 : String,
-      // lang_5 : String,
-      // lang_6 : String,
-      // lang_7 : String,
-      // lang_8 : String,
-      // lang_9 : String,
-      // comment : String,
-      // description : String,
-      // institution : String,
-      // address : String,
-      // type : String
-      // // languages: [{type: Schema.Types.ObjectId, ref: 'Language'}],
-    },
-    geometry : {}
-    //   type : "Point",
-    //   coordinates : [
-    //     -73.92828615071284,
-    //     40.75610717922607
-    //   ]
-    // }
-  });
 
 
  
@@ -164,8 +114,6 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
   var Language = mongoose.model('Language', LanguageSchema);
   var Institution = mongoose.model('Institution', InstitutionSchema);
   var Individual = mongoose.model('Individual', IndividualSchema);
-  var Test = mongoose.model('Test', TestSchema);
-  var Institutiontest = mongoose.model('Institutiontest', InstitutiontestSchema);
 
 
 /* ~~~ GET routes for pages (visible stuff) ~~~ */
@@ -443,9 +391,6 @@ router.get('/editinst', function(req, res){
   console.log(req.query.query);
   console.log(req.query.value);
   Institution.findOne({[req.query.query]: req.query.value}, function(err, obj){
-  // Institutiontest.findOne({[req.query.query]: req.query.value}, function(err, obj){
-      console.log("pjwpeofjwfw" +obj);
-
     if (err){
       res.send(err);
     }
@@ -480,7 +425,6 @@ router.get('/editinst', function(req, res){
 
     Language.remove({_id : id}, function(err) {
 
-    // Test.remove({_id : req.body._id}, function(err) {
       if(err) {
         res.send(err);
       }
@@ -492,11 +436,6 @@ router.get('/editinst', function(req, res){
 
   /* POST to Add User Service */
   router.post('/addlanguage', function(req, res) {
-    // countryArray = req.body.countries.split(';');
-    // neighborhoodArray = req.body.neighborhoods.split(';');
-    // institutionArray = req.body.institutions.split(';');
-    // continentArray = req.body.continents.split(';');
-    // console.log(continentArray);
 
     var u = new Language({
     // var u = new Test({
@@ -511,22 +450,15 @@ router.get('/editinst', function(req, res){
       ntacode_1: req.body.ntacode_1,
     });
 
-    console.log(u._id);
-    console.log(u.language);
 
-
-
-
-    var test = "hello";
-
-
+    try{
     u.save(function(err){
       if(err){
         console.log(err);
         res.send("There was a problem adding the information to the databse")
       }
       else{ 
-        console.log("else")
+
 
         var lat, lon;
         var countries = [];
@@ -537,35 +469,20 @@ router.get('/editinst', function(req, res){
         else {
           Neighborhood.findOne({"properties.NTACode": req.body.ntacode_1}, function(err,obj){
             if(err) {
-              // res.send(err);
             }
             if (!obj) {
-              Language.remove({_id : u._id}, function(err) {
+      
 
-              // Test.remove({_id : req.body._id}, function(err) {
-                if(err) {
-                  res.send(err);
-                }
-                else{
-                res.send("NTA Code is invalid. Go back and re-submit.");
-                }
-              })
+              die(res, "NTA Code is invalid. Go back and re-submit.", u._id);
+
             }
             else {
               console.log("institution |" + institution+"|");
-              // die(res, "remove this", u._id);
 
               if (1){
                 Institution.findOne({"properties.institution":institution}, function(err, obj){
                   if (!obj){
-                    // Language.remove({_id : u._id}, function(err){
-                    //   if (err) {
-                    //     res.send(err);
-                    //   }
-                    //   else{
-                    //     res.send("Institution not found. Go back and re-submit");
-                    //   }
-                    // })
+        
                     die(res,"institution not found", u._id)
                   }
                   else{
@@ -573,7 +490,6 @@ router.get('/editinst', function(req, res){
 
 
                     Language.findByIdAndUpdate(
-                    // Test.findByIdAndUpdate(
                       u._id,
                       {$push: {"neighborhoods": obj._id}},
                       {safe : true, upsert: true, new : true},
@@ -593,9 +509,7 @@ router.get('/editinst', function(req, res){
                                 $('.markdown-body ul li').filter(function(){
                                   var data = $(this);
                               
-                                  // console.log(data.length)
                                   var somelink = data.children().first().text();
-                                  // console.log(somelink);
                                   if (somelink.indexOf(u.id)>=0){
                                     
                                     var langFileURL = "https://github.com"+ data.children().first().attr('href');
@@ -616,8 +530,7 @@ router.get('/editinst', function(req, res){
                                             }
                                             else if(item.indexOf("macroareas")>=0){
                                               var i = index +1;
-                                              // console.log(textarray);
-                                              // console.log(textarray[i+1]);
+                                          
                                               while(textarray[i].indexOf("countries")<0){
                                                 if(textarray[i].length==1 || textarray[i].length == 0){
                                                   i+=1;
@@ -703,16 +616,6 @@ router.get('/editinst', function(req, res){
                                               }
                                             });
                                           })
-
-
-
-                                                
-                                              
-                                            
-                                          
-
-
-
                                         })
                                       }
                                     })
@@ -720,17 +623,8 @@ router.get('/editinst', function(req, res){
                                 })
                               }
                               else {
-                                Language.remove({_id : u._id}, function(err) {
+                                  die(res, "Error in contacting glottolog. Check queries or contact admin", u._id)
 
-                                // Test.remove({_id : req.body._id}, function(err) {
-                                  if(err) {
-                                    res.send(err);
-                                  }
-                                  else{
-                                  res.send("code not found on glottolog. please contact admin.");
-                                  
-                                  }
-                                })
                               }
 
                             }
@@ -738,33 +632,25 @@ router.get('/editinst', function(req, res){
                         }
                       }
                     );
-
-
                   }
                 })
               }
-
-
-
             }
           });
 
         }
       }
     });
+    }
 
-
-
-
-
-     
+    catch(error){
+      die(res, "Some error occured. Check entries or contact admin.", u._id);
+    }     
   });
 
 
-
-
-
   router.post('/updateInstEntry', function(req,res){
+    try{
     if(req.body.query.includes("lang")){
       console.log("REQ.BODY.QUERY "+ req.body.query);
       var target = "properties."+req.body.query;
@@ -900,9 +786,16 @@ router.get('/editinst', function(req, res){
         });
 
     }
+    }
+    catch(error){
+      res.send("Some error occured. Please go back and check entries or contact admin.");
+    }
+
   });
   router.post('/updateEntry', function(req, res) {
    console.log("update entry " + req.body.query + ' ' + req.body.value);
+
+   try{
 
     if (req.body.query == "ntacode_1"){
       Neighborhood.findOne({"properties.NTACode": req.body.value}, function(err,obj){
@@ -1025,15 +918,32 @@ router.get('/editinst', function(req, res){
           res.redirect('back');
       })
     }
+  }
+
+  catch(error){
+    res.send("Some error ocurred. Please go back and check entries or go back and conact admin")
+  }
 
   });
 
+
+function dieInst(res, message, id){
+
+  Institution.remove({_id : id}, function(err) {
+
+  // Test.remove({_id : req.body._id}, function(err) {
+    if(err) {
+      res.send(err);
+    }
+    else{
+    res.send(message);
+    }
+  })
+}
+
+
   router.post('/addinstitution', function(req, res) {
-    console.log(req.body.type);
-    langArray = req.body.languages.split(';')
-    var lang_i = ["lang_1","lang_2","lang_3",
-                  "lang_4","lang_5","lang_6",
-                  "lang_7","lang_8","lang_9"];
+    
 
       var u = new Institution({
     // var u = new Institutiontest({
@@ -1051,18 +961,24 @@ router.get('/editinst', function(req, res){
         coordinates : []
       }
     });
-    console.log(u._id);
-    console.log(u);
 
+  
+
+    langArray = req.body.languages.split(';')
+    var lang_i = ["lang_1","lang_2","lang_3",
+                  "lang_4","lang_5","lang_6",
+                  "lang_7","lang_8","lang_9"];
 
     for (var i = 0; i<lang_i.length; i++){
       if (typeof langArray[i] !== 'undefined' && langArray[i]!=="") {
-        u.properties[lang_i[i]] = langArray[i];
+        u.properties[lang_i[i]] = langArray[i].trim();
+        langArray[i] = langArray[i].trim()
       } else
           u.properties[lang_i[i]] = null
     }
 
     var j = 0;
+    try{
     u.save(function(err){
       if(err){
         console.log(err);
@@ -1075,7 +991,7 @@ router.get('/editinst', function(req, res){
             if(obj) {
               Institution.findByIdAndUpdate(
 
-              // Institutiontest.findByIdAndUpdate(
+
                 u._id,
                 {$push: {"properties.languages": obj._id}},
                 {safe : true, upsert: true, new : true},
@@ -1097,21 +1013,12 @@ router.get('/editinst', function(req, res){
                       });
 
                       response.on('end',function(){
-                        // res.send(result);
-                          // result = JSON.parse(result);
-                          // console.log(result.geometry);
+                  
 
                         if (result.includes("\"status\" : \"OK\"")!==true) {
-                          Institution.remove({_id : u._id}, function(err) {
+                 
 
-                          // Test.remove({_id : req.body._id}, function(err) {
-                            if(err) {
-                              res.send(err);
-                            }
-                            else{
-                            res.send("institution has no record on google maps. contact admin");  
-                            }
-                          })
+                          dieInst(res, "institution has no record on google maps. contact admin", u._id);
 
 
                         }
@@ -1131,7 +1038,7 @@ router.get('/editinst', function(req, res){
                                 function(err, model) {
                                   if(err){res.send(err);}
                                   else{
-                                    res.redirect("back");
+                                    res.redirect("success");
                                   }
                                 });
                               break;
@@ -1146,24 +1053,18 @@ router.get('/editinst', function(req, res){
 
             }
             else{
-              Institution.remove({_id : u._id}, function(err) {
 
-              // Test.remove({_id : req.body._id}, function(err) {
-                if(err) {
-                  res.send(err);
-                }
-                else{
-                res.send(language + " was not found in the database. Please go back and correct to add.")
-                
-                }
-              })
+              dieInst(res, language + " was not found in the database. Please go back and correct to add.", u._id)
 
             }
           })
         })
         
     });
-
+    }
+    catch(error){
+      dieInst(res, "Some error occured. Please check entries or contact admin.", u._id);
+    }
     
   })
 
