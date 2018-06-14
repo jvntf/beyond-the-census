@@ -15,19 +15,31 @@ Mapping diversity of languages in Queens, NY based on data from the Endangered L
     The admin page for content management makes requests directly to the MongoDB instance via Express.
 
     *Guide to This Repo:*
+    - `views` contains `.jade` files which compile into full html at runtime. `views\admin` are the CMS pages
+    - `public\data` contains database dumps, images, and old CSVs, geojsons, and other datasets.
+    - `public\javascripts` is the code to run the app. 
+        + `public\javascripts\lib` has the libraries that the app relies on 
+        + the rest of the `.js` file in this folder perform various functions such as pulling data from MLab, and constructing the cards the pop ups that will appear on the page
+        + `public\scripts` has utility nodeJS files. There are also many old CSV and JS files here that are kept for reference. THe relevant files are `insertLanguagesFromCSV.js` and `linkDocumentsFromCSV.js` and are described below.
+        + `public\stylesheets`, self explanatory
+    - `routes` contains `index.js` which is the backbone of the app. The logic for all the GET and POST requests are handled here.
 
 
 
     
 2. Making Changes to App
-    For local development: make sure to install npm, node, heroku, and git.
-    You can `git clone` this repo to your local machine. 
+    For local development: make sure to install npm, node, heroku, and git. On github, fork the repo to your own account.
+    Now you can `git clone` the repo to your local machine. 
     Run `heroku login` with the correct credientials to have push access to the herokuapp.
+
     `git remote add heroku https://git.heroku.com/beyond-the-census.git` connects the remote herokuapp to your local repository.
 
-    `npm start` runs a server on port 3000 for local development. When you are ready...`git push heroku master` to build the app and see your new changes running on `beyond-the-census.herokuapp.com`. 
+    Run `npm install` to install the relevant node packages. This might take a while.
 
-    
+    `npm start` runs a server on port 3000 for local development. 
+    You can `git push origin master` to push your changes to your Github account. If you want to push to heroku, you need to `git remote add heroku https://git.heroku.com/beyond-the-census.git`
+    When you are ready with committed changes...`git push heroku master` to build the app and see your new changes running on `beyond-the-census.herokuapp.com`. 
+
 
 3. Updating Database
     Add new entries or update old ones via the [admin page](beyond-the-census.herokuapp.com/admin)
