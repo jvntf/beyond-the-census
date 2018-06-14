@@ -89,7 +89,7 @@ mongorestore -h ds151530.mlab.com:51530 -d heroku_n7xsssc4 -u <user> -p <passwor
 
 **Heroku Manual Manipulation**
 
-- Login to Heroku. Navigate to the beyond-the-census app. Navigate to Overview, click on mLab MongoDB under add-ons.
+- Login to Heroku. Navigate to the beyond-the-census app. Navigate to Overview, click on mLab MongoDB under add-ons. There are 2 databases here (the 'Purple' isntance is meant to be used for testing)
 - Ex. _Delete a Languages document_
     + Open the Languages collection
     + Perform a new Search

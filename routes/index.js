@@ -9,9 +9,9 @@ var https = require('https');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -986,7 +986,7 @@ function dieInst(res, message, id){
           Language.findOne({"id":language}, function(err, obj){
             if (err) {res.send(err);}
             if(!obj){dieInst(res, language + " was not found in the database. Add this language first or contact admin.", u._id)}
-            if(obj) {
+            else if(obj) {
               Institution.findByIdAndUpdate(
                 u._id,
                 {$push: {"properties.languages": obj._id}},
@@ -1007,16 +1007,9 @@ function dieInst(res, message, id){
                       response.on('data', function(chunk){
                         result += chunk;
                       });
-
                       response.on('end',function(){
-                  
-
                         if (result.includes("\"status\" : \"OK\"")!==true) {
-                 
-
                           dieInst(res, "institution has no record on google maps. contact admin", u._id);
-
-
                         }
                         else{
 
@@ -1049,9 +1042,7 @@ function dieInst(res, message, id){
 
             }
             else{
-
               dieInst(res, language + " was not found in the database. Please go back and correct to add.", u._id)
-
             }
           })
         })
@@ -1076,8 +1067,6 @@ function dieInst(res, message, id){
       lang = lang.toObject()
       console.log("lang id " + lang._id);
       var instID;
-
-
       if (lang.properties === undefined){
         instID = lang.institutions[0]
       }
@@ -1086,12 +1075,9 @@ function dieInst(res, message, id){
       }
 
       if (instID !== undefined){
-        // instID = lang.properties.institutions[0]
         console.log('inst id '+instID);
-
         Institution.findById(instID, function(err, institution){
           if (err){res.send(err)}
-
           var arr = institution.properties.languages;
           arr.forEach(function(language, i){
             console.log("language 1099 "+typeof language + ' '+ typeof lang._id)
@@ -1100,7 +1086,6 @@ function dieInst(res, message, id){
 
               arr.splice(i,1);
               console.log(arr);
-
               Institution.findByIdAndUpdate(instID, {$set: {"properties.languages": institution.properties.languages}}, function(err, obj){
                 Language.remove({_id : req.body._id}, function(err) {
 
