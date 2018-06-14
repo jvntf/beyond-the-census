@@ -146,10 +146,11 @@ html
 
                 form#formReturn(name="return",method="get",action="/admin")                
                     button#btnSave(type="submit") Return
-
-                form#formReturn(name="return",method="post",action="/removeInst")
-                    input#input_ID(type="hidden",value=_id,name="_id",)                
-                    button#btnSave(type="submit") Delete This Entry
+                    
+                //-
+                    form#formReturn(name="return",method="post",action="/removeInst")
+                        input#input_ID(type="hidden",value=_id,name="_id",)                
+                        button#btnSave(type="submit") Delete This Entry
 
 
 

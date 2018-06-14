@@ -9,9 +9,9 @@ var https = require('https');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -90,7 +90,6 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
       description : String,
       institution : String,
       address : String,
-      // type : String
     },
     geometry : {}
   });
@@ -467,10 +466,10 @@ router.get('/editinst', function(req, res){
 
         if(u.id === "") {res.send("glottolog id is necessary");}
         else {
-          Neighborhood.findOne({"properties.NTACode": req.body.ntacode_1}, function(err,obj){
+          Neighborhood.findOne({"properties.NTACode": req.body.ntacode_1}, function(err,objN){
             if(err) {
             }
-            if (!obj) {
+            if (!objN) {
       
 
               die(res, "NTA Code is invalid. Go back and re-submit.", u._id);
@@ -480,8 +479,8 @@ router.get('/editinst', function(req, res){
               console.log("institution |" + institution+"|");
 
               if (1){
-                Institution.findOne({"properties.institution":institution}, function(err, obj){
-                  if (!obj){
+                Institution.findOne({"properties.institution":institution}, function(err, objInst){
+                  if (!objInst && institution!==""){
         
                     die(res,"institution not found", u._id)
                   }
@@ -491,7 +490,7 @@ router.get('/editinst', function(req, res){
 
                     Language.findByIdAndUpdate(
                       u._id,
-                      {$push: {"neighborhoods": obj._id}},
+                      {$push: {"neighborhoods": objN._id}},
                       {safe : true, upsert: true, new : true},
                       function(err, model){
                         if (err) {
@@ -565,13 +564,13 @@ router.get('/editinst', function(req, res){
 
                                           var i = 0;
                                           countries.forEach(function(country){
-                                            Country.findOne({"properties.ADMIN": country}, function(err,obj){
+                                            Country.findOne({"properties.ADMIN": country}, function(err,objCount){
                                               if(err) {res.send(err);}
-                                              if(!obj) {res.send(country + " was not found in the Countries database. contact administrator");}
+                                              if(!objCount) {res.send(country + " was not found in the Countries database. contact administrator");}
                                               else{ Language.findByIdAndUpdate(
                                               // Test.findByIdAndUpdate(
                                                 u._id,
-                                                {$push: {"countries": obj._id}, $set: {"latitude": lat, "longitude": lon}},
+                                                {$push: {"countries": objCount._id}, $set: {"latitude": lat, "longitude": lon}},
                                                 {safe : true, upsert: true, new : true},
                                                 function(err, model){
                                                   i+=1;
@@ -579,30 +578,35 @@ router.get('/editinst', function(req, res){
                                                   if (i == countries.length) {
                                                     var j = 0;
                                                     continents.forEach(function(continent){
-                                                      Continent.findOne({"properties.CONTINENT": continent}, function(err,obj){
+                                                      Continent.findOne({"properties.CONTINENT": continent}, function(err,objConti){
                                                         if(err) {res.send(err);}
-                                                        if(!obj) {res.send(continent + " was not found in the continent database.")}
+                                                        if(!objConti) {res.send(continent + " was not found in the continent database.")}
                                                           else{Language.findByIdAndUpdate(
                                                             u._id,
-                                                            {$push: {"continents": obj._id}},
+                                                            {$push: {"continents": objConti._id}},
                                                             {safe : true, upsert: true, new : true},
                                                             function(err, model){
                                                               j+=1;
                                                               if (err) res.send(err);
                                                               if (j == continents.length) {
 
-                                                              Institution.findOneAndUpdate({"properties.institution":institution},
-                                                                {$push:{"properties.languages":u._id}},function(err,model){
-                                                                  Language.findByIdAndUpdate(
-                                                                    u._id,
-                                                                    {$push:{"institutions":model._id}},
-                                                                    function(err, model){
-                                                                      if (err) res.send(err);
-                                                                      else{
-                                                                        res.redirect("success")
-                                                                      }
-                                                                    }
-                                                                  )})
+                                                                if (institution !==""){
+                                                                  Institution.findOneAndUpdate({"properties.institution":institution},
+                                                                    {$push:{"properties.languages":u._id}},function(err,modelInst){
+                                                                      Language.findByIdAndUpdate(
+                                                                        u._id,
+                                                                        {$push:{"institutions":modelInst._id}},
+                                                                        function(err, modelInst){
+                                                                          if (err) res.send(err);
+                                                                          else{
+                                                                            res.redirect("success")
+                                                                          }
+                                                                        }
+                                                                      )}
+                                                                  );
+                                                                } else{
+                                                                  res.redirect("success")
+                                                                }
                                                                
                                                               }
                                                             }
@@ -720,9 +724,6 @@ router.get('/editinst', function(req, res){
         });
 
         response.on('end',function(){
-          // res.send(result);
-            // result = JSON.parse(result);
-            // console.log(result.geometry);
 
           if (result.includes("\"status\" : \"OK\"")!==true) {
             res.send("institution has no record on google maps. contact admin")
@@ -742,17 +743,14 @@ router.get('/editinst', function(req, res){
                   req.body._id,
                   { 
                     $set: {"geometry.coordinates": arr},
-                    // $push: {"geometry.coordinates": arr[1]},
-                    // $set: {"properties.address": req.body.value},
+   
                   },{safe : true, upsert: true},
                   function(err, model) {
-                    // console.log(req.body.value + "OIWJFIPWEJFP")
-                    // console.log(model);
+   
                     if(err){res.send(err);}
                     else{
                       Institution.findByIdAndUpdate(
 
-                      // Institutiontest.findByIdAndUpdate(
                         req.body._id,
                         {$set: {"properties.address": req.body.value}},
                         {safe:true,upsert:true},function(error,obj){
@@ -760,8 +758,7 @@ router.get('/editinst', function(req, res){
                             res.redirect("back");
                           }
                         });
-                      // res.redirect("back");
-                      // console.log(model);
+
                     }
                   });
                 break;
@@ -988,10 +985,9 @@ function dieInst(res, message, id){
         langArray.forEach(function(language){
           Language.findOne({"id":language}, function(err, obj){
             if (err) {res.send(err);}
+            if(!obj){dieInst(res, language + " was not found in the database. Add this language first or contact admin.", u._id)}
             if(obj) {
               Institution.findByIdAndUpdate(
-
-
                 u._id,
                 {$push: {"properties.languages": obj._id}},
                 {safe : true, upsert: true, new : true},
@@ -1073,14 +1069,63 @@ function dieInst(res, message, id){
   });
 
   router.post('/removeLang', function(req,res){
-    Language.remove({_id : req.body._id}, function(err) {
+    // console.log(req.body._id);
 
-    // Test.remove({_id : req.body._id}, function(err) {
-      if(err) {
-        res.send(err);
+
+    Language.findOne({_id: req.body._id},function(err, lang){
+      lang = lang.toObject()
+      console.log("lang id " + lang._id);
+      var instID;
+
+
+      if (lang.properties === undefined){
+        instID = lang.institutions[0]
       }
-      else{
-        res.redirect("success");
+      else {
+        instID = lang.properties.institutions[0]
+      }
+
+      if (instID !== undefined){
+        // instID = lang.properties.institutions[0]
+        console.log('inst id '+instID);
+
+        Institution.findById(instID, function(err, institution){
+          if (err){res.send(err)}
+
+          var arr = institution.properties.languages;
+          arr.forEach(function(language, i){
+            console.log("language 1099 "+typeof language + ' '+ typeof lang._id)
+            if (language.toString()===lang._id.toString()){
+              console.log("lang to remove: "+arr[i])
+
+              arr.splice(i,1);
+              console.log(arr);
+
+              Institution.findByIdAndUpdate(instID, {$set: {"properties.languages": institution.properties.languages}}, function(err, obj){
+                Language.remove({_id : req.body._id}, function(err) {
+
+                  if(err) {
+                    res.send(err);
+                  }
+                  else{
+                    res.redirect("success");
+                  }
+                })
+              })
+            }
+          })
+        })
+      } else {
+        Language.remove({_id : req.body._id}, function(err) {
+
+          if(err) {
+            res.send(err);
+          }
+          else{
+            res.redirect("success");
+          }
+        })
+
       }
     })
   });
