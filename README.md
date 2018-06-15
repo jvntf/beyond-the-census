@@ -42,7 +42,7 @@ Mapping diversity of languages in Queens, NY based on data from the Endangered L
 
 
 3. Updating Database
-    Add new entries or update old ones via the [admin page](beyond-the-census.herokuapp.com/admin)
+    Add new entries or update old ones via the [admin page](http://beyond-the-census.herokuapp.com/admin)
     Very important to be precise with your entries! Language name needs to match, glottocode needs to be correct, Institution name needs to be correct..etc
 
     Behavior is undefined for invalid data. 
