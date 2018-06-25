@@ -68,6 +68,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
     iso_country4: String,
     iso_country5: String,
     iso_country6: String,
+    script: String
   });
 
   
@@ -376,7 +377,8 @@ router.get('/editlang', function(req, res){
                               iso_country6: obj.iso_country6,
                               neighborhoods: obj.neighborhoods[0],
                               institutions: obj.institutions[0],
-                              continents: obj.continents[0]
+                              continents: obj.continents[0],
+                              script: obj.script
                               });
     } else {
       res.send("This entry is not in the database. Check query or contact admin.");
@@ -447,6 +449,7 @@ router.get('/editinst', function(req, res){
       endangermentNum: req.body.endangermentNum,
       status: req.body.status,
       ntacode_1: req.body.ntacode_1,
+      script: req.body.script
     });
 
 
@@ -546,8 +549,9 @@ router.get('/editinst', function(req, res){
                                               }
                                             }
                                             else if (item.indexOf("countries")>=0){
+                                              console.log("|"+textarray+"|");
                                               var i = index+1;
-                                              while(textarray[i].indexOf("sources")<0){
+                                              while(textarray[i].indexOf("[")<0){
                                     
                                                 if (textarray[i].length==1 || textarray[i].length==0){
                                                   i+=1;
@@ -563,6 +567,7 @@ router.get('/editinst', function(req, res){
                                          
 
                                           var i = 0;
+                                          console.log("countries "+countries)
                                           countries.forEach(function(country){
                                             Country.findOne({"properties.ADMIN": country}, function(err,objCount){
                                               if(err) {res.send(err);}
@@ -1061,7 +1066,7 @@ function dieInst(res, message, id){
 
   router.post('/removeLang', function(req,res){
     // console.log(req.body._id);
-
+    console.log("REMOVE LANG")
 
     Language.findOne({_id: req.body._id},function(err, lang){
       lang = lang.toObject()

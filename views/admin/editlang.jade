@@ -113,12 +113,18 @@ html
                     button.nta#btnSubmit(type="submit") update
                     span.nta#idstatus updating...
 
+                form#formScript(name="editlang",method="post",action="/updateEntry")     
+                    input#input_ID(type="hidden",value=_id,name="_id",)
+                    input#inputScript(type="text", value="script", name="query", readonly)
+                    input#inputScript(type="text", value=script, name="value")
+                    button.script#btnSubmit(type="submit") update
+                    span.script#idstatus updating...
+
                 form#formReturn(name="return",method="get",action="/admin")                
                     button#btnSave(type="submit") Return
-                //-
-                    form#formReturn(name="return",method="post",action="/removeLang")
-                        input#input_ID(type="hidden",value=_id,name="_id",)                
-                        button#btnSave(type="submit") Delete This Entry
+                form#formReturn(name="return",method="post",action="/removeLang")
+                    input#input_ID(type="hidden",value=_id,name="_id",)                
+                    button#btnSave(type="submit") Delete This Entry
 
 
 

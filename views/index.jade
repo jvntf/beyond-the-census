@@ -282,7 +282,9 @@ block content
 
         // reset all UI elements
         function resetUI() {
+          console.log("RESETUI")
           state.ui.endangermentSlider.reset();
+          console.log(state.ui.endangermentSlider);
           clearSearchForm();
           hideDetails();
         }

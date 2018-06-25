@@ -46,7 +46,7 @@ function applyFilters() {
 
 // rebuild list with all languages
 function resetFilters() {
-  //console.log('resetfilters')
+  console.log('resetfilters')
   var q = d3.queue(1)  // concurrency of 1, sets queue to run in series
     .defer( (callback) => {
         // bring all back to langGroup array
@@ -73,11 +73,12 @@ function resetFilters() {
       //console.log(state.langGroup)
       callback(null);
     })
+
     .await( (err) => {
-      if (err) throw err;
-      mapShowAll();
       resetUI(); // put sliders back
+      mapShowAll();
       resetMap(); // zoom back to borough view
       setCardVisible(false); // hide detail card
+      if (err) throw err;
     })
 }
