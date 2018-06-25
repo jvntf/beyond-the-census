@@ -373,6 +373,14 @@ function updateLanguageCard( id, callback ) {
     })
   }
 
+  if(dataItem.videoURL){
+    cardbody.append('iframe').attr('width','100%')
+      .attr('src','https://www.youtube.com/embed/FW101WP3KyI')
+      .attr('frameborder','0');
+  }
+
+  // <iframe width="560" height="315" src="https://www.youtube.com/embed/FW101WP3KyI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
  
 
   if (callback) {callback(null)}

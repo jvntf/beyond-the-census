@@ -68,7 +68,8 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
     iso_country4: String,
     iso_country5: String,
     iso_country6: String,
-    script: String
+    script: String,
+    videoURL: String
   });
 
   
@@ -378,7 +379,8 @@ router.get('/editlang', function(req, res){
                               neighborhoods: obj.neighborhoods[0],
                               institutions: obj.institutions[0],
                               continents: obj.continents[0],
-                              script: obj.script
+                              script: obj.script,
+                              videoURL:obj.videoURL
                               });
     } else {
       res.send("This entry is not in the database. Check query or contact admin.");
