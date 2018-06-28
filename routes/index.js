@@ -5,6 +5,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var storyhelper = require('./helpers/storyhelper');
 var https = require('https');
+var getVideoId = require('get-video-id');
 
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
@@ -820,7 +821,7 @@ router.get('/editinst', function(req, res){
           })
         }
       });
-    } else if (req.body.query == "id"){
+    } else if (req.body.query === "id"){
 
       var lat, lon;
       var countries = [];
@@ -909,13 +910,25 @@ router.get('/editinst', function(req, res){
         }
       })
 
+    } else if(req.body.query ==='videoURL'){
+      var vidID = getVideoId(req.body.value).id;
+      var embed ='';
+      if (vidID){
+        embed = 'https://youtube.com/embed/' + vidID;
+      }
+      
+      Language.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: embed}}, {upsert:true}, function(err, result){
+        if (err)
+          throw err
+        else
+          res.redirect('back');
+      })
+
     } else {
 
       var val = req.body.query == "endangermentNum" ? Number(req.body.value) : req.body.value
       console.log("val " + val + ' ' + typeof val);
       Language.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: val}}, {upsert:true}, function(err,result){
-        console.log("947 update entry " + req.body.query + ' ' + req.body.value);
-      // Test.findByIdAndUpdate(req.body._id, { $set: { [req.body.query]: req.body.value}}, {upsert:true}, function(err,result){
         if (err)
           throw err
         else

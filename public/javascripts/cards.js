@@ -374,10 +374,17 @@ function updateLanguageCard( id, callback ) {
   }
 
   if(dataItem.videoURL){
+    var string = dataItem.videoURL.trim()
     cardbody.append('iframe').attr('width','100%')
-      .attr('src','https://www.youtube.com/embed/FW101WP3KyI')
+      .attr('src',dataItem.videoURL)
       .attr('frameborder','0');
+      console.log(typeof dataItem.videoURL);
   }
+
+
+  $.get( "https://www.youtube.com/watch?v=sXBGySJvJn8&feature=youtu.be", function( data ) {
+    console.log(data);
+  });
 
   // <iframe width="560" height="315" src="https://www.youtube.com/embed/FW101WP3KyI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 

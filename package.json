@@ -16,6 +16,7 @@
     "csv": "^1.1.1",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "get-video-id": "^3.1.0",
     "http-auth": "^3.2.3",
     "is-promise": "^2.1.0",
     "jade": "*",
