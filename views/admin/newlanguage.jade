@@ -2,41 +2,97 @@
 doctype html
 html
     head
-        title= title
+        title= countries
         link(rel='stylesheet', href='/stylesheets/backend.css') 
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         
+
         script.
             $(document).ready(function(){
                 $("button").click(function() {
                         var thisclass = $(this).attr("class");
                         $('.'+thisclass).css("visibility","visible");
-                }); 
+                });
+                var countries = !{countries};
+                var institutions = !{institutions};
+                var neighborhoods = !{neighborhoods};
+                var continents = !{continents};
+                //Endangerment Selector
+                for(var i=1; i<7; i++){
+                    $("#endangermentNum").append(new Option(i,i))
+                }
+                console.log(continents);
+                // Continent Slector
+                for(var i=0; i<continents.length; i++){
+                    $("#continents").append(
+                        new Option(continents[i].properties.CONTINENT,continents[i]._id));
+                }
+                for(var i=0; i<countries.length; i++){
+                    $(".countries").first().append(
+                        new Option(countries[i].properties.ADMIN,countries[i]._id));
+                }
             })
+
+            var add = function(ref){
+                var toAdd = $('.'+ref).first().clone();
+                console.log(" *[ref="+ref+"]")
+                $("*[ref="+ref+"]").before(toAdd);
+            }
 
     body
         block content
             h1= title
             div 
                 p Use this form to add a new entry to the collection of languages in the database.
-            form#formAddLanguage(name="adduser",method="post",action="/addlanguage")
-                input#inputHID(type="text", placeholder="hid", name="hid")
-                input#inputID(type="text", placeholder="glottolog id", name="id")
-                input#inputLanguage(type="text", placeholder="language", name="language")
-                input#inputDescription(type="text", placeholder="description", name="description")
-                input#inputInstitution(type="text", placeholder="institution", name="institution")
-                select(id="endangermentList", name="endangermentNum")
-                    option(id="end1", value="1") 1
-                    option(id="end2", value="2") 2
-                    option(id="end3", value="3") 3
-                    option(id="end4", value="4") 4
-                    option(id="end5", value="5") 5
-                    option(id="end6", value="6") 6
-                input#inputStatus(type="text", placeholder="status", name="status")
-                input#inputNtacode_1(type="text", placeholder="ntacode_1", name="ntacode_1")
-                input#inputScript(type="text", placeholder="script", name="script")
-                input#inputVideoURL(type="text", placeholder="video URL", name="videoURL")
-
+            form#formAddLanguage(name="addlang",method="post",action="/addlanguage")
+                div
+                    input#inputHID(type="text", placeholder="ISO 639-3 Code", name="hid", readonly)
+                    input#inputHID(type="text", name="hid")
+                div
+                    input#inputGlottocode(type="text", placeholder="Glottocode", name="glottocode", readonly)
+                    input#inputGlottocode(type="text", name="glottocode")
+                div
+                    input#inputLanguage(type="text", placeholder="Language", name="language", readonly)
+                    input#inputLanguage(type="text", name="language")
+                div
+                    input#inputEndonym(type="text", placeholder="Endonym", name="dndonym", readonly)
+                    input#inputEndonym(type="text", name="endonym")
+                div
+                    input#inputEndangermentNum(type="text", placeholder="EndangermentNum", name="endangermentNum", readonly)
+                    select(id="endangermentNum", name="value")
+                div
+                    input#inputCountries(type="text", placeholder="Countries", name="countries", readonly)
+                    select(class="countries", name="value")
+                    button(ref="countries", onclick="add(this.getAttribute('ref'))", type="button") button things
+                div
+                    input#inputNeighborhoods(type="text", placeholder="Neighborhoods", name="neighborhoods", readonly)
+                    select(id="neighborhoods", name="value")
+                div
+                    input#inputContinents(type="text", placeholder="Continents", name="continents", readonly)
+                    select(id="continents", name="value")
+                div
+                    input#inputInstitutions(type="text", placeholder="Institutions", name="institutions", readonly)
+                    select(class="institutions", name="value")
+                    button(ref="institutions", onclick="add(this.getAttribute('ref'))", type="button") button things
 
                 button#btnSubmit(type="submit") submit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,13 +6,14 @@ var cheerio = require('cheerio');
 var storyhelper = require('./helpers/storyhelper');
 var https = require('https');
 var getVideoId = require('get-video-id');
+var admin = require('./admin');
 
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -334,17 +335,31 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 
   
 
+// GET admin pages
+  router.get('/admin', admin.admin);
+  // router.get('/newlanguage', (req, res) => { Country.find( (countries,req, res) => admin.newlanguage)});
+  router.get('/newlanguage', function(req,res){
+    var countries, institutions;
 
+    var p1 = Country.find({}, 'properties.ADMIN').exec()
+      .then( (docs) => {countries = docs})
+      .then(function(){
+        return Institution.find({}, 'properties.institution').exec();
+      })
+      .then( (docs) => {institutions = docs} )
+      .then(function(){
+        return Neighborhood.find({}, 'properties.NTACode').exec();
+      })
+      .then( (docs) => {neighborhoods = docs} )
+      .then(function(){
+        return Continent.find({}, 'properties.CONTINENT').exec();
+      })
+      .then( (docs) => {continents = docs} )
+      .then( () => {admin.newlanguage(req,res, countries, institutions,neighborhoods, continents)});
 
-
-  router.get('/newlanguage', function(req, res) {
-      res.render('admin/newlanguage', { title: 'Add new language' });
   });
-
-  router.get('/newinstitution', function(req, res) {
-      res.render('admin/newinstitution', { title: 'Add new Institution' });
-  });
-
+  // 
+  router.get('/success', );
 
 
 
@@ -1075,9 +1090,11 @@ function dieInst(res, message, id){
     
   })
 
-  router.get('/admin', function(req,res){
-    res.render('admin/index', {title: 'Add to or Edit database'});
-  });
+  // router.get('/admin', function(req,res){
+  //   res.render('admin/index', {title: 'Add to or Edit database'});
+  // });
+
+
 
   router.post('/removeLang', function(req,res){
     // console.log(req.body._id);
@@ -1148,10 +1165,6 @@ function dieInst(res, message, id){
     })
   });
 
-  router.get('/success', function(req,res){
-    // console.log(req);
-    res.render('admin/success', {title: 'Database operation was successful'});
-  });
 
 /* ~~~ export ~~~ */
 

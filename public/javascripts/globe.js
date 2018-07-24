@@ -133,45 +133,16 @@ function updateGlobe( item, callback ) {
 */
 
       //Add marker at the center of the globe
-      var marker = target.append("g")
-
-      //marker.append('line')
-      //  .attr('x1', 0)
-      //  .attr('y1', -3)
-      //  .attr('x2', 0)
-      //  .attr('y2', 0)
-      //  .attr('stroke', 'gray')
-
-      marker.append('rect')
-          .attr('id', 'globe-marker')
-          .attr('x', -3)
-          .attr('y', -9)
-          .attr('width', 6)
-          .attr('height', 6)
-          //.attr('stroke', 'gray')
-          .attr("fill", (d) => {return item.color.darker()})
-          .attr("fill-opacity", "1")
-
-    //  var countryList = [];
-    //  item.countries.map( (country) => {
-    //    countryList.push( country.properties.ADMIN );
-    //  });
-
-      /*  //Add list of countries under globe
-      var countryList = target.append("text")
-        .attr('x', 0)
-        .attr('y', 60)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr("fill", "black")
-        .selectAll('tspan')
-        .data(countryList)
-        .enter()
-        .append('tspan')
-        .attr('x', 0)
-        .attr('dy', 15)
-        .text(function(d) { return d }); */
-
+      // var marker = target.append("g")
+      // marker.append('rect')
+      //     .attr('id', 'globe-marker')
+      //     .attr('x', -3)
+      //     .attr('y', -9)
+      //     .attr('width', 6)
+      //     .attr('height', 6)
+      //     //.attr('stroke', 'gray')
+      //     .attr("fill", (d) => {return item.color.darker()})
+      //     .attr("fill-opacity", "1")
       }
       if (callback) callback(null);
 }
