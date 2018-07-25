@@ -348,7 +348,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
       })
       .then( (docs) => {institutions = docs} )
       .then(function(){
-        return Neighborhood.find({}, 'properties.NTACode').exec();
+        return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
       })
       .then( (docs) => {neighborhoods = docs} )
       .then(function(){
@@ -359,7 +359,10 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
   });
   // 
-  router.get('/success', );
+  // router.get('/success', );
+  
+
+  router.post('/addlanguage', admin.addlanguage);
 
 
 
@@ -453,8 +456,11 @@ router.get('/editinst', function(req, res){
     })
   }
 
+
+
+
   /* POST to Add User Service */
-  router.post('/addlanguage', function(req, res) {
+  router.post('/addlanguageOLD', function(req, res) {
 
     var u = new Language({
     // var u = new Test({

@@ -2,7 +2,7 @@
 doctype html
 html
     head
-        title= countries
+        title= title
         link(rel='stylesheet', href='/stylesheets/backend.css') 
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
@@ -18,6 +18,8 @@ html
                 var institutions = !{institutions};
                 var neighborhoods = !{neighborhoods};
                 var continents = !{continents};
+                console.log(institutions)
+                console.log(neighborhoods)
                 //Endangerment Selector
                 for(var i=1; i<7; i++){
                     $("#endangermentNum").append(new Option(i,i))
@@ -25,19 +27,54 @@ html
                 console.log(continents);
                 // Continent Slector
                 for(var i=0; i<continents.length; i++){
-                    $("#continents").append(
-                        new Option(continents[i].properties.CONTINENT,continents[i]._id));
+                    $(".continents").first().
+                    append(new Option(continents[i].properties.CONTINENT,continents[i]._id))
+                    .append();
                 }
                 for(var i=0; i<countries.length; i++){
-                    $(".countries").first().append(
-                        new Option(countries[i].properties.ADMIN,countries[i]._id));
+                    $(".countries").first()
+                    .append(new Option(countries[i].properties.ADMIN,countries[i]._id));
+                }
+                for(var i=0; i<institutions.length; i++){
+                    $(".institutions").first().append(
+                        new Option(institutions[i].properties.institution,institutions[i]._id));
+                }
+                for(var i=0; i<neighborhoods.length; i++){
+                    $(".neighborhoods").first().append(
+                        new Option(neighborhoods[i].properties.NTAName, neighborhoods[i]._id));
                 }
             })
 
-            var add = function(ref){
+            var add = function(ref, removeBtn, self){
                 var toAdd = $('.'+ref).first().clone();
-                console.log(" *[ref="+ref+"]")
-                $("*[ref="+ref+"]").before(toAdd);
+                $(toAdd).insertBefore(self);
+                $(removeBtn.clone()).insertBefore(self);
+            }
+            var remove = function(button){
+                let self = $(button);
+                if ($('.'+self.attr('ref')).length > 1){
+                    self.prev().remove();
+                    self.remove();
+                } else {
+                    console.log("Please submit at least 1 entry for '"+self.attr('ref')+"'");
+                }
+            }
+            var log = function(){
+                // let form = document.forms[0].elements;
+                // for (var i = 0; i< form.length; i++){
+                //     console.log(form[i]);
+                // }
+                var str = $('#formAddLanguage').serializeArray()
+                console.log(JSON.stringify(str))
+
+                const object = JSON.parse(JSON.stringify(str))
+
+                console.dir(object, {depth: null, colors: true})
+                // return false;
+            }
+            var submit = function(){
+                alert('submit!');
+                return false
             }
 
     body
@@ -45,38 +82,49 @@ html
             h1= title
             div 
                 p Use this form to add a new entry to the collection of languages in the database.
-            form#formAddLanguage(name="addlang",method="post",action="/addlanguage")
+            form#formAddLanguage(name="addlang", method="post", action="/addlanguage")
                 div
-                    input#inputHID(type="text", placeholder="ISO 639-3 Code", name="hid", readonly)
+                    input#inputHID(type="text", placeholder="ISO 639-3 Code", readonly)
                     input#inputHID(type="text", name="hid")
                 div
-                    input#inputGlottocode(type="text", placeholder="Glottocode", name="glottocode", readonly)
+                    input#inputGlottocode(type="text", placeholder="Glottocode", readonly)
                     input#inputGlottocode(type="text", name="glottocode")
                 div
-                    input#inputLanguage(type="text", placeholder="Language", name="language", readonly)
+                    input#inputLanguage(type="text", placeholder="Language", readonly)
                     input#inputLanguage(type="text", name="language")
                 div
-                    input#inputEndonym(type="text", placeholder="Endonym", name="dndonym", readonly)
+                    input#inputEndonym(type="text", placeholder="Endonym", readonly)
                     input#inputEndonym(type="text", name="endonym")
                 div
-                    input#inputEndangermentNum(type="text", placeholder="EndangermentNum", name="endangermentNum", readonly)
-                    select(id="endangermentNum", name="value")
-                div
-                    input#inputCountries(type="text", placeholder="Countries", name="countries", readonly)
-                    select(class="countries", name="value")
-                    button(ref="countries", onclick="add(this.getAttribute('ref'))", type="button") button things
-                div
-                    input#inputNeighborhoods(type="text", placeholder="Neighborhoods", name="neighborhoods", readonly)
-                    select(id="neighborhoods", name="value")
-                div
-                    input#inputContinents(type="text", placeholder="Continents", name="continents", readonly)
-                    select(id="continents", name="value")
-                div
-                    input#inputInstitutions(type="text", placeholder="Institutions", name="institutions", readonly)
-                    select(class="institutions", name="value")
-                    button(ref="institutions", onclick="add(this.getAttribute('ref'))", type="button") button things
+                    input#inputEndangermentNum(type="text", placeholder="EndangermentNum", readonly)
+                    select(id="endangermentNum", name="endangermentNum")
 
-                button#btnSubmit(type="submit") submit
+                div
+                    input#inputCountries(type="text", placeholder="Countries", readonly)
+                    select(class="countries", name="countries")
+                    button(ref="countries", onclick="remove(this)", type="button") X
+                    button(ref="countries", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+
+                div
+                    input#inputContinents(type="text", placeholder="Continents", readonly)
+                    select(class="continents", name="continents")
+                    button(ref="continents", onclick="remove(this)", type="button") X
+                    button(ref="continents", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+
+
+                div
+                    input#inputNeighborhoods(type="text", placeholder="Neighborhoods", readonly)
+                    select(class="neighborhoods", name="neighborhoods")
+                    button(ref="neighborhoods", onclick="remove(this)", type="button") X
+                    button(ref="neighborhoods", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+                
+                div
+                    input#inputInstitutions(type="text", placeholder="Institutions", readonly)
+                    select(class="institutions", name="institutions")
+                    button(ref="institutions", onclick="remove(this)", type="button") X
+                    button(ref="institutions", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+
+                button#btnSubmit(type="submit" onclick="log()") submit
 
 
 
