@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 exports.admin = function(req,res){
   res.render('admin/index');
   console.log('this is the admin controller');
@@ -5,7 +7,7 @@ exports.admin = function(req,res){
 
 
 exports.newlanguage = function(req, res, countries, institutions, neighborhoods, continents){
-  console.log(neighborhoods);
+  console.log(JSON.stringify(institutions));
   res.render('admin/newlanguage',{ 
     title: 'Add new language',
     countries:JSON.stringify(countries),
@@ -14,24 +16,15 @@ exports.newlanguage = function(req, res, countries, institutions, neighborhoods,
     continents:JSON.stringify(continents)
   });
 }
+exports.newinstitution = function(req, res){
+  // console.log(neighborhoods);
+  res.render('admin/newinstitution')
+}
 
 exports.success = function(req, res){
   res.render('admin/success');
+  // res.redirect('back');
 }
-
-exports.addlanguage = function(req, res){
-  res.redirect('back')
-  console.log(req);
-  // var obj = new Object({
-  //   _id: mongoose.Types.ObjectId(),
-  //   hid: req.body.hid,
-  //   id: req.body.glottocode,
-  //   language: req.body.language,
-  //   description: req.body.description,
-  //   // region: req.body.region,
-  //   endangermentNum: req.body.endangermentNum,
-  //   status: req.body.status,
-  //   ntacode_1: req.body.ntacode_1,
-  //   script: req.body.endonym
-  // })
+exports.error = function(req,res){
+  res.send("error ocurred");
 }

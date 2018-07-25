@@ -35,9 +35,16 @@ html
                     $(".countries").first()
                     .append(new Option(countries[i].properties.ADMIN,countries[i]._id));
                 }
+                console.log(institutions.length)
                 for(var i=0; i<institutions.length; i++){
-                    $(".institutions").first().append(
-                        new Option(institutions[i].properties.institution,institutions[i]._id));
+                    try{
+                        $(".institutions").first().append(
+                            new Option(institutions[i].properties.institution,institutions[i]._id));
+                    }
+                    catch(error){
+                        console.error(error)
+                        console.log(institutions[i])
+                    }
                 }
                 for(var i=0; i<neighborhoods.length; i++){
                     $(".neighborhoods").first().append(
@@ -77,6 +84,7 @@ html
                 return false
             }
 
+
     body
         block content
             h1= title
@@ -93,8 +101,17 @@ html
                     input#inputLanguage(type="text", placeholder="Language", readonly)
                     input#inputLanguage(type="text", name="language")
                 div
+                    input#inputLanguage(type="text", placeholder="Description", readonly)
+                    input#inputLanguage(type="text", name="description")
+                div
                     input#inputEndonym(type="text", placeholder="Endonym", readonly)
                     input#inputEndonym(type="text", name="endonym")
+                div
+                    input#inputEndonym(type="text", placeholder="Latitude", readonly)
+                    input#inputEndonym(type="text", name="latitude")
+                div
+                    input#inputEndonym(type="text", placeholder="Longitude", readonly)
+                    input#inputEndonym(type="text", name="longitude")
                 div
                     input#inputEndangermentNum(type="text", placeholder="EndangermentNum", readonly)
                     select(id="endangermentNum", name="endangermentNum")
