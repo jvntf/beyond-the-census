@@ -7,7 +7,7 @@ exports.admin = function(req,res){
 
 
 exports.newlanguage = function(req, res, countries, institutions, neighborhoods, continents){
-  console.log(JSON.stringify(institutions));
+  // console.log(JSON.stringify(institutions));
   res.render('admin/newlanguage',{ 
     title: 'Add new language',
     countries:JSON.stringify(countries),

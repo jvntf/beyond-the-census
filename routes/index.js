@@ -6,7 +6,9 @@ var cheerio = require('cheerio');
 var storyhelper = require('./helpers/storyhelper');
 var https = require('https');
 var getVideoId = require('get-video-id');
+var nodeGeocoder = require('node-geocoder');
 var admin = require('./admin');
+
 
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
@@ -333,7 +335,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
       .then(function(){
         return Institution.find({}, 'properties.institution').exec();
       })
-      .then( (docs) => {console.log(docs.length); institutions = docs} )
+      .then( (docs) => {institutions = docs} )
       .then(function(){
         return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
       })
@@ -370,9 +372,32 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
     });
 
     newLang.save()
+      .then( () => {linkCountries(newLang)} )
+      .then(() => {linkInstitutions(newLang)})
       .then( () => {admin.success(req,res)} )
-      .catch( () => {die(res, "Error ocurred", newLang._id)} )
+      .catch( (err) => {die(res, err, newLang._id)} )
+      // .catch( (err) => {console.error(err)})
   });
+
+  function linkCountries(language){
+    console.log(language._id);
+      var countries = language.countries;
+      countries.forEach(function(country,i){
+        Country.findByIdAndUpdate(country, { $push: { "properties.languages":language._id}}, {upsert: true},function(err,obj){
+          if (!err) return;
+        })
+      })
+  }
+
+  function linkInstitutions(language){
+    var institutions = language.properties.institutions;
+    institutions.forEach(function(institution){
+      Institution.findByIdAndUpdate(institution, { $push: { "properties.languages":language._id}}, {safe : true, upsert: true, new : true},function(err,obj){
+        if (!err) return;
+      })
+    })
+  }
+
 
   router.post('/addinstitution', function(req, res){
     var obj = new Institution({
@@ -389,10 +414,22 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
         coordinates : []
       }
     });
-    console.log(obj)
-    obj.save()
-      .then( () => {admin.success(req,res)} )
-      .catch( (err) => {die(res, err, obj._id)} )
+      var options = {
+        provider: 'google',
+       
+        // Optional depending on the providers
+        httpAdapter: 'https', // Default
+        apiKey: 'AIzaSyBNPZeOy6YfgRd2TGCIdkJqgRUDE16nDf4', // for Mapquest, OpenCage, Google Premier
+        formatter: null         // 'gpx', 'string', ...
+      };
+      var geocoder = nodeGeocoder(options);
+      geocoder.geocode(obj.properties.address)
+        .then( (data) => {
+          data = data[0]
+          obj.properties.address = data.formattedAddress;
+          obj.geometry.coordinates = [data.longitude, data.latitude]
+        }).then( () => {obj.save()}).then( () => {admin.success(req,res)})
+        .catch( (error) => {dieInst(res,error, obj._id)});
   });
 
 
