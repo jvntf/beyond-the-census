@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 
-exports.admin = function(req,res){
-  res.render('admin/index');
-  console.log('this is the admin controller');
+exports.admin = function(req,res, languages){
+  res.render('admin/index', {
+    title: 'Admin page',
+    languages: JSON.stringify(languages)
+  });
 }
 
 
@@ -21,14 +23,16 @@ exports.newinstitution = function(req, res){
   res.render('admin/newinstitution')
 }
 
-exports.editlanguage = function(req, res, countries, institutions, neighborhoods, continents){
+exports.editlanguage = function(req, res, countries, institutions, neighborhoods, continents, lang){
   // console.log(JSON.stringify(institutions));
+  console.log(lang)
   res.render('admin/editlanguage',{ 
     title: 'Edit a language',
-    countries:JSON.stringify(countries),
-    institutions:JSON.stringify(institutions),
-    neighborhoods:JSON.stringify(neighborhoods),
-    continents:JSON.stringify(continents)
+    countries:countries,
+    institutions:institutions,
+    neighborhoods:neighborhoods,
+    continents:continents,
+    lang: lang
   });
 }
 

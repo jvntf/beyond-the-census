@@ -323,36 +323,40 @@ var geocoder = nodeGeocoder(geocoderOptions);
   
 
 // GET admin pages
-  router.get('/admin', admin.admin);
+  // router.get('/admin', admin.admin);
+  router.get('/admin',function(req,res){
+    Language.find({}, 'language').exec().then( (languages) => {admin.admin(req,res,languages)});
+  })
+
+
   router.get('/newinstitution', admin.newinstitution);
 
 
   router.get('/newlanguage', function(req, res){
-    pullData(req,res).then( (colls) => {console.log("hi"); admin.newlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
+    pullData().then( (colls) => {admin.newlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
   })
 
-  router.get('/editlanguage', function(req, res){
-    pullData(req,res).then( (colls) => {console.log("hi"); admin.editlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
+  router.get('/editlanguage', async function(req, res){
+    let language = req.query.language
+    var lang = await Language.findById(language).exec();
+    pullData().then( (colls) => {admin.editlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont, lang)});
   })
 
 
-  function pullData(req, res){
+  function pullData(){
     return new Promise(function(resolve,reject){
       var countries, institutions, neighborhoods,continents;
       var p1 = Country.find({}, 'properties.ADMIN').exec()
         .then(function(docs){
           countries = docs;
-          console.log("count :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
           return Institution.find({}, 'properties.institution').exec();
         })
         .then(function(docs){
           institutions = docs;
-          console.log("inst :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
           return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
         })
         .then(function(docs){
           neighborhoods = docs;
-          console.log("neigh :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
           return Continent.find({}, 'properties.CONTINENT').exec();
         })
         // .then( (continents) => {resolve(req, res, countries, institutions,neighborhoods, continents)} );

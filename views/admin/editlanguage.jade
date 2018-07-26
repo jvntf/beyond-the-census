@@ -9,12 +9,43 @@ html
         
         script.
             $(document).ready(function(){
-                $("button").click(function() {
-                        var thisclass = $(this).attr("class");
-                        $('.'+thisclass).css("visibility","visible");
-                }); 
+                var lang = !{JSON.stringify(lang)}
+                var countries = !{JSON.stringify(countries)}
+                var institutions = !{JSON.stringify(institutions)}
+                var neighborhoods = !{JSON.stringify(neighborhoods)}
+                var continents = !{JSON.stringify(continents)}
 
-                console.log(title);
+            for(var i=1; i<7; i++){
+                $("#endangermentNum").append(new Option(i,i))
+            }
+            console.log(continents);
+            // Continent Slector
+            for(var i=0; i<continents.length; i++){
+                $(".continents").first().
+                append(
+                    new Option(continents[i].properties.CONTINENT,continents[i]._id, 
+                        false, continents[i]._id === lang.continents[0] ? true : false))
+                // console.log("append")
+            }
+            for(var i=0; i<countries.length; i++){
+                $(".countries").first()
+                .append(
+                    new Option(countries[i].properties.ADMIN,countries[i]._id,
+                        false, countries[i]._id === lang.countries[0] ? true : false));
+            }
+            
+            console.log(institutions.length)
+            for(var i=0; i<institutions.length; i++){
+                $(".institutions").first().append(
+                    new Option(institutions[i].properties.institution,institutions[i]._id,
+                        false, institutions[i]._id === lang.properties.institutions[0] ? true : false));
+                
+            }
+            for(var i=0; i<neighborhoods.length; i++){
+                $(".neighborhoods").first().append(
+                    new Option(neighborhoods[i].properties.NTAName, neighborhoods[i]._id,
+                        false, neighborhoods[i]._id === lang.neighborhoods[0] ? true : false));
+            }
             })
 
     body
@@ -24,117 +55,54 @@ html
                 p Use this form to edit the fields of an entry in the languages collection of the database.
                 p Click the "update" button next to the field you have edited to confirm a change.
 
-            if endangermentNum
-                if endangermentNum == "1"
-                    script.
-                        $(document).ready(function(){
-                            $("#end1").attr("selected","selected");
-                        });
-                else if endangermentNum == "2"
-                    script.
-                        $(document).ready(function(){
-                            $("#end2").attr("selected","selected");
-                        });
-                else if endangermentNum == "3"
-                    script.
-                        $(document).ready(function(){
-                            $("#end3").attr("selected","selected");
-                        });
-                else if endangermentNum == "4"
-                    script.
-                        $(document).ready(function(){
-                            $("#end4").attr("selected","selected");
-                        });
-                else if endangermentNum == "5"
-                    script.
-                        $(document).ready(function(){
-                            $("#end5").attr("selected","selected");
-                        });
-                else if endangermentNum == "6"
-                    script.
-                        $(document).ready(function(){
-                            $("#end6").attr("selected","selected");
-                        });
+            form#formAddLanguage(name="addlang", method="post", action="/addlanguage")
+                div
+                    input#inputHID(type="text", placeholder="ISO 639-3 Code", readonly)
+                    input#inputHID(type="text", name="hid", value= lang.hid)
+                div
+                    input#inputGlottocode(type="text", placeholder="Glottocode", readonly)
+                    input#inputGlottocode(type="text", name="glottocode", value = lang.id)
+                div
+                    input#inputLanguage(type="text", placeholder="Language", readonly)
+                    input#inputLanguage(type="text", name="language", value = lang.language)
+                div
+                    input#inputLanguage(type="text", placeholder="Description", readonly)
+                    input#inputLanguage(type="text", name="description", value = lang.description)
+                div
+                    input#inputEndonym(type="text", placeholder="Endonym", readonly)
+                    input#inputEndonym(type="text", name="endonym", value = lang.script)
+                div
+                    input#inputEndonym(type="text", placeholder="Latitude", readonly)
+                    input#inputEndonym(type="text", name="latitude", value = lang.latitude)
+                div
+                    input#inputEndonym(type="text", placeholder="Longitude", readonly)
+                    input#inputEndonym(type="text", name="longitude", value = lang.longitude)
+                div
+                    input#inputEndangermentNum(type="text", placeholder="EndangermentNum", readonly)
+                    select(id="endangermentNum", name="endangermentNum")
 
-            div#languageForm
-                form#formUpdateHID(name="editlang",method="post",action="/updateEntry")
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputHID(type="text", value="hid", name="query", readonly)
-                    input#inputHID(type="text", value=hid, name="value")
-                    button.hid#btnSubmit(type="submit") update
-                    span.hid#idstatus updating...
-                    
-                form#formUpdateID(name="editlang",method="post",action="/updateEntry")
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputID(type="text", value="id", name="query", readonly)
-                    input#inputID(type="text", value=id, name="value")
-                    button.id#btnSubmit(type="submit") update
-                    span.id#idstatus updating...
+                div
+                    input#inputCountries(type="text", placeholder="Countries", readonly)
+                    select(class="countries", name="countries")
+                    button(ref="countries", onclick="remove(this)", type="button") X
+                    button(ref="countries", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+
+                div
+                    input#inputContinents(type="text", placeholder="Continents", readonly)
+                    select(class="continents", name="continents")
+                    button(ref="continents", onclick="remove(this)", type="button") X
+                    button(ref="continents", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+
+                div
+                    input#inputNeighborhoods(type="text", placeholder="Neighborhoods", readonly)
+                    select(class="neighborhoods", name="neighborhoods")
+                    button(ref="neighborhoods", onclick="remove(this)", type="button") X
+                    button(ref="neighborhoods", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
                 
-                form#formUpdateLanguage(name="editlang",method="post",action="/updateEntry")
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputLanguage(type="text", value="language", name="query", readonly)
-                    input#inputLanguage(type="text", value=language, name="value")
-                    button.language#btnSubmit(type="submit") update
-                    span.language#idstatus updating...
-                    
-                form#formUpdateDescription(name="editlang",method="post",action="/updateEntry")
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputDescriptione(type="text", value="description", name="query", readonly)
-                    input#inputDescriptione(type="text", value=description, name="value")
-                    button.desc#btnSubmit(type="submit") update
-                    span.desc#idstatus updating...
-         
-                form#formUpdateEndangermentNum(name="editlang",method="post",action="/updateEntry")     
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputEndangerment(type="text", value="endangermentNum", name="query", readonly)
-                    select(id="endangermentList", name="value")
-                        option(id="end1", value="1") 1
-                        option(id="end2", value="2") 2
-                        option(id="end3", value="3") 3
-                        option(id="end4", value="4") 4
-                        option(id="end5", value="5") 5
-                        option(id="end6", value="6") 6
-                    button.endangermentNum#btnSubmit(type="submit") update
-                    span.endangermentNum#idstatus updating...
-                    
-                form#formUpdateStatus(name="editlang",method="post",action="/updateEntry")     
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputStatus(type="text", value="status", name="query", readonly)
-                    input#inputStatus(type="text", value=status, name="value")
-                    button.status#btnSubmit(type="submit") update
-                    span.status#idstatus updating...
+                div
+                    input#inputInstitutions(type="text", placeholder="Institutions", readonly)
+                    select(class="institutions", name="institutions")
+                    button(ref="institutions", onclick="remove(this)", type="button") X
+                    button(ref="institutions", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
-                form#formUpdateNTA_code(name="editlang",method="post",action="/updateEntry")     
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputNtacode_1(type="text", value="ntacode_1", name="query", readonly)
-                    input#inputNtacode_1(type="text", value=ntacode_1, name="value")
-                    button.nta#btnSubmit(type="submit") update
-                    span.nta#idstatus updating...
-
-                form#formScript(name="editlang",method="post",action="/updateEntry")     
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputScript(type="text", value="script", name="query", readonly)
-                    input#inputScript(type="text", value=script, name="value")
-                    button.script#btnSubmit(type="submit") update
-                    span.script#idstatus updating...
-
-                form#formVideoURL(name="editlang",method="post",action="/updateEntry")     
-                    input#input_ID(type="hidden",value=_id,name="_id",)
-                    input#inputVideoURL(type="text", value="videoURL", name="query", readonly)
-                    input#inputVideoURL(type="text", value=videoURL, name="value")
-                    button.videoURL#btnSubmit(type="submit") update
-                    span.videoURL#idstatus updating...
-
-                form#formReturn(name="return",method="get",action="/admin")                
-                    button#btnSave(type="submit") Return
-                form#formReturn(name="return",method="post",action="/removeLang")
-                    input#input_ID(type="hidden",value=_id,name="_id",)                
-                    button#btnSave(type="submit") Delete This Entry
-
-
-
-             
-
-
-
+                button#btnSubmit(type="submit" onclick="log()") submit
