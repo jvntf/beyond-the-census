@@ -21,6 +21,18 @@ exports.newinstitution = function(req, res){
   res.render('admin/newinstitution')
 }
 
+exports.editlanguage = function(req, res, countries, institutions, neighborhoods, continents){
+  // console.log(JSON.stringify(institutions));
+  res.render('admin/editlanguage',{ 
+    title: 'Edit a language',
+    countries:JSON.stringify(countries),
+    institutions:JSON.stringify(institutions),
+    neighborhoods:JSON.stringify(neighborhoods),
+    continents:JSON.stringify(continents)
+  });
+}
+
+
 exports.success = function(req, res){
   res.render('admin/success');
   // res.redirect('back');

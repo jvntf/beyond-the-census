@@ -16,6 +16,13 @@ var admin = require('./admin');
 // var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
 var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+var geocoderOptions = {
+  provider: 'google',
+  httpAdapter: 'https', 
+  apiKey: 'AIzaSyBNPZeOy6YfgRd2TGCIdkJqgRUDE16nDf4', 
+  formatter: null 
+};
+var geocoder = nodeGeocoder(geocoderOptions);
 
 /* ~~~ mongoose connection (access to database) ~~~ */
   mongoose.connect(mongoDB, function (err) {
@@ -222,14 +229,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
       });
   });
 
-  /* GET language by ID
-  router.get('/languages/:id', function (req, res) {
-      if (req.params.id) {
-          Language.findOne({ "_id": mongoose.Types.ObjectId(req.params.id) }, function (err, docs) {
-              res.json(docs);
-          });
-      }
-  });*/
+
 
   /* GET all languages */
   router.get('/languages', function (req, res) {
@@ -326,29 +326,41 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
   router.get('/admin', admin.admin);
   router.get('/newinstitution', admin.newinstitution);
 
-  // router.get('/newlanguage', (req, res) => { Country.find( (countries,req, res) => admin.newlanguage)});
-  router.get('/newlanguage', function(req,res){
-    var countries, institutions;
 
-    var p1 = Country.find({}, 'properties.ADMIN').exec()
-      .then( (docs) => {countries = docs})
-      .then(function(){
-        return Institution.find({}, 'properties.institution').exec();
-      })
-      .then( (docs) => {institutions = docs} )
-      .then(function(){
-        return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
-      })
-      .then( (docs) => {neighborhoods = docs} )
-      .then(function(){
-        return Continent.find({}, 'properties.CONTINENT').exec();
-      })
-      .then( (docs) => {continents = docs} )
-      .then( () => {admin.newlanguage(req,res, countries, institutions,neighborhoods, continents)});
+  router.get('/newlanguage', function(req, res){
+    pullData(req,res).then( (colls) => {console.log("hi"); admin.newlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
+  })
 
-  });
-  // 
-  // router.get('/success', );
+  router.get('/editlanguage', function(req, res){
+    pullData(req,res).then( (colls) => {console.log("hi"); admin.editlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
+  })
+
+
+  function pullData(req, res){
+    return new Promise(function(resolve,reject){
+      var countries, institutions, neighborhoods,continents;
+      var p1 = Country.find({}, 'properties.ADMIN').exec()
+        .then(function(docs){
+          countries = docs;
+          console.log("count :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
+          return Institution.find({}, 'properties.institution').exec();
+        })
+        .then(function(docs){
+          institutions = docs;
+          console.log("inst :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
+          return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
+        })
+        .then(function(docs){
+          neighborhoods = docs;
+          console.log("neigh :" + typeof countries, typeof institutions,typeof neighborhoods, typeof continents);
+          return Continent.find({}, 'properties.CONTINENT').exec();
+        })
+        // .then( (continents) => {resolve(req, res, countries, institutions,neighborhoods, continents)} );
+        .then( (continents) => {resolve({cntry:countries, inst:institutions, nhoods:neighborhoods, cont:continents});
+        })
+    })
+    
+  }
   
 
   // router.post('/addlanguage', admin.addlanguage);
@@ -372,31 +384,43 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
     });
 
     newLang.save()
-      .then( () => {linkCountries(newLang)} )
-      .then(() => {linkInstitutions(newLang)})
+      .then(linkCountries)
+      .then(linkInstitutions)
       .then( () => {admin.success(req,res)} )
       .catch( (err) => {die(res, err, newLang._id)} )
-      // .catch( (err) => {console.error(err)})
   });
-
-  function linkCountries(language){
-    console.log(language._id);
-      var countries = language.countries;
-      countries.forEach(function(country,i){
-        Country.findByIdAndUpdate(country, { $push: { "properties.languages":language._id}}, {upsert: true},function(err,obj){
-          if (!err) return;
+function linkCountries(language){
+  return new Promise(function(resolve, reject){
+    let countries = language.countries
+      for(let country of countries){
+        Country.findByIdAndUpdate(country, { $push: {"properties.languages": language._id}}, {upsert:true},function(err, obj){
+          if (err) {
+            reject(err);
+            return false;
+          }
+          else if (country === countries[countries.length-1]){
+            resolve(language);
+          }
         })
-      })
-  }
-
-  function linkInstitutions(language){
-    var institutions = language.properties.institutions;
-    institutions.forEach(function(institution){
-      Institution.findByIdAndUpdate(institution, { $push: { "properties.languages":language._id}}, {safe : true, upsert: true, new : true},function(err,obj){
-        if (!err) return;
-      })
-    })
-  }
+      }
+  })
+}
+function linkInstitutions(language){
+  return new Promise(function(resolve, reject){
+    let institutions = language.properties.institutions;
+      for(let institution of institutions){
+        Institution.findByIdAndUpdate(institution, { $push: {"properties.languages": language._id}},{safe : true, upsert: true, new : true},function(err, obj){
+          if (err) {
+            reject(err);
+            return false;
+          }
+          else if (institution === institutions[institutions.length-1]){
+            resolve();
+          }
+        })
+      }
+  })
+}
 
 
   router.post('/addinstitution', function(req, res){
@@ -414,15 +438,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
         coordinates : []
       }
     });
-      var options = {
-        provider: 'google',
-       
-        // Optional depending on the providers
-        httpAdapter: 'https', // Default
-        apiKey: 'AIzaSyBNPZeOy6YfgRd2TGCIdkJqgRUDE16nDf4', // for Mapquest, OpenCage, Google Premier
-        formatter: null         // 'gpx', 'string', ...
-      };
-      var geocoder = nodeGeocoder(options);
+
       geocoder.geocode(obj.properties.address)
         .then( (data) => {
           data = data[0]
@@ -432,13 +448,8 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
         .catch( (error) => {dieInst(res,error, obj._id)});
   });
 
-
-  
-
   function die(res, message, id){
-
     Language.remove({_id : id}, function(err) {
-
       if(err) {
         res.send(err);
       }
@@ -450,10 +461,7 @@ var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 
 function dieInst(res, message, id){
-
   Institution.remove({_id : id}, function(err) {
-
-  // Test.remove({_id : req.body._id}, function(err) {
     if(err) {
       res.send(err);
     }
@@ -462,8 +470,6 @@ function dieInst(res, message, id){
     }
   })
 }
-
-
 
 
 /* ~~~ export ~~~ */

@@ -67,23 +67,11 @@ html
                 }
             }
             var log = function(){
-                // let form = document.forms[0].elements;
-                // for (var i = 0; i< form.length; i++){
-                //     console.log(form[i]);
-                // }
                 var str = $('#formAddLanguage').serializeArray()
-                console.log(JSON.stringify(str))
-
+                // console.log(JSON.stringify(str))
                 const object = JSON.parse(JSON.stringify(str))
-
                 console.dir(object, {depth: null, colors: true})
-                // return false;
             }
-            var submit = function(){
-                alert('submit!');
-                return false
-            }
-
 
     body
         block content
@@ -127,7 +115,6 @@ html
                     select(class="continents", name="continents")
                     button(ref="continents", onclick="remove(this)", type="button") X
                     button(ref="continents", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
-
 
                 div
                     input#inputNeighborhoods(type="text", placeholder="Neighborhoods", readonly)
