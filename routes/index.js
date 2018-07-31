@@ -369,10 +369,11 @@ var geocoder = nodeGeocoder(geocoderOptions);
 
   // router.post('/addlanguage', admin.addlanguage);
   router.post('/addlanguage', function(req, res){
+    console.log(req.body.countries)
     var newLang = new Language({
       _id: mongoose.Types.ObjectId(),
       hid: req.body.hid,
-      id: req.body.glottocode,
+      id: req.body.id,
       language: req.body.language,
       description: req.body.description,
       latitude: req.body.latitude,
@@ -393,6 +394,137 @@ var geocoder = nodeGeocoder(geocoderOptions);
       .then( () => {admin.success(req,res)} )
       .catch( (err) => {die(res, err, newLang._id)} )
   });
+
+  router.post('/editlanguage',function(req,res){
+    // console.log(req.body)
+    var lang = req.body;
+    delete Object.assign(lang, {["properties.institutions"]: lang["institutions"] })["institutions"];
+    // console.log(lang)
+    Language.findByIdAndUpdate(lang._id, 
+      {$set: 
+        {_id: lang._id,
+        hid: lang.hid,
+        id: lang.id,
+        language: lang.language,
+        description: lang.description,
+        latitude: lang.latitude,
+        longitude: lang.longitude,
+        endangermentNum: lang.endangermentNum,
+        script: lang.script,
+        continents: lang.continents,
+        neighborhoods: lang.neighborhoods}})
+      .exec()
+      .then(obj => updateEntries(obj,lang,"countries"))
+      .then(obj => updateEntries(obj,lang,"properties.institutions"))
+      .then(()=> {admin.success(req,res)});
+
+  })
+function updateEntries(obj,lang,type){
+  return new Promise(function(resolve,reject){
+    var old_entries = [];
+    var new_entries = [];
+    lang[type] = typeof lang[type] === "string" ? [lang[type]] : lang[type];
+
+    lang[type].forEach(function(item,index){
+      new_entries[index] = String(item);
+    })
+      
+    if (type==="countries"){
+      obj[type].forEach(function(item,index){
+        old_entries[index] = String(item);
+      })
+    } else{
+      obj.properties.institutions.forEach(function(item,index){
+        old_entries[index] = String(item);
+      })
+    }
+    
+
+    var combined = [...new Set([...old_entries ,...new_entries])];
+    var leave =[];
+    var remove = [];
+    var add = [];
+    for (let entry of combined){
+
+      entry = String(entry)
+      if (old_entries.includes(entry) && new_entries.includes(entry)){
+        leave.push(entry);
+      } else if (old_entries.includes(entry) && !new_entries.includes(entry)){
+        remove.push(entry);
+      } else if(!old_entries.includes(entry) && new_entries.includes(entry)){
+        add.push(entry);
+      }
+    }
+    remove.forEach(function(entry,index){
+      var p1 = type==="countries"? Country.findById(entry).exec() : Institution.findById(entry).exec();
+      p1.then(obj => {
+        var ind = obj.properties.languages.indexOf(entry);
+        obj.properties.languages.splice(ind,1);
+        return obj.save();
+      })
+    })
+    add.forEach(function(entry,index){
+     entry = mongoose.Types.ObjectId(entry);
+      var p1;
+      if (type === "countries"){
+        Country.findByIdAndUpdate(entry, {$addToSet:{"properties.languages":lang._id}}).exec();
+      }
+      else{
+        Institution.findByIdAndUpdate(entry, {$addToSet:{"properties.languages":lang._id}}).exec();
+      }
+    })
+    if (type === "countries"){
+      Language.findByIdAndUpdate(lang._id,{$set:{countries:new_entries}}).exec().then(resolve);
+    }
+    else{
+      Language.findByIdAndUpdate(lang._id,{$set:{"properties.institutions":new_entries}}).exec().then(resolve);
+    }
+  })
+}
+// function updateCountries(obj,lang){
+//   return new Promise(function(resolve,reject){
+    
+//     var old_countries = [];
+//     var new_countries = [];
+//     lang.countries = typeof lang.countries === "string" ? [lang.countries] : lang.countries;
+//     lang.countries.forEach(function(item,index){
+//       new_countries[index] = String(item);
+//     })
+//     obj.countries.forEach(function(item,index){
+//       old_countries[index] = String(item);
+//     })
+//     var combined = [...new Set([...old_countries ,...new_countries])];
+//     var leave =[];
+//     var remove = [];
+//     var add = [];
+//     for (let country of combined){
+//       country = String(country)
+//       if (old_countries.includes(country) && new_countries.includes(country)){
+//         leave.push(country);
+//       } else if (old_countries.includes(country) && !new_countries.includes(country)){
+//         remove.push(country);
+//       } else if(!old_countries.includes(country) && new_countries.includes(country)){
+//         add.push(country);
+//       }
+//     }
+//     remove.forEach(function(country,index){
+//       var p1 = Country.findById(country).exec();
+//       p1.then(obj => {
+//         var ind = obj.properties.languages.indexOf(country);
+//         obj.properties.languages.splice(ind,1);
+//         return obj.save();
+//       })
+//     })
+//     add.forEach(function(country,index){
+//      country = mongoose.Types.ObjectId(country);
+//       var p1 = Country.findByIdAndUpdate(country, {$addToSet:{"properties.languages":lang._id}}).exec();
+//     })
+//     Language.findByIdAndUpdate(lang._id,{$set:{countries:new_countries}}).exec().then(resolve);
+//   })
+// }
+
+
+
 function linkCountries(language){
   return new Promise(function(resolve, reject){
     let countries = language.countries

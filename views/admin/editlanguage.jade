@@ -1,4 +1,3 @@
-
 doctype html
 html
     head
@@ -102,6 +101,7 @@ html
                 }
                 function loadEntries(){
                   var form = $('#formAddLanguage')[0];
+                  form._id.value = lang._id;
                   form.hid.value = lang.hid;
                   form.id.value = lang.id;
                   form.language.value = lang.language;
@@ -172,8 +172,9 @@ html
                 p Use this form to edit the fields of an entry in the languages collection of the database.
                 p Click the "update" button next to the field you have edited to confirm a change.
 
-            form#formAddLanguage(name="addlang", method="post", action="/addlanguage")
+            form#formAddLanguage(name="addlang", method="post", action="/editlanguage")
                 div
+                    input(type="hidden",name="_id")
                     input(type="text", placeholder="ISO 639-3 Code", readonly)
                     input.field(type="text", name="hid")
                 div
@@ -223,4 +224,4 @@ html
                     button(ref="institutions", onclick="remove(this)", type="button") X
                     button(ref="institutions", id="addInst", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
-                button#btnSubmit(type="submit" onclick="log()") submit
+                button#btnSubmit(type="submit") submit
