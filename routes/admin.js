@@ -28,11 +28,11 @@ exports.editlanguage = function(req, res, countries, institutions, neighborhoods
   console.log(lang)
   res.render('admin/editlanguage',{ 
     title: 'Edit a language',
-    countries:countries,
-    institutions:institutions,
-    neighborhoods:neighborhoods,
-    continents:continents,
-    lang: lang
+    countries:JSON.stringify(countries),
+    institutions:JSON.stringify(institutions),
+    neighborhoods:JSON.stringify(neighborhoods),
+    continents:JSON.stringify(continents),
+    lang: JSON.stringify(lang)
   });
 }
 

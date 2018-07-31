@@ -7,47 +7,164 @@ html
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         
+        style(type='text/css').
+          .field{
+            width:250px;
+          }
+
+          input.desc{
+            display:inline-block;
+            vertical-align:top;
+
+            height:50px;
+          }
+          .field.desc{
+            display:inline-block;
+            vertical-align:top;
+            font-family: sans-serif;
+            font-size:11px;
+            padding:2.5px;
+            width:250px;
+            height:50px;
+            border:1px solid #cccccc;
+            overflow-y:scroll;
+          }
+        
         script.
             $(document).ready(function(){
-                var lang = !{JSON.stringify(lang)}
-                var countries = !{JSON.stringify(countries)}
-                var institutions = !{JSON.stringify(institutions)}
-                var neighborhoods = !{JSON.stringify(neighborhoods)}
-                var continents = !{JSON.stringify(continents)}
+                $("button").click(function() {
+                        var thisclass = $(this).attr("class");
+                        $('.'+thisclass).css("visibility","visible");
+                });
+                var lang  = !{lang}
+                console.log(lang)
+                var countries = !{countries};
+                var institutions = !{institutions};
+                var neighborhoods = !{neighborhoods};
+                var continents = !{continents};
+                loadEntries();
+                loadContinents().then(loadInsts).then(loadNhoods).then(loadCountries).then(makeClones);
 
-            for(var i=1; i<7; i++){
-                $("#endangermentNum").append(new Option(i,i))
-            }
-            console.log(continents);
-            // Continent Slector
-            for(var i=0; i<continents.length; i++){
-                $(".continents").first().
-                append(
-                    new Option(continents[i].properties.CONTINENT,continents[i]._id, 
-                        false, continents[i]._id === lang.continents[0] ? true : false))
-                // console.log("append")
-            }
-            for(var i=0; i<countries.length; i++){
-                $(".countries").first()
-                .append(
-                    new Option(countries[i].properties.ADMIN,countries[i]._id,
-                        false, countries[i]._id === lang.countries[0] ? true : false));
-            }
-            
-            console.log(institutions.length)
-            for(var i=0; i<institutions.length; i++){
-                $(".institutions").first().append(
-                    new Option(institutions[i].properties.institution,institutions[i]._id,
-                        false, institutions[i]._id === lang.properties.institutions[0] ? true : false));
+                for(var i=1; i<7; i++){
+                    $("#endangermentNum").append(new Option(i,i,false, i===lang.endangermentNum ? true : false))
+                }
                 
-            }
-            for(var i=0; i<neighborhoods.length; i++){
-                $(".neighborhoods").first().append(
-                    new Option(neighborhoods[i].properties.NTAName, neighborhoods[i]._id,
-                        false, neighborhoods[i]._id === lang.neighborhoods[0] ? true : false));
-            }
-            })
+                function loadContinents(){
+                  return new Promise(function(resolve,reject){
+                   for(var i=0; i<continents.length; i++){
+                       $(".continents").last().
+                       append(
+                           new Option(continents[i].properties.CONTINENT,continents[i]._id, 
+                               false, continents[i]._id === lang.continents[0] ? true : false));
+                       if(i==continents.length-1) {
+                          resolve()
+                       }
+                   }
+                  })
+                }
+                function loadInsts(){
+                  return new Promise(function(resolve,reject){
+                       for(var i=0; i<institutions.length; i++){
+                           $(".institutions").first().append(
+                               new Option(institutions[i].properties.institution,institutions[i]._id,
+                                   false, institutions[i]._id === lang.properties.institutions[0] ? true : false));
+                           if(i===institutions.length-1) {
+                            resolve();
+                           }   
+                       }
+                  })
+                }
+                function loadNhoods(){
+                  return new Promise(function(resolve,reject){
+                       for(var i=0; i<neighborhoods.length; i++){
+                           $(".neighborhoods").first().append(
+                               new Option(neighborhoods[i].properties.NTAName, neighborhoods[i]._id,
+                                   false, neighborhoods[i]._id === lang.neighborhoods[0] ? true : false));
+                           if(i===neighborhoods.length-1) {
+                            resolve()
+                           }
+                       }  
+                  })
+                }
+                function loadCountries(){
+                  return new Promise(function(resolve, reject){
+                       for(let i=0; i<countries.length; i++){
+                           $(".countries").last()
+                           .append(
+                               new Option(countries[i].properties.ADMIN,countries[i]._id,
+                                   false, countries[i]._id === lang.countries[0] ? true : false));
+                           if(i===countries.length-1) {
+                               // $('#addCountry').click();
+                               resolve();
+                           }
+                       } 
+                   })
+                }
+                function loadEntries(){
+                  var form = $('#formAddLanguage')[0];
+                  form.hid.value = lang.hid;
+                  form.id.value = lang.id;
+                  form.language.value = lang.language;
+                  form.description.value = lang.description;
+                  form.script.value = lang.script;
+                  form.latitude.value = lang.latitude;
+                  form.longitude.value = lang.longitude;
+                }
 
+                async function makeClones(){
+                  var refs = ["countries","continents","neighborhoods","institutions"];
+                  var btns = ["#addCountry","#addContinent","#addNhood", "#addInst"]
+                  for(let i = 0; i<4; i++){
+                    
+                    var iterator = i===3? lang.properties.institutions.entries() : lang[refs[i]].entries()
+                    console.log(iterator);
+                    for (let [index,item] of iterator) {
+                      if (index === 0){
+                        // console.log("index "+index)
+                        continue;
+                      }
+                      else{
+                        // console.log("index "+index)
+                        await add(refs[i], $(btns[i]).prev(), $(btns[i]), item);
+                        // var test = add(refs[i], $(bts[i]).prev(), $(bts[i]),item);
+                      }
+                    }
+                  }
+                }
+
+              })
+
+            var add = function(ref, removeBtn, self, selected){
+              return new Promise(function(resolve,reject){
+                console.log("called")
+                var toAdd = $('.'+ref).first().clone();
+                $(toAdd).insertBefore(self);
+                $(removeBtn.clone()).insertBefore(self);
+                if (selected !== undefined){
+                  $(toAdd).children().filter(function(index,item){
+                    if (item.value === selected){
+                      $(toAdd)[0].selectedIndex = index;
+                      resolve();
+                    }
+                  })
+                }else{
+                  resolve();
+                }
+              })
+            }
+            var remove = function(button){
+                let self = $(button);
+                if ($('.'+self.attr('ref')).length > 1){
+                    self.prev().remove();
+                    self.remove();
+                } else {
+                    console.log("Please submit at least 1 entry for '"+self.attr('ref')+"'");
+                }
+            }
+      
+
+
+            
     body
         block content
             h1= title
@@ -57,52 +174,53 @@ html
 
             form#formAddLanguage(name="addlang", method="post", action="/addlanguage")
                 div
-                    input#inputHID(type="text", placeholder="ISO 639-3 Code", readonly)
-                    input#inputHID(type="text", name="hid", value= lang.hid)
+                    input(type="text", placeholder="ISO 639-3 Code", readonly)
+                    input.field(type="text", name="hid")
                 div
-                    input#inputGlottocode(type="text", placeholder="Glottocode", readonly)
-                    input#inputGlottocode(type="text", name="glottocode", value = lang.id)
+                    input(type="text", placeholder="Glottocode", readonly)
+                    input.field(type="text", name="id")
                 div
-                    input#inputLanguage(type="text", placeholder="Language", readonly)
-                    input#inputLanguage(type="text", name="language", value = lang.language)
+                    input(type="text", placeholder="Language", readonly)
+                    input.field(type="text", name="language")
                 div
-                    input#inputLanguage(type="text", placeholder="Description", readonly)
-                    input#inputLanguage(type="text", name="description", value = lang.description)
+                    input.desc(type="text", placeholder="Description", readonly)
+                    // input.field.desc(type="text", name="description")
+                    textarea.field.desc(name="description", wrap="soft")
                 div
-                    input#inputEndonym(type="text", placeholder="Endonym", readonly)
-                    input#inputEndonym(type="text", name="endonym", value = lang.script)
+                    input(type="text", placeholder="Endonym", readonly)
+                    input.field(type="text", name="script")
                 div
-                    input#inputEndonym(type="text", placeholder="Latitude", readonly)
-                    input#inputEndonym(type="text", name="latitude", value = lang.latitude)
+                    input(type="text", placeholder="Latitude", readonly)
+                    input.field(type="text", name="latitude")
                 div
-                    input#inputEndonym(type="text", placeholder="Longitude", readonly)
-                    input#inputEndonym(type="text", name="longitude", value = lang.longitude)
+                    input(type="text", placeholder="Longitude", readonly)
+                    input.field(type="text", name="longitude")
                 div
-                    input#inputEndangermentNum(type="text", placeholder="EndangermentNum", readonly)
-                    select(id="endangermentNum", name="endangermentNum")
+                    input(type="text", placeholder="EndangermentNum", readonly)
+                    select(class="field", id="endangermentNum", name="endangermentNum")
 
                 div
-                    input#inputCountries(type="text", placeholder="Countries", readonly)
-                    select(class="countries", name="countries")
+                    input(type="text", placeholder="Countries", readonly)
+                    select(class="countries field", name="countries")
                     button(ref="countries", onclick="remove(this)", type="button") X
-                    button(ref="countries", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+                    button(ref="countries", id="addCountry", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
                 div
-                    input#inputContinents(type="text", placeholder="Continents", readonly)
-                    select(class="continents", name="continents")
+                    input(type="text", placeholder="Continents", readonly)
+                    select(class="continents field", name="continents")
                     button(ref="continents", onclick="remove(this)", type="button") X
-                    button(ref="continents", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+                    button(ref="continents", id="addContinent", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
                 div
-                    input#inputNeighborhoods(type="text", placeholder="Neighborhoods", readonly)
-                    select(class="neighborhoods", name="neighborhoods")
+                    input(type="text", placeholder="Neighborhoods", readonly)
+                    select(class="neighborhoods field", name="neighborhoods")
                     button(ref="neighborhoods", onclick="remove(this)", type="button") X
-                    button(ref="neighborhoods", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+                    button(ref="neighborhoods", id="addNhood", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
                 
                 div
-                    input#inputInstitutions(type="text", placeholder="Institutions", readonly)
-                    select(class="institutions", name="institutions")
+                    input(type="text", placeholder="Institutions", readonly)
+                    select(class="institutions field", name="institutions")
                     button(ref="institutions", onclick="remove(this)", type="button") X
-                    button(ref="institutions", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
+                    button(ref="institutions", id="addInst", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
                 button#btnSubmit(type="submit" onclick="log()") submit
