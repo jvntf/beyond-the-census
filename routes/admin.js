@@ -24,8 +24,6 @@ exports.newinstitution = function(req, res){
 }
 
 exports.editlanguage = function(req, res, countries, institutions, neighborhoods, continents, lang){
-  // console.log(JSON.stringify(institutions));
-  console.log(lang)
   res.render('admin/editlanguage',{ 
     title: 'Edit a language',
     countries:JSON.stringify(countries),
@@ -39,8 +37,7 @@ exports.editlanguage = function(req, res, countries, institutions, neighborhoods
 
 exports.success = function(req, res){
   res.render('admin/success');
-  // res.redirect('back');
 }
-exports.error = function(req,res){
-  res.send("error ocurred");
+exports.error = function(req,res,err){
+  res.send(err.message);
 }

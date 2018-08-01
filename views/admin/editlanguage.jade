@@ -109,6 +109,8 @@ html
                   form.script.value = lang.script;
                   form.latitude.value = lang.latitude;
                   form.longitude.value = lang.longitude;
+                  form.videoURL.value = typeof lang.videoURL === undefined ? "" : lang.videoURL;
+                  form.link.value = typeof lang.link === undefined ? "" : lang.link;
                 }
 
                 async function makeClones(){
@@ -185,7 +187,6 @@ html
                     input.field(type="text", name="language")
                 div
                     input.desc(type="text", placeholder="Description", readonly)
-                    // input.field.desc(type="text", name="description")
                     textarea.field.desc(name="description", wrap="soft")
                 div
                     input(type="text", placeholder="Endonym", readonly)
@@ -199,6 +200,12 @@ html
                 div
                     input(type="text", placeholder="EndangermentNum", readonly)
                     select(class="field", id="endangermentNum", name="endangermentNum")
+                div
+                    input(type="text", placeholder="Video URL", readonly)
+                    input.field(id="videoURL", name="videoURL")
+                div
+                    input(type="text", placeholder="Link", readonly)
+                    input.field(id="link", name="link")
 
                 div
                     input(type="text", placeholder="Countries", readonly)
