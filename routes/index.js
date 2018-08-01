@@ -45,7 +45,8 @@ var geocoder = nodeGeocoder(geocoderOptions);
   var CountrySchema = new Schema({
     _id: Schema.Types.ObjectId,
     properties: {
-      languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+      languages: [{type: Schema.Types.ObjectId, ref: 'Language'}],
+      ADMIN: String
     },
     geometry: Schema.Types.Mixed
   });
@@ -53,7 +54,8 @@ var geocoder = nodeGeocoder(geocoderOptions);
   var ContinentSchema = new Schema({
     _id: Schema.Types.ObjectId,
     properties: {
-      languages: [{type: Schema.Types.ObjectId, ref: 'Language'}]
+      languages: [{type: Schema.Types.ObjectId, ref: 'Language'}],
+      ADMIN: String
     }
   });
 
@@ -85,7 +87,7 @@ var geocoder = nodeGeocoder(geocoderOptions);
     type: {type: String},
     properties: {
       languages: [{type: Schema.Types.ObjectId, ref: 'Language'}],
-      institution : String,
+      institution: String,
       address : String,
       type: {type: String}
     },
@@ -325,12 +327,15 @@ var geocoder = nodeGeocoder(geocoderOptions);
 
 // GET admin pages
   router.get('/admin',function(req,res){
-    Language.find({}, 'language').exec().then( (languages) => {admin.admin(req,res,languages)});
+    var langs,insts;
+    Language.find({}, 'language').exec().then( (languages) => {
+      langs = languages;
+      console.log("found langs")
+      return Institution.find({},'properties.institution').exec()
+    }).then( (insts)=> {console.log(insts);admin.admin(req,res,langs,insts)});
   })
 
-
   router.get('/newinstitution', admin.newinstitution);
-
 
   router.get('/newlanguage', function(req, res){
     pullData().then( (colls) => {admin.newlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont)});
@@ -342,30 +347,15 @@ var geocoder = nodeGeocoder(geocoderOptions);
     pullData().then( (colls) => {admin.editlanguage(req,res,colls.cntry, colls.inst, colls.nhoods,colls.cont, lang)});
   })
 
+  router.get('/editinstitution', function(req, res){
+    var institution = req.query.institution;
+    Institution.findById(institution).exec()
+      .then((inst)=>admin.editinstitution(req,res,inst))
+  })
 
-  function pullData(){
-    return new Promise(function(resolve,reject){
-      var countries, institutions, neighborhoods,continents;
-      var p1 = Country.find({}, 'properties.ADMIN').exec()
-        .then(function(docs){
-          countries = docs;
-          return Institution.find({}, 'properties.institution').exec();
-        })
-        .then(function(docs){
-          institutions = docs;
-          return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
-        })
-        .then(function(docs){
-          neighborhoods = docs;
-          return Continent.find({}, 'properties.CONTINENT').exec();
-        })
-        .then( (continents) => {resolve({cntry:countries, inst:institutions, nhoods:neighborhoods, cont:continents});
-        })
-    })
-    
-  }
+
+ 
   
-console.log
   router.post('/addlanguage', function(req, res){
     var newLang = new Language({
       _id: mongoose.Types.ObjectId(),
@@ -373,8 +363,6 @@ console.log
       id: req.body.id,
       language: req.body.language,
       description: req.body.description,
-      latitude: req.body.latitude,
-      longitude: req.body.longitude,
       endangermentNum: req.body.endangermentNum,
       script: req.body.endonym,
       countries: req.body.countries,
@@ -385,11 +373,19 @@ console.log
       neighborhoods : req.body.neighborhoods
     });
 
-    newLang.save()
-      .then(linkCountries)
-      .then(linkInstitutions)
-      .then( () => {admin.success(req,res)} )
-      .catch( (err) => {die(res, err, newLang._id)} )
+    Country.findById(newLang.countries[0],'properties.ADMIN').exec()
+    .then( (country) => geocoder.geocode(country.properties.ADMIN))
+    .then( (data) => {
+      data = data[0]
+      console.log(data);
+      newLang.longitude = data.longitude;
+      newLang.latitude = data.latitude;
+      return newLang.save();
+    })
+    .then(linkCountries)
+    .then(linkInstitutions)
+    .then( () => {admin.success(req,res)} )
+    .catch( (err) => {console.log(err); die(res, new Error(err), newLang._id);} )
   });
 
   router.post('/editlanguage',function(req,res){
@@ -419,6 +415,69 @@ console.log
       .then(()=> {admin.success(req,res)})
       .catch( (err) => {restoreLang(oldV); admin.error(req,res,err)});
   })
+  router.post('/addinstitution', function(req, res){
+    var obj = new Institution({
+      _id: mongoose.Types.ObjectId(),
+      type : "Feature",
+      properties:{        
+        institution: req.body.institution,
+        address: req.body.address,
+        type:"zone",
+        languages:[]
+      },
+      geometry : {
+        type : "Point",
+        coordinates : []
+      }
+    });
+
+      geocoder.geocode(obj.properties.address)
+        .then( (data) => {
+          data = data[0]
+          obj.properties.address = data.formattedAddress;
+          obj.geometry.coordinates = [data.longitude, data.latitude]
+        }).then( () => {obj.save()}).then( () => {admin.success(req,res)})
+        .catch( (error) => {dieInst(res,error, obj._id)});
+  });
+  router.post('/editinstitution',function(req,res){
+    var inst = req.body;
+    var oldV={};
+    var geoData;
+    oldV._id = inst._id
+    geocoder.geocode(inst.address)
+    .then( (data) =>{
+      geoData = data[0];
+      return Institution.findById(inst._id);
+    })
+    .then( (foundInst) => {
+      foundInst.properties.institution = inst.institution;
+      foundInst.properties.address = geoData.formattedAddress;
+      foundInst.geometry.coordinates = [geoData.longitude, geoData.latitude];
+      return foundInst.save();
+    })
+    .then( ()=> admin.success(req,res))
+    .catch( (err)=> {restoreInst(oldV); admin.error(req,res,new Error(err))})
+  })
+function pullData(){
+  return new Promise(function(resolve,reject){
+    var countries, institutions, neighborhoods,continents;
+    var p1 = Country.find({}, 'properties.ADMIN').exec()
+      .then(function(docs){
+        countries = docs;
+        return Institution.find({}, 'properties.institution').exec();
+      })
+      .then(function(docs){
+        institutions = docs;
+        return Neighborhood.find({}, 'properties.NTACode properties.NTAName').exec();
+      })
+      .then(function(docs){
+        neighborhoods = docs;
+        return Continent.find({}, 'properties.CONTINENT').exec();
+      })
+      .then( (continents) => {resolve({cntry:countries, inst:institutions, nhoods:neighborhoods, cont:continents});
+      })
+  })
+}
 function restoreLang(old){
   Language.findById(old._id).then( (obj) => {
     obj._id= old._id;
@@ -437,6 +496,13 @@ function restoreLang(old){
     obj.videoURL= old.videoURL;
     obj.link = old.link;
     obj.save();
+  })
+}
+function restoreInst(old){
+  Institution.findById(old._id).then( (obj)=>{
+    obj.properties.institution = old.properties.institution;
+    obj.properties.address = old.properties.address;
+    obj.geometry.coordinates = old.geometry.coordinates
   })
 }
 function getVideo(obj,lang){
@@ -518,8 +584,6 @@ function updateEntries(obj,lang,type){
     }
   })
 }
-
-
 function linkCountries(language){
   return new Promise(function(resolve, reject){
     let countries = language.countries
@@ -554,44 +618,21 @@ function linkInstitutions(language){
 }
 
 
-  router.post('/addinstitution', function(req, res){
-    var obj = new Institution({
-      _id: mongoose.Types.ObjectId(),
-      type : "Feature",
-      properties:{        
-        institution: req.body.institution,
-        address: req.body.address,
-        type:"zone",
-        languages:[]
-      },
-      geometry : {
-        type : "Point",
-        coordinates : []
-      }
-    });
+  
 
-      geocoder.geocode(obj.properties.address)
-        .then( (data) => {
-          data = data[0]
-          obj.properties.address = data.formattedAddress;
-          obj.geometry.coordinates = [data.longitude, data.latitude]
-        }).then( () => {obj.save()}).then( () => {admin.success(req,res)})
-        .catch( (error) => {dieInst(res,error, obj._id)});
-  });
-
-  function die(res, message, id){
-    Language.remove({_id : id}, function(err) {
-      if(err) {
-        res.send(err);
-      }
-      else{
-      res.send(message);
-      }
-    })
+function die(res, err, id){
+Language.remove({_id : id}, function(err) {
+  if(err) {
+    res.send(err);
   }
+  else{
+  res.send(err.message);
+  }
+})
+}
 
 
-function dieInst(res, message, id){
+function dieInst(res, err, id){
   Institution.remove({_id : id}, function(err) {
     if(err) {
       res.send(err);

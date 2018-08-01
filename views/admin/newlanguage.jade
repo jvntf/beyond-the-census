@@ -7,7 +7,27 @@ html
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         
+        style(type="text/css").
+            .field{
+              width:250px;
+            }
 
+            input.desc{
+              display:inline-block;
+              vertical-align:top;
+              height:50px;
+            }
+            .field.desc{
+              display:inline-block;
+              vertical-align:top;
+              font-family: sans-serif;
+              font-size:11px;
+              padding:2.5px;
+              width:250px;
+              height:50px;
+              border:1px solid #cccccc;
+              overflow-y:scroll;
+            }
         script.
             $(document).ready(function(){
                 $("button").click(function() {
@@ -81,51 +101,51 @@ html
                 p Use this form to add a new entry to the collection of languages in the database.
             form#formAddLanguage(name="addlang", method="post", action="/addlanguage")
                 div
-                    input#inputHID(type="text", placeholder="ISO 639-3 Code", readonly)
-                    input#inputHID(type="text", name="hid")
+                    input(type="text", placeholder="ISO 639-3 Code", readonly)
+                    input.field(type="text", name="hid")
                 div
-                    input#inputGlottocode(type="text", placeholder="Glottocode", readonly)
-                    input#inputGlottocode(type="text", name="id")
+                    input(type="text", placeholder="Glottocode", readonly)
+                    input.field(type="text", name="id")
                 div
-                    input#inputLanguage(type="text", placeholder="Language", readonly)
-                    input#inputLanguage(type="text", name="language")
+                    input(type="text", placeholder="Language", readonly)
+                    input.field(type="text", name="language")
                 div
-                    input#inputLanguage(type="text", placeholder="Description", readonly)
-                    input#inputLanguage(type="text", name="description")
+                    input.desc(type="text", placeholder="Description", readonly)
+                    textarea.field.desc(name="description", wrap="soft")
                 div
-                    input#inputEndonym(type="text", placeholder="Endonym", readonly)
-                    input#inputEndonym(type="text", name="endonym")
+                    input(type="text", placeholder="Endonym", readonly)
+                    input.field(type="text", name="endonym")
                 div
-                    input#inputEndonym(type="text", placeholder="Latitude", readonly)
-                    input#inputEndonym(type="text", name="latitude")
+                    input(type="text", placeholder="Video URL", readonly)
+                    input.field(id="videoURL", name="videoURL")
                 div
-                    input#inputEndonym(type="text", placeholder="Longitude", readonly)
-                    input#inputEndonym(type="text", name="longitude")
+                    input(type="text", placeholder="Link", readonly)
+                    input.field(id="link", name="link")
                 div
                     input#inputEndangermentNum(type="text", placeholder="EndangermentNum", readonly)
-                    select(id="endangermentNum", name="endangermentNum")
+                    select(class="field", id="endangermentNum", name="endangermentNum")
 
                 div
                     input#inputCountries(type="text", placeholder="Countries", readonly)
-                    select(class="countries", name="countries")
+                    select(class="countries field", name="countries")
                     button(ref="countries", onclick="remove(this)", type="button") X
                     button(ref="countries", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
                 div
                     input#inputContinents(type="text", placeholder="Continents", readonly)
-                    select(class="continents", name="continents")
+                    select(class="continents field", name="continents")
                     button(ref="continents", onclick="remove(this)", type="button") X
                     button(ref="continents", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 
                 div
                     input#inputNeighborhoods(type="text", placeholder="Neighborhoods", readonly)
-                    select(class="neighborhoods", name="neighborhoods")
+                    select(class="neighborhoods field", name="neighborhoods")
                     button(ref="neighborhoods", onclick="remove(this)", type="button") X
                     button(ref="neighborhoods", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
                 
                 div
                     input#inputInstitutions(type="text", placeholder="Institutions", readonly)
-                    select(class="institutions", name="institutions")
+                    select(class="institutions field", name="institutions")
                     button(ref="institutions", onclick="remove(this)", type="button") X
                     button(ref="institutions", onclick="add(this.getAttribute('ref'), $(this).prev(), this)", type="button") Add
 

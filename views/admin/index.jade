@@ -5,37 +5,47 @@ html
         link(rel='stylesheet', href='/stylesheets/backend.css') 
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
-        
+        style(type="text/css").
+            select{
+                width:65%;
+            }
         script.
             $(document).ready(function(){
                 var languages = !{languages};
+                var institutions = !{institutions}
 
                 for(var i=0; i<languages.length; i++){
                     $("#lang_selector").first()
                     .append(new Option(languages[i].language,languages[i]._id));
                 }
+                for(var i=0; i<institutions.length; i++){
+                    if (institutions[i].properties === undefined){
+                        console.log(institutions[i])
+                    }
+                    $("#inst_selector").first()
+                    .append(new Option(institutions[i].properties.institution,institutions[i]._id));
+                }
+
             })
     body
         block content
         h1= title
 
+        div(style="height:40vh; width:60%")
+            div(style="width:50%; float:left")
+                h2 Search For a Language to Edit
+                form#searchLanguage(name="editlang",method="get",action="/editlanguage")
+                    select(id="lang_selector", name="language")
+                    button#btnSearch(type="submit") search
+            div(style="width:50%; float:right")
+                h2 Search For an Institution to Edit
+                form#searchLanguage(name="editinst",method="get",action="/editinstitution")
+                    select(id="inst_selector", name="institution")
+                    button#btnSearch(type="submit") search
 
-        h2 Search For a Language to Edit
-        form#searchLanguage(name="editlang",method="get",action="/editlanguage")
-            select(id="lang_selector", name="language")
-            button#btnSearch(type="submit") search
-
-
-        h2 Search For an Institution to Edit
-        form#searchLanguage(name="editinst",method="get",action="/editinst")
-            input#input_ID(type="hidden",value="properties.institution",name="query",)
-            input#inputValue(type="text", placeholder="Institution Name",name="value")
-            button#btnSearch(type="submit") search
-
-
-        h2 Add a new Entry 
-        form#formAddLanguage(name="adduser",method="get",action="/newlanguage")
-            button#btnAddnew(type="submit") new language
-
-        form#formAddInstitution(name="adduser",method="get",action="/newinstitution")
-            button#btnAddnew(type="submit") new institution
+        div
+            h2 Add a new Entry 
+            form#formAddLanguage(name="adduser",method="get",action="/newlanguage")
+                button#btnAddnew(type="submit") new language
+            form#formAddInstitution(name="adduser",method="get",action="/newinstitution")
+                button#btnAddnew(type="submit") new institution

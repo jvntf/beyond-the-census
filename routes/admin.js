@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 
-exports.admin = function(req,res, languages){
+exports.admin = function(req,res, langs,insts){
+  console.log(typeof langs, typeof insts)
   res.render('admin/index', {
     title: 'Admin page',
-    languages: JSON.stringify(languages)
+    languages: JSON.stringify(langs),
+    institutions: JSON.stringify(insts)
   });
 }
 
@@ -32,6 +34,12 @@ exports.editlanguage = function(req, res, countries, institutions, neighborhoods
     continents:JSON.stringify(continents),
     lang: JSON.stringify(lang)
   });
+}
+exports.editinstitution = function(req, res, inst){
+  // console.log(neighborhoods);
+  res.render('admin/editinstitution',{
+    institution:JSON.stringify(inst)
+  })
 }
 
 

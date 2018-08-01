@@ -1,0 +1,36 @@
+
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/backend.css') 
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")    
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        
+        script.
+            var institution = !{institution}
+            $(document).ready(function(){
+                $("button").click(function() {
+                        var thisclass = $(this).attr("class");
+                        $('.'+thisclass).css("visibility","visible");
+                }); 
+                $("#formEditInst")[0].institution.value = institution.properties.institution;
+                $("#formEditInst")[0].address.value = institution.properties.address;
+                $("#formEditInst")[0]._id.value = institution._id;
+            })
+
+    body
+        block content
+
+            h1= title
+
+            div
+                p Use this form to edit the fields of an entry in the Institutions collection of the database.
+                p "Languages" field should be filled with 1-9 glottolog codes separated by semi-colons (ex. konk1267; mand1415)
+                p Address should be as specific as possible
+
+            form#formEditInst(method="post",action="/editinstitution")
+                input(type="hidden",name="_id")
+                input#instName(type="text", placeholder="institution", name="institution")
+                input#address(type="text", placeholder="address", name="address")
+                button#btnSubmit(type="submit") submit
