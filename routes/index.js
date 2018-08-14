@@ -13,9 +13,9 @@ var admin = require('./admin');
 // var mongoDB = process.env.MONGODB_URI || 'mongodb://localhost/ELAdata';
 
 //live db
-// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
+var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
-var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+// var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
 
 
 var geocoderOptions = {
