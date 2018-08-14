@@ -21,9 +21,8 @@ html
             h1= title
 
             div
-                p Use this form to edit the fields of an entry in the Institutions collection of the database.
-                p "Languages" field should be filled with 1-9 glottolog codes separated by semi-colons (ex. konk1267; mand1415)
-                p Address should be as specific as possible
+                p Use this form add a new institution.
+                p 'Address' is required !!
 
             form#formAddUser(name="adduser",method="post",action="/addinstitution")
                 input#inputInstitution(type="text", placeholder="institution", name="institution")
