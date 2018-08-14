@@ -62,6 +62,9 @@ Mapping diversity of languages in Queens, NY based on data from the Endangered L
 - The input CSV must be formatted EXACTLY as the sample CSV file, `newEntries.csv`, which is located in the scripts folder. 
 
 **Heroku Backups**
+There is a second mLab instance attached to the Heroku App that can be used as an immediate backup. If there is a problem with the databse, comment out `line 16` of `/routes/index.js` and uncomment `line 18`. Then `git push heroku master`.
+
+There is a full offline backup of the databse from 6/14/18 located at `/public/data/dbdump_6-14-2018.` If all else fails, delete all collections from the broken mLab instance, and use the `mongorestore` command below. It is a good idea to make periodic offline backups! Never delete this backup from 6-14-2018!
 
 _Creating Backups_
 
