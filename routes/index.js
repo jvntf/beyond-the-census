@@ -433,6 +433,7 @@ var geocoder = nodeGeocoder(geocoderOptions);
         coordinates : []
       }
     });
+  
       geocoder.geocode(obj.properties.address)
         .then( (data) => {
           data = data[0]
@@ -440,7 +441,10 @@ var geocoder = nodeGeocoder(geocoderOptions);
           obj.geometry.coordinates = [data.longitude, data.latitude]
           return obj.save();
         }).then( () => {admin.success(req,res)})
-        .catch( (error) => {dieInst(res,error, obj._id)});
+        .catch( (error) => {
+          dieInst(res,new Error("Address is required"), obj._id)
+        });
+    
   });
   router.post('/editinstitution',function(req,res){
     var inst = req.body;
@@ -459,7 +463,7 @@ var geocoder = nodeGeocoder(geocoderOptions);
       return foundInst.save();
     })
     .then( ()=> admin.success(req,res))
-    .catch( (err)=> {restoreInst(oldV); admin.error(req,res,new Error(err))})
+    .catch( (err)=> {restoreInst(oldV); admin.error(req,res,new Error("Address is required"))})
   })
 function pullData(){
   return new Promise(function(resolve,reject){
@@ -639,12 +643,12 @@ Language.remove({_id : id}, function(error) {
 
 
 function dieInst(res, err, id){
-  Institution.remove({_id : id}, function(err) {
-    if(err) {
-      res.send(err);
+  Institution.remove({_id : id}, function(error) {
+    if(error) {
+      res.send(error);
     }
     else{
-    res.send(message);
+    res.send(err.message);
     }
   })
 }
