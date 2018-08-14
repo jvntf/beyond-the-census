@@ -16,6 +16,8 @@ var admin = require('./admin');
 // var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_n7xsssc4'
 //test db
 var mongoDB = 'mongodb://c4sr:lang2018@ds151530.mlab.com:51530/heroku_8kgpwpjz'
+
+
 var geocoderOptions = {
   provider: 'google',
   httpAdapter: 'https', 
@@ -182,7 +184,6 @@ var geocoder = nodeGeocoder(geocoderOptions);
       Individual.count({$and: [queryNativity, queryEnglish, querySpanish]}).exec(function (err, count) {
         if (err) throw err;
         var random = Math.floor(Math.random() * count);
-        console.log(random)
         Individual.findOne({$and: [queryNativity, queryEnglish, querySpanish]}).skip(random).exec( (err, doc) => {
           if (err) throw err;
           storyhelper.tell(doc.toObject(), (err, story) => {
@@ -330,9 +331,8 @@ var geocoder = nodeGeocoder(geocoderOptions);
     var langs,insts;
     Language.find({}, 'language').exec().then( (languages) => {
       langs = languages;
-      console.log("found langs")
       return Institution.find({},'properties.institution').exec()
-    }).then( (insts)=> {console.log(insts);admin.admin(req,res,langs,insts)});
+    }).then( (insts)=> {admin.admin(req,res,langs,insts)});
   })
 
   router.get('/newinstitution', admin.newinstitution);
@@ -367,6 +367,8 @@ var geocoder = nodeGeocoder(geocoderOptions);
       script: req.body.endonym,
       countries: req.body.countries,
       continents: req.body.continents,
+      videoURL: req.body.videoURL,
+      wiki: req.body.link,
       properties : {
         institutions : req.body.institutions
       },
@@ -377,15 +379,15 @@ var geocoder = nodeGeocoder(geocoderOptions);
     .then( (country) => geocoder.geocode(country.properties.ADMIN))
     .then( (data) => {
       data = data[0]
-      console.log(data);
       newLang.longitude = data.longitude;
       newLang.latitude = data.latitude;
       return newLang.save();
     })
     .then(linkCountries)
     .then(linkInstitutions)
+    .then(() => getVideo(newLang))
     .then( () => {admin.success(req,res)} )
-    .catch( (err) => {console.log(err); die(res, new Error(err), newLang._id);} )
+    .catch( (err) => {die(res, new Error(err), newLang._id);} )
   });
 
   router.post('/editlanguage',function(req,res){
@@ -404,12 +406,13 @@ var geocoder = nodeGeocoder(geocoderOptions);
       obj.longitude= lang.longitude;
       obj.endangermentNum= lang.endangermentNum;
       obj.script= lang.script;
+      obj.wiki = lang.link;
       obj.continents= lang.continents;
       obj.neighborhoods= lang.neighborhoods;
       return obj.save();
 
     })
-      .then(obj => getVideo(obj,lang))
+      .then(()=> getVideo(lang))
       .then(obj => updateEntries(obj,lang,"countries"))
       .then(obj => updateEntries(obj,lang,"properties.institutions"))
       .then(()=> {admin.success(req,res)})
@@ -430,13 +433,13 @@ var geocoder = nodeGeocoder(geocoderOptions);
         coordinates : []
       }
     });
-
       geocoder.geocode(obj.properties.address)
         .then( (data) => {
           data = data[0]
           obj.properties.address = data.formattedAddress;
           obj.geometry.coordinates = [data.longitude, data.latitude]
-        }).then( () => {obj.save()}).then( () => {admin.success(req,res)})
+          return obj.save();
+        }).then( () => {admin.success(req,res)})
         .catch( (error) => {dieInst(res,error, obj._id)});
   });
   router.post('/editinstitution',function(req,res){
@@ -505,20 +508,23 @@ function restoreInst(old){
     obj.geometry.coordinates = old.geometry.coordinates
   })
 }
-function getVideo(obj,lang){
+function getVideo(lang){
   return new Promise(function(resolve,reject){
     var vidID,embed;
       if(lang.videoURL===""){
         embed = ""
+        Language.findByIdAndUpdate(lang._id, {$set:{videoURL: embed}}).exec()
+        .then( (result)=> resolve(result))
       } else{
         vidID = getVideoId(lang.videoURL).id;
         if (vidID === undefined){
-          reject(new Error("error: Video URL Invalid"))
+          reject("error: Video URL Invalid")
         }
         embed = 'https://youtube.com/embed/' + vidID;
+        Language.findByIdAndUpdate(lang._id, {$set:{videoURL: embed}}).exec()
+        .then( (result)=> {resolve(result)})
       }
-      Language.findByIdAndUpdate(lang._id, {$set:{videoURL: embed}}).exec()
-      .then( (result)=> resolve(result))
+      
 
   })
 }
@@ -621,9 +627,9 @@ function linkInstitutions(language){
   
 
 function die(res, err, id){
-Language.remove({_id : id}, function(err) {
-  if(err) {
-    res.send(err);
+Language.remove({_id : id}, function(error) {
+  if(error) {
+    res.send(error);
   }
   else{
   res.send(err.message);

@@ -355,11 +355,17 @@ function updateLanguageCard( id, callback ) {
   }
 
   // wikipedia link
-  cardbody.append('a')
-      .attr('href', () => {return dataItem.wiki})
-      .text('wikipedia')
-      //.html('wikipedia <i class="fa fa-external-link" aria-hidden="true"></i>')
-      .attr('target', 'blank')
+  if (dataItem.wiki){
+    cardbody.append('a')
+        .attr('href', () => {
+          return dataItem.wiki.includes("//") ? dataItem.wiki : "//"+dataItem.wiki
+        })
+        .text('read more')
+        //.html('wikipedia <i class="fa fa-external-link" aria-hidden="true"></i>')
+        .attr('target', 'blank')
+
+  }
+  
 
   cardbody.append('h3').text('Spoken In');
   var placesGroup = cardbody.append('div').attr('class', 'places-list');
